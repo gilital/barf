@@ -34,6 +34,7 @@ public class MainActivity extends AugmentedActivity {
 	@Override
     public void onStart() {
         super.onStart();
+        updateMarkers();
     }
 
 	
