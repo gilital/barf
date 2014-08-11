@@ -1,11 +1,12 @@
 package com.bezeq.locator.driver;
 
+import java.io.IOException;
+
 import com.bezeq.locator.bl.ARData;
 import com.bezeq.locator.bl.EquipmentDataSource;
 import com.bezeq.locator.draw.Marker;
 import com.bezeq.locator.gui.AugmentedActivity;
 
-import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,23 +19,39 @@ import android.widget.Toast;
 
 public class MainActivity extends AugmentedActivity {
     private static final String TAG = "MainActivity";
-
+    EquipmentDataSource localData = null;
+    
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        updateMarkers();
+        try {
+			updateMarkers();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
 	@Override
 	public void onResume(){
 		super.onResume();
-		updateMarkers();
+		try {
+			updateMarkers();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
     public void onStart() {
         super.onStart();
-        updateMarkers();
+        try {
+			updateMarkers();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
 	
@@ -58,10 +75,6 @@ public class MainActivity extends AugmentedActivity {
                 item.setTitle(((showZoomBar)? "Hide" : "Show")+" Zoom Bar");
                 zoomLayout.setVisibility((showZoomBar)?LinearLayout.VISIBLE:LinearLayout.GONE);
                 break;
-            case R.id.addEquipment:
-            	Intent intent = new Intent(this,AddEquipmentActivity.class);
-            	startActivity(intent);
-            	break;
             case R.id.exit:
                 finish();
                 break;
@@ -86,8 +99,9 @@ public class MainActivity extends AugmentedActivity {
 	    super.updateDataOnZoom();
 	}
     
-    private void updateMarkers(){
-        EquipmentDataSource localData = new EquipmentDataSource(this.getResources());
+    private void updateMarkers() throws IOException{
+        if(localData == null) localData =  new EquipmentDataSource(this.getResources());
+        localData.loadFromFile(this);
         ARData.addMarkers(localData.getMarkers(this));
     }
 }

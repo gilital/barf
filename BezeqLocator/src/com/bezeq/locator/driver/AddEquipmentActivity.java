@@ -40,26 +40,28 @@ public class AddEquipmentActivity extends Activity {
 	}
 	
 	public void saveNewEquipment(View view){
-		EditText cnum = (EditText)findViewById(R.id.cnum);
-		EditText name = (EditText)findViewById(R.id.name);
-		EditText type = (EditText)findViewById(R.id.type);
-		EditText lat = (EditText)findViewById(R.id.latitude);
-		EditText lon = (EditText)findViewById(R.id.longitude);
-		EditText alt = (EditText)findViewById(R.id.altitude);
-		EquipmentDataManager dataManager = new EquipmentDataManager(this);
-		dataManager.open();
-		dataManager.insertEquipment(
-				cnum.getText().toString(), 
-				name.getText().toString(), 
-				type.getText().toString(),
-				Double.parseDouble(lat.getText().toString()),
-				Double.parseDouble(lon.getText().toString()),
-				Double.parseDouble(alt.getText().toString()));
-		
-		Toast t = Toast.makeText(getApplicationContext(), "Equipment added successfully", Toast.LENGTH_SHORT);
-        t.setGravity(Gravity.BOTTOM, 0, 0);
-        t.show();
-        this.finish();
+//		EditText cnum = (EditText)findViewById(R.id.cnum);
+//		EditText name = (EditText)findViewById(R.id.name);
+//		EditText type = (EditText)findViewById(R.id.type);
+//		EditText lat = (EditText)findViewById(R.id.latitude);
+//		EditText lon = (EditText)findViewById(R.id.longitude);
+//		EditText alt = (EditText)findViewById(R.id.altitude);
+//		EquipmentDataManager dataManager = new EquipmentDataManager(this);
+//		dataManager.open();
+//		dataManager.insertEquipment(
+//				cnum.getText().toString(), 
+//				name.getText().toString(), 
+//				" ",
+//				" ",
+//				type.getText().toString(),
+//				Double.parseDouble(lat.getText().toString()),
+//				Double.parseDouble(lon.getText().toString()),
+//				Double.parseDouble(alt.getText().toString()));
+//		
+//		Toast t = Toast.makeText(getApplicationContext(), "Equipment added successfully", Toast.LENGTH_SHORT);
+//        t.setGravity(Gravity.BOTTOM, 0, 0);
+//        t.show();
+//        this.finish();
 		
 	}
 	

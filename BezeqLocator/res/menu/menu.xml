@@ -5,9 +5,6 @@
     <item android:id="@+id/showZoomBar" 
           android:title="@string/hide_zoom_bar">
     </item>
-    <item android:id="@+id/addEquipment" 
-          android:title="@string/add_equipment">
-    </item>
     <item android:id="@+id/exit" 
           android:title="@string/exit">
     </item>

@@ -3,20 +3,24 @@ package com.bezeq.locator.bl;
 public class Equipment {
 
 	private int id;
-	private String cnum;
-	private String name;
-	private String type;
+	private int area;
+	private String exchange_num;
+	private String settlement;
+	private String street;
+	private String building_num;
 	private double latitude;
     private double longitude;
     private double altitude;
 	
     public Equipment(){}
     
-    public Equipment(int id, String cnum, String name, String type, double latitude, double longitude, double altitude){
+    public Equipment(int id, int area, String exnum, String settlement, String street, String building, double latitude, double longitude, double altitude){
     	this.id = id;
-    	this.cnum = cnum;
-    	this.name = name;
-    	this.type = type;
+    	this.setArea(area);
+    	this.setExchange_num(exnum);
+    	this.setSettlement(settlement);
+    	this.setStreet(street);
+    	this.setBuilding_num(building);
     	this.latitude = latitude;
     	this.longitude = longitude;
     	this.altitude = altitude;    	
@@ -28,24 +32,47 @@ public class Equipment {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getCnum() {
-		return cnum;
+
+	public int getArea() {
+		return area;
 	}
-	public void setCnum(String cnum) {
-		this.cnum = cnum;
+
+	public void setArea(int area) {
+		this.area = area;
 	}
-	public String getName() {
-		return name;
+
+	public String getExchange_num() {
+		return exchange_num;
 	}
-	public void setName(String name) {
-		this.name = name;
+
+	public void setExchange_num(String exchange_num) {
+		this.exchange_num = exchange_num;
 	}
-	public String getType() {
-		return type;
+
+	public String getSettlement() {
+		return settlement;
 	}
-	public void setType(String type) {
-		this.type = type;
+
+	public void setSettlement(String settlement) {
+		this.settlement = settlement;
 	}
+
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	public String getBuilding_num() {
+		return building_num;
+	}
+
+	public void setBuilding_num(String building_num) {
+		this.building_num = building_num;
+	}
+
 	public double getLatitude() {
 		return latitude;
 	}

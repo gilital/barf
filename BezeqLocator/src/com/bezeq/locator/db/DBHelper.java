@@ -9,9 +9,11 @@ public class DBHelper extends SQLiteOpenHelper{
 	public static final String DATABASE_NAME = "BezeqLocator.db";
 	public static final String EQUIPMENT_TABLE_NAME = "Equipment";
 	public static final String EQUIPMENT_COLUMN_ID = "id";
-	public static final String EQUIPMENT_COLUMN_CNUM = "cnum";
-	public static final String EQUIPMENT_COLUMN_NAME = "name";
-	public static final String EQUIPMENT_COLUMN_TYPE = "type";
+	public static final String EQUIPMENT_COLUMN_AREA = "area";
+	public static final String EQUIPMENT_COLUMN_EXCHANGE_NUMBER = "exnum";
+	public static final String EQUIPMENT_COLUMN_SETTLEMENT = "settlement";
+	public static final String EQUIPMENT_COLUMN_STREET = "street";
+	public static final String EQUIPMENT_COLUMN_BUILDING_NUMBER = "bnum";
 	public static final String EQUIPMENT_COLUMN_LATITUDE = "latitude";
 	public static final String EQUIPMENT_COLUMN_LONGITUDE = "longitude";
 	public static final String EQUIPMENT_COLUMN_ALTITUDE = "altitude";
@@ -25,10 +27,12 @@ public class DBHelper extends SQLiteOpenHelper{
 	public void onCreate(SQLiteDatabase db) {
 		String sqlCreateStatement = "CREATE TABLE " + EQUIPMENT_TABLE_NAME 
 				  +"(" 
-			      + EQUIPMENT_COLUMN_ID + " integer primary key autoincrement, " 
-			      + EQUIPMENT_COLUMN_CNUM + " text not null, " 
-			      + EQUIPMENT_COLUMN_NAME + " text not null, "
-			      + EQUIPMENT_COLUMN_TYPE + " text not null, "
+			      + EQUIPMENT_COLUMN_ID + " integer primary key autoincrement, "
+			      + EQUIPMENT_COLUMN_AREA + " integer not null, "
+			      + EQUIPMENT_COLUMN_EXCHANGE_NUMBER + " text not null, "
+			      + EQUIPMENT_COLUMN_SETTLEMENT + " text not null, "
+			      + EQUIPMENT_COLUMN_STREET + " text not null, "
+			      + EQUIPMENT_COLUMN_BUILDING_NUMBER + " text not null, "
 			      + EQUIPMENT_COLUMN_LATITUDE + " real not null, "
 			      + EQUIPMENT_COLUMN_LONGITUDE + " real not null, "
 			      + EQUIPMENT_COLUMN_ALTITUDE + " real not null "

@@ -17,9 +17,11 @@ public class EquipmentDataManager {
 	
 	private String[] allColumns = {
 			DBHelper.EQUIPMENT_COLUMN_ID,
-			DBHelper.EQUIPMENT_COLUMN_CNUM,
-			DBHelper.EQUIPMENT_COLUMN_NAME,
-			DBHelper.EQUIPMENT_COLUMN_TYPE,
+			DBHelper.EQUIPMENT_COLUMN_AREA,
+			DBHelper.EQUIPMENT_COLUMN_EXCHANGE_NUMBER,
+			DBHelper.EQUIPMENT_COLUMN_SETTLEMENT,
+			DBHelper.EQUIPMENT_COLUMN_STREET,
+			DBHelper.EQUIPMENT_COLUMN_BUILDING_NUMBER,
 			DBHelper.EQUIPMENT_COLUMN_LATITUDE,
 			DBHelper.EQUIPMENT_COLUMN_LONGITUDE,
 			DBHelper.EQUIPMENT_COLUMN_ALTITUDE};
@@ -36,12 +38,14 @@ public class EquipmentDataManager {
 		dbHelper.close();
 	}
 	
-	public void insertEquipment (String cnum, String name, String type, double latitude, double longtitude, double altitude){
+	public void insertEquipment (int area, String exnum, String settlement, String street, String building, double latitude, double longtitude, double altitude){
 		ContentValues cv = new ContentValues();
 		
-		cv.put(DBHelper.EQUIPMENT_COLUMN_CNUM, cnum);
-		cv.put(DBHelper.EQUIPMENT_COLUMN_NAME, name);
-		cv.put(DBHelper.EQUIPMENT_COLUMN_TYPE, type);
+		cv.put(DBHelper.EQUIPMENT_COLUMN_AREA, area);
+		cv.put(DBHelper.EQUIPMENT_COLUMN_EXCHANGE_NUMBER, exnum);
+		cv.put(DBHelper.EQUIPMENT_COLUMN_SETTLEMENT, settlement);
+		cv.put(DBHelper.EQUIPMENT_COLUMN_STREET, street);
+		cv.put(DBHelper.EQUIPMENT_COLUMN_BUILDING_NUMBER, building);
 		cv.put(DBHelper.EQUIPMENT_COLUMN_LATITUDE, latitude);
 		cv.put(DBHelper.EQUIPMENT_COLUMN_LONGITUDE, longtitude);
 		cv.put(DBHelper.EQUIPMENT_COLUMN_ALTITUDE, altitude);
@@ -58,21 +62,20 @@ public class EquipmentDataManager {
 		      Equipment equip = new Equipment();
 		      
 		      equip.setId(cursor.getInt(0));
-		      equip.setCnum(cursor.getString(1));
-		      equip.setName(cursor.getString(2));
-		      equip.setType(cursor.getString(3));
-		      equip.setLatitude(cursor.getDouble(4));
-		      equip.setLongitude(cursor.getDouble(5));
-		      equip.setAltitude(cursor.getDouble(6));
+		      equip.setArea(cursor.getInt(1));
+		      equip.setExchange_num(cursor.getString(2));
+		      equip.setSettlement(cursor.getString(3));
+		      equip.setStreet(cursor.getString(4));
+		      equip.setBuilding_num(cursor.getString(5));
+		      equip.setLatitude(cursor.getDouble(6));
+		      equip.setLongitude(cursor.getDouble(7));
+		      equip.setAltitude(cursor.getDouble(8));
 		      
 		      list.add(equip);
 		      cursor.moveToNext();
 		    }
 		    
 		    cursor.close();
-//		list.add(new Equipment(1,"cn1","first","A", 31.2622020, 34.806830, 0.0));
-//		list.add(new Equipment(2,"cn2","second","B", 31.2622020, 34.800830, 0.0));
-//		list.add(new Equipment(3,"cn3","third","C", 31.2624020, 34.800830, 0.0));
 		
 		    return list;
 	}
@@ -80,6 +83,17 @@ public class EquipmentDataManager {
 	public void deleteEquipment(Equipment equip){
 		int id = equip.getId();
 		database.delete(DBHelper.EQUIPMENT_TABLE_NAME, DBHelper.EQUIPMENT_COLUMN_ID + " = " + id, null);
+	}
+	
+	public boolean isEmpty(){
+		Cursor cur = database.rawQuery("SELECT COUNT(*) FROM " + DBHelper.EQUIPMENT_TABLE_NAME, null);
+		if (cur != null) {
+		    cur.moveToFirst();                     
+		    if (cur.getInt (0) == 0) {               // Zero count means empty table.
+		    	return true;
+		    }
+		}
+		return false;
 	}
 	
 	

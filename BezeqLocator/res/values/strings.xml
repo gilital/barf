@@ -4,10 +4,10 @@
     <string name="app_name">Bezeq Locator</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_equipment">EquipmentActivity</string>
-    <string name="hide_radar">Hide Radar</string>
-    <string name="hide_zoom_bar">Hide Zoom Bar</string>
+    <string name="hide_radar">הצג רדאר</string>
+    <string name="hide_zoom_bar">הצג סרגל מרחק</string>
     <string name="add_equipment">Add equipment</string>
-    <string name="exit">Exit</string>
+    <string name="exit">יציאה</string>
     <string name="title_activity_add_equipment">AddEquipmentActivity</string>
     <string name="catalog_number">"Catalog number : "</string>
     <string name="equipment_name">Name :</string>
