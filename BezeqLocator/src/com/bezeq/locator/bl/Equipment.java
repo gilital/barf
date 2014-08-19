@@ -1,26 +1,32 @@
 package com.bezeq.locator.bl;
 
-public class Equipment {
+import java.io.Serializable;
 
+public class Equipment implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
 	private int id;
 	private int area;
 	private String exchange_num;
 	private String settlement;
 	private String street;
 	private String building_num;
+	private String building_sign;
 	private double latitude;
     private double longitude;
     private double altitude;
 	
     public Equipment(){}
     
-    public Equipment(int id, int area, String exnum, String settlement, String street, String building, double latitude, double longitude, double altitude){
+    public Equipment(int id, int area, String exnum, String settlement, String street, String bnum, String bsign, double latitude, double longitude, double altitude){
     	this.id = id;
     	this.setArea(area);
     	this.setExchange_num(exnum);
     	this.setSettlement(settlement);
     	this.setStreet(street);
-    	this.setBuilding_num(building);
+    	this.setBuilding_num(bnum);
+    	this.setBuilding_sign(bsign);
     	this.latitude = latitude;
     	this.longitude = longitude;
     	this.altitude = altitude;    	
@@ -71,6 +77,14 @@ public class Equipment {
 
 	public void setBuilding_num(String building_num) {
 		this.building_num = building_num;
+	}
+
+	public String getBuilding_sign() {
+		return building_sign;
+	}
+
+	public void setBuilding_sign(String building_sign) {
+		this.building_sign = building_sign;
 	}
 
 	public double getLatitude() {

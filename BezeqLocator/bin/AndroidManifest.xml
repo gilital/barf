@@ -18,20 +18,24 @@
         android:label="@string/app_name"
         android:theme="@@android:style/Theme.NoTitleBar.Fullscreen" >
         <activity
+            android:label="@string/app_name"
+            android:name=".LoadingScreenActivity" 
+            android:screenOrientation="landscape">
+			<intent-filter >
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+        <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="landscape" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            
         </activity>
         <activity
             android:name=".AddEquipmentActivity"
-            android:label="@string/title_activity_add_equipment"
-            android:screenOrientation="portrait" >"
+             >
+
 
         </activity>
     </application>

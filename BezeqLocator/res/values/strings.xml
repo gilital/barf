@@ -6,16 +6,21 @@
     <string name="title_activity_equipment">EquipmentActivity</string>
     <string name="hide_radar">הצג רדאר</string>
     <string name="hide_zoom_bar">הצג סרגל מרחק</string>
-    <string name="add_equipment">Add equipment</string>
+    <string name="add_equipment">הוספת ציוד חדש</string>
     <string name="exit">יציאה</string>
-    <string name="title_activity_add_equipment">AddEquipmentActivity</string>
-    <string name="catalog_number">"Catalog number : "</string>
-    <string name="equipment_name">Name :</string>
-    <string name="equipment_type">Type :</string>
-    <string name="latitude">Latitude :</string>
-    <string name="longitude">Longitude :</string>
-    <string name="altitude">Altitude :</string>
-    <string name="get_location">Get location</string>
-    <string name="save">Save</string>
+    <string name="tech_id">ת.ז</string>
+    <string name="area">מרכז</string>
+    <string name="equip_exnum">מק"ט</string>
+    <string name="settlement">ישוב</string>
+    <string name="street">רחוב</string>
+    <string name="bnum">מספר הבית</string>
+    <string name="bsign">אות הבית</string>
+    <string name="equip_type">סוג ציוד</string>
+    <string name="equip_status">סטטוס</string>
+    <string name="latitude">קו רוחב</string>
+    <string name="longitude">קו אורח</string>
+    <string name="altitude">גובה</string>
+    <string name="submit">שמור</string>
+	
 
 </resources>

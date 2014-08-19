@@ -1,160 +1,234 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    tools:context=".AddEquipmentActivity" >
-
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-         <TableRow
-            android:id="@+id/tableRow1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp" >
-
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="wrap_content"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:fillViewport="true">
+  <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" android:background="#ffffff">
+ 
+        <!--  Header Starts-->
+        <LinearLayout android:id="@+id/header"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/catalog_number"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:paddingTop="5dip"
+                android:paddingBottom="5dip"
+                android:orientation="horizontal">
+                <!-- Logo Start-->
 
-            <EditText
-                android:id="@+id/cnum"
-                android:layout_width="wrap_content"
+                <!-- Logo Ends -->
+        </LinearLayout>
+        <!--  Header Ends -->
+ 
+        <!-- Footer Start -->
+        <LinearLayout android:id="@+id/footer"
+                android:layout_width="fill_parent"
+                android:layout_height="90dip"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal">
+        </LinearLayout>
+        <!-- Footer Ends -->
+ 
+        <!-- Adding/Editing Form -->
+        <LinearLayout
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:padding="10dip"
+          android:layout_below="@id/header">
+          
+            <!-- Tech id -->
+            <TextView android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="text" />
-
-        </TableRow>
-         <TableRow
-            android:id="@+id/tableRow2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp" >
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
+                android:textColor="#372c24"
+                android:text="@string/tech_id" />
+            <EditText android:layout_width="fill_parent"
+                android:hint="@string/tech_id"
                 android:layout_height="wrap_content"
-                android:text="@string/equipment_name"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-            <EditText
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="text" />
-
-        </TableRow>
-         <TableRow
-            android:id="@+id/tableRow3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp" >
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/equipment_type"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-            <EditText
-                android:id="@+id/type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="text" />
-
-        </TableRow>
-        <TableRow
-            android:id="@+id/tableRow4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp" >
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/latitude"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-            <EditText
-                android:id="@+id/latitude"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="text" />
-
-        </TableRow>
-		<TableRow
-            android:id="@+id/tableRow5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp" >
-
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/longitude"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-            <EditText
-                android:id="@+id/longitude"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="text" />
-
-        </TableRow>
-        <TableRow
-            android:id="@+id/tableRow6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp" >
-
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/altitude"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-            <EditText
-                android:id="@+id/altitude"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="text" />
-        </TableRow>
-        <TableRow
-            android:id="@+id/tableRow7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp" >
-
-            <Button 
-                android:id="@+id/btn_get_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/get_location"
-                android:onClick="fillLocation" />
+                android:id="@+id/techId"
+                android:layout_marginTop="5dip"
+                android:layout_marginBottom="20dip"
+                android:singleLine="true"
+                android:gravity="right" />"
+            <!--  -->
             
-            <Button 
-                android:id="@+id/btn_save_equipment"
-                android:layout_width="wrap_content"
+            <!-- Area -->
+            <TextView android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/save"
-                android:onClick="saveNewEquipment" />"
-
-        </TableRow>
-    </TableLayout>
-
-    
-</LinearLayout>
+                android:textColor="#372c24"
+                android:text="@string/area" 
+                android:visibility="gone"/>
+            <EditText android:layout_width="fill_parent"
+                android:hint="@string/area"
+                android:layout_height="wrap_content"
+                android:id="@+id/area"
+                android:layout_marginTop="5dip"
+                android:layout_marginBottom="20dip"
+                android:singleLine="true"
+                android:visibility="gone"
+                android:gravity="right" />
+            <!--  -->
+            
+            <!-- Equipment exnum -->
+            <TextView android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#372c24"
+                android:text="@string/equip_exnum" />
+            <EditText android:layout_width="fill_parent"
+                android:hint="@string/equip_exnum"
+                android:layout_height="wrap_content"
+                android:id="@+id/equipExnum"
+                android:layout_marginTop="5dip"
+                android:layout_marginBottom="20dip"
+                android:singleLine="true"
+                android:gravity="right" />
+          	<!--  -->
+          	
+          	<!-- Settlement -->
+            <TextView android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#372c24"
+                android:text="@string/settlement" />
+            <EditText android:layout_width="fill_parent"
+                android:hint="@string/settlement"
+                android:layout_height="wrap_content"
+                android:id="@+id/settlement"
+                android:layout_marginTop="5dip"
+                android:layout_marginBottom="20dip"
+                android:singleLine="true"
+                android:gravity="right" />
+          	<!--  -->
+          	
+          	<!-- Street -->
+            <TextView android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#372c24"
+                android:text="@string/street" />
+            <EditText android:layout_width="fill_parent"
+                android:hint="@string/street"
+                android:layout_height="wrap_content"
+                android:id="@+id/street"
+                android:layout_marginTop="5dip"
+                android:layout_marginBottom="20dip"
+                android:singleLine="true"
+                android:gravity="right" />
+          	<!--  -->
+          	
+          	<!-- Building number -->
+            <TextView android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#372c24"
+                android:text="@string/bnum" />
+            <EditText android:layout_width="fill_parent"
+                android:hint="@string/bnum"
+                android:layout_height="wrap_content"
+                android:id="@+id/bnum"
+                android:layout_marginTop="5dip"
+                android:layout_marginBottom="20dip"
+                android:singleLine="true"
+                android:gravity="right" />
+          	<!--  -->
+          	
+          	<!-- Building sign -->
+            <TextView android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#372c24"
+                android:text="@string/bsign" />
+            <EditText android:layout_width="fill_parent"
+                android:hint="@string/bsign"
+                android:layout_height="wrap_content"
+                android:id="@+id/bsign"
+                android:layout_marginTop="5dip"
+                android:layout_marginBottom="20dip"
+                android:singleLine="true"
+                android:gravity="right" />
+          	<!--  -->
+          	
+          	<!-- Equipment type -->
+            <TextView android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#372c24"
+                android:text="@string/equip_type" />
+            <EditText android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/equip_type"
+                android:id="@+id/equipType"
+                android:layout_marginTop="5dip"
+                android:layout_marginBottom="20dip"
+                android:singleLine="true"
+                android:gravity="right" />
+            <!--  -->
+            
+            <!-- Status -->
+            <TextView android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#372c24"
+                android:text="@string/equip_status" />
+            <EditText android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/equip_status"
+                android:id="@+id/equipStatus"
+                android:layout_marginTop="5dip"
+                android:layout_marginBottom="20dip"
+                android:singleLine="true"
+                android:gravity="right" />
+            <!--  -->
+            
+            <!-- Latitude -->
+            <TextView android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#372c24"
+                android:text="@string/latitude" />
+            <EditText android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/latitude"
+                android:id="@+id/lat"
+                android:layout_marginTop="5dip"
+                android:layout_marginBottom="20dip"
+                android:singleLine="true"
+                android:gravity="right" />
+            <!--  -->
+            
+            <!-- Longitude -->
+            <TextView android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#372c24"
+                android:text="@string/longitude" />
+            <EditText android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/longitude"
+                android:id="@+id/lon"
+                android:layout_marginTop="5dip"
+                android:layout_marginBottom="20dip"
+                android:singleLine="true"
+                android:gravity="right" />
+            <!--  -->
+            
+            <!-- Altitude -->
+            <TextView android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#372c24"
+                android:text="@string/altitude" />
+            <EditText android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/altitude"
+                android:id="@+id/alt"
+                android:layout_marginTop="5dip"
+                android:layout_marginBottom="20dip"
+                android:singleLine="true"
+                android:gravity="right" />
+            <!--  -->
+            
+            <Button android:id="@+id/btnSubmit"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:text="@string/submit"
+                android:onClick="save"/>
+            
+         </LinearLayout>
+        <!-- Adding/Editing Form Ends -->
+ 
+  </RelativeLayout>
+</ScrollView>

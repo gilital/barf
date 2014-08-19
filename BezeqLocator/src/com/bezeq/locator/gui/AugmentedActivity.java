@@ -1,7 +1,6 @@
 package com.bezeq.locator.gui;
 
 import java.text.DecimalFormat;
-
 import com.bezeq.locator.bl.ARData;
 import com.bezeq.locator.draw.Marker;
 
@@ -37,8 +36,10 @@ public class AugmentedActivity extends SensorsActivity implements OnTouchListene
     protected static TextView endLabel = null;
     protected static LinearLayout zoomLayout = null;
     protected static AugmentedView augmentedView = null;
+    
+    private long firstClick;
 
-    public static final float MAX_ZOOM = 100; //in KM
+    public static final float MAX_ZOOM = 1; //in KM
     public static final float ONE_PERCENT = MAX_ZOOM/100f;
     public static final float TEN_PERCENT = 10f*ONE_PERCENT;
     public static final float TWENTY_PERCENT = 2f*TEN_PERCENT;
@@ -164,7 +165,12 @@ public class AugmentedActivity extends SensorsActivity implements OnTouchListene
 	public boolean onTouch(View view, MotionEvent me) {
 	    for (Marker marker : ARData.getMarkers()) {
 	        if (marker.handleClick(me.getX(), me.getY())) {
-	            if (me.getAction() == MotionEvent.ACTION_UP) markerTouched(marker);
+	        	if (me.getAction() == MotionEvent.ACTION_DOWN) 
+	        	{
+	        		setFirstClick(System.currentTimeMillis());
+	        	}
+	        	if (me.getAction() == MotionEvent.ACTION_UP) markerTouched(marker);
+          
 	            return true;
 	        }
 	    }
@@ -173,5 +179,13 @@ public class AugmentedActivity extends SensorsActivity implements OnTouchListene
 	
 	protected void markerTouched(Marker marker) {
 		Log.w(TAG,"markerTouched() not implemented.");
+	}
+
+	public long getFirstClick() {
+		return firstClick;
+	}
+
+	public void setFirstClick(long firstClick) {
+		this.firstClick = firstClick;
 	}
 }
