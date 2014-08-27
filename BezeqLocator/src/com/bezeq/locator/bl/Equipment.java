@@ -13,6 +13,7 @@ public class Equipment implements Serializable{
 	private String street;
 	private String building_num;
 	private String building_sign;
+	private String type;
 	private double latitude;
     private double longitude;
     private double altitude;
@@ -85,6 +86,14 @@ public class Equipment implements Serializable{
 
 	public void setBuilding_sign(String building_sign) {
 		this.building_sign = building_sign;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public double getLatitude() {

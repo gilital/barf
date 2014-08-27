@@ -9,6 +9,14 @@ import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+/**
+ * Class for Changes table management (It intends for update the server data)
+ * Methods:
+ * 	Add new equipment changing
+ * 	
+ * @author Silver
+ *
+ */
 public class ChangesDataManager {
 	private SQLiteDatabase database;
 	private DBHelper dbHelper;
@@ -69,5 +77,5 @@ public class ChangesDataManager {
                 "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         Date date = new Date();
         return dateFormat.format(date);
-}
+	}
 }

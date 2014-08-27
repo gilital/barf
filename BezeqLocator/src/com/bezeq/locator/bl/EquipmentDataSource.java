@@ -13,6 +13,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 
+/**
+ * Class for conversion of Equipment data row to ARData marker
+ * @author Silver
+ *
+ */
 public class EquipmentDataSource extends LocalDataSource{
 
 	private EquipmentDataManager data;

@@ -4,6 +4,11 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/**
+ * Class for creating and upgrading the "BezeqLocator.db" Data base
+ * @author Silver
+ *
+ */
 public class DBHelper extends SQLiteOpenHelper{
 	
 	public static final String DATABASE_NAME = "BezeqLocator.db";
@@ -16,6 +21,7 @@ public class DBHelper extends SQLiteOpenHelper{
 	public static final String EQUIPMENT_COLUMN_STREET = "street";
 	public static final String EQUIPMENT_COLUMN_BUILDING_NUMBER = "bnum";
 	public static final String EQUIPMENT_COLUMN_BUILDING_SIGN = "bsign";
+	public static final String EQUIPMENT_COLUMN_EQUIPMENT_TYPE = "equip_type";
 	public static final String EQUIPMENT_COLUMN_LATITUDE = "latitude";
 	public static final String EQUIPMENT_COLUMN_LONGITUDE = "longitude";
 	public static final String EQUIPMENT_COLUMN_ALTITUDE = "altitude";
@@ -57,6 +63,7 @@ public class DBHelper extends SQLiteOpenHelper{
 			      + EQUIPMENT_COLUMN_STREET + " text not null, "
 			      + EQUIPMENT_COLUMN_BUILDING_NUMBER + " text not null, "
 			      + EQUIPMENT_COLUMN_BUILDING_SIGN + " text, "
+			      + EQUIPMENT_COLUMN_EQUIPMENT_TYPE + " text not null, "
 			      + EQUIPMENT_COLUMN_LATITUDE + " real not null, "
 			      + EQUIPMENT_COLUMN_LONGITUDE + " real not null, "
 			      + EQUIPMENT_COLUMN_ALTITUDE + " real not null "

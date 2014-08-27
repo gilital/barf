@@ -10,6 +10,16 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+/**
+ * Class for Equipment table management (local table for showing AR markers only)
+ * Methods :
+ * 	Adding new equipment
+ * 	Updating existing equipment
+ * 	Getting all equipments
+ * 	Get equipment by its exchange number
+ * @author Silver
+ *
+ */
 public class EquipmentDataManager {
 	
 	private SQLiteDatabase database;
@@ -23,6 +33,7 @@ public class EquipmentDataManager {
 			DBHelper.EQUIPMENT_COLUMN_STREET,
 			DBHelper.EQUIPMENT_COLUMN_BUILDING_NUMBER,
 			DBHelper.EQUIPMENT_COLUMN_BUILDING_SIGN,
+			DBHelper.EQUIPMENT_COLUMN_EQUIPMENT_TYPE,
 			DBHelper.EQUIPMENT_COLUMN_LATITUDE,
 			DBHelper.EQUIPMENT_COLUMN_LONGITUDE,
 			DBHelper.EQUIPMENT_COLUMN_ALTITUDE};
@@ -39,7 +50,7 @@ public class EquipmentDataManager {
 		dbHelper.close();
 	}
 	
-	public void insertEquipment (int area, String exnum, String settlement, String street, String bnum, String bsign, double latitude, double longtitude, double altitude){
+	public void insertEquipment (int area, String exnum, String settlement, String street, String bnum, String bsign, String type, double latitude, double longtitude, double altitude){
 		Equipment equip = getEquipmentByExnum(exnum);
 
 		if (equip == null){
@@ -52,6 +63,7 @@ public class EquipmentDataManager {
 			cv.put(DBHelper.EQUIPMENT_COLUMN_STREET, street);
 			cv.put(DBHelper.EQUIPMENT_COLUMN_BUILDING_NUMBER, bnum);
 			cv.put(DBHelper.EQUIPMENT_COLUMN_BUILDING_SIGN, bsign);
+			cv.put(DBHelper.EQUIPMENT_COLUMN_EQUIPMENT_TYPE, type);
 			cv.put(DBHelper.EQUIPMENT_COLUMN_LATITUDE, latitude);
 			cv.put(DBHelper.EQUIPMENT_COLUMN_LONGITUDE, longtitude);
 			cv.put(DBHelper.EQUIPMENT_COLUMN_ALTITUDE, altitude);
@@ -59,11 +71,11 @@ public class EquipmentDataManager {
 		}
 		else{
 			//if exists -> ensure that data is up to date
-			this.updateEquipment(area, exnum, settlement, street, bnum, bsign, latitude, longtitude, altitude);
+			this.updateEquipment(area, exnum, settlement, street, bnum, bsign,type, latitude, longtitude, altitude);
 		}
 	}
 	
-	public void updateEquipment(int area, String exnum, String settlement, String street, String bnum, String bsign, double latitude, double longtitude, double altitude){
+	public void updateEquipment(int area, String exnum, String settlement, String street, String bnum, String bsign, String type, double latitude, double longtitude, double altitude){
 		Equipment equip = getEquipmentByExnum(exnum);
 		
 		ContentValues cv = new ContentValues();
@@ -74,6 +86,7 @@ public class EquipmentDataManager {
 		cv.put(DBHelper.EQUIPMENT_COLUMN_STREET, street);
 		cv.put(DBHelper.EQUIPMENT_COLUMN_BUILDING_NUMBER, bnum);
 		cv.put(DBHelper.EQUIPMENT_COLUMN_BUILDING_SIGN, bsign);
+		cv.put(DBHelper.EQUIPMENT_COLUMN_EQUIPMENT_TYPE, type);
 		cv.put(DBHelper.EQUIPMENT_COLUMN_LATITUDE, latitude);
 		cv.put(DBHelper.EQUIPMENT_COLUMN_LONGITUDE, longtitude);
 		cv.put(DBHelper.EQUIPMENT_COLUMN_ALTITUDE, altitude);
@@ -97,9 +110,10 @@ public class EquipmentDataManager {
 		      equip.setStreet(cursor.getString(4));
 		      equip.setBuilding_num(cursor.getString(5));
 		      equip.setBuilding_sign(cursor.getString(6));
-		      equip.setLatitude(cursor.getDouble(7));
-		      equip.setLongitude(cursor.getDouble(8));
-		      equip.setAltitude(cursor.getDouble(9));
+		      equip.setType(cursor.getString(7));
+		      equip.setLatitude(cursor.getDouble(8));
+		      equip.setLongitude(cursor.getDouble(9));
+		      equip.setAltitude(cursor.getDouble(10));
 		      
 		      list.add(equip);
 		      cursor.moveToNext();
@@ -129,9 +143,10 @@ public class EquipmentDataManager {
 		    result.setStreet(cur.getString(4));
 		    result.setBuilding_num(cur.getString(5));
 		    result.setBuilding_sign(cur.getString(6));
-		    result.setLatitude(cur.getDouble(7));
-		    result.setLongitude(cur.getDouble(8));
-		    result.setAltitude(cur.getDouble(9));
+		    result.setType(cur.getString(7));
+		    result.setLatitude(cur.getDouble(8));
+		    result.setLongitude(cur.getDouble(9));
+		    result.setAltitude(cur.getDouble(10));
 
 		}
 	    cur.close();
@@ -139,13 +154,14 @@ public class EquipmentDataManager {
 	}
 	public boolean isEmpty(){
 		Cursor cur = database.rawQuery("SELECT COUNT(*) FROM " + DBHelper.EQUIPMENT_TABLE_NAME, null);
+		boolean isExists = false;
 		if (cur != null) {
 		    cur.moveToFirst();                     
 		    if (cur.getInt (0) == 0) {               // Zero count means empty table.
-		    	return true;
+		    	isExists = true;
 		    }
 		}
-		return false;
+		return isExists;
 	}
 	
 	

@@ -4,6 +4,7 @@ import com.bezeq.locator.bl.ARData;
 import com.bezeq.locator.bl.Equipment;
 import com.bezeq.locator.db.ChangesDataManager;
 import com.bezeq.locator.db.EquipmentDataManager;
+import com.bezeq.locator.db.VersionsDataManager;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -55,15 +56,19 @@ public class AddEquipmentActivity extends Activity {
             Equipment equip = (Equipment)i.getSerializableExtra("selectedEquipment");
             txtExnum.setText(equip.getExchange_num());
             txtExnum.setEnabled(false);
-            txtArea.setText(equip.getArea() + " ");
+            txtArea.setText(equip.getArea() + "");
             txtSettlement.setText(equip.getSettlement());
             txtStreet.setText(equip.getStreet());
             txtBnum.setText(equip.getBuilding_num());
             txtBsign.setText(equip.getBuilding_sign());
-            txtType.setText("מרכזת");
+            txtType.setText(equip.getType());
+//            txtLatitude.setText(equip.getLatitude() + "");
+//            txtLongitude.setText(equip.getLongitude() + "");
+//            txtAltitude.setText(equip.getAltitude() + "");
+            
         }
 
-        fillLocation();
+    	fillLocation();
     }
 	
 	private void initPage(){
@@ -104,6 +109,7 @@ public class AddEquipmentActivity extends Activity {
 					txtStreet.getText().toString(),
 					txtBnum.getText().toString(),
 					txtBsign.getText().toString(),
+					txtType.getText().toString(),
 					Double.parseDouble(txtLatitude.getText().toString()),
 					Double.parseDouble(txtLongitude.getText().toString()),
 					Double.parseDouble(txtAltitude.getText().toString()));
@@ -126,6 +132,7 @@ public class AddEquipmentActivity extends Activity {
 					txtStreet.getText().toString(),
 					txtBnum.getText().toString(),
 					txtBsign.getText().toString(),
+					txtType.getText().toString(),
 					Double.parseDouble(txtLatitude.getText().toString()),
 					Double.parseDouble(txtLongitude.getText().toString()),
 					Double.parseDouble(txtAltitude.getText().toString()));
@@ -152,8 +159,15 @@ public class AddEquipmentActivity extends Activity {
 				Double.parseDouble(txtLatitude.getText().toString()),
 				Double.parseDouble(txtLongitude.getText().toString()),
 				Double.parseDouble(txtAltitude.getText().toString()));
-		cDataManager.close();	
-		finish();
+		cDataManager.close();
+		
+		//update Version tables
+		VersionsDataManager vDataManager = new VersionsDataManager(this);
+		vDataManager.open();
+		vDataManager.insert();
+		vDataManager.close();
+		
+		finish(); //finish this activity, and open previous
 	}
 	
 }

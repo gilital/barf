@@ -3,8 +3,8 @@ package com.bezeq.locator.draw;
 import android.graphics.Canvas;
 
 public class PaintablePoint extends PaintableObject {
-    private static int width=2;
-    private static int height=2;
+    private static int width=5;
+    private static int height=5;
     private int color = 0;
     private boolean fill = false;
     

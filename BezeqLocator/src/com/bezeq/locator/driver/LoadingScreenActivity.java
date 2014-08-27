@@ -71,42 +71,42 @@ public class LoadingScreenActivity extends Activity
 					int counter = 0;
 					EquipmentDataManager data = new EquipmentDataManager(getApplicationContext());
 					data.open();
+					
+					String str="";
+					InputStream is = getResources().openRawResource(R.raw.msag);
+					try {
+					
+				        BufferedReader reader = new BufferedReader(new InputStreamReader(is,"UTF-8"));
+				        if (is!=null) {       
+				        	reader.readLine(); //skip the headers line
+				            while ((str = reader.readLine()) != null) { 
+				                String[] line = str.split("\t");
+				                String x_isr = line[6];
+				                String y_isr = line[7];
+				                
+				                if (x_isr == "250000" && y_isr == "600000") continue;
+				                
+				                int area = Integer.parseInt(line[0]);
+				                String exnum = line[1];
+				                String settlement = line[2];
+				                String street = line[3];
+				                String building_num = line [4];
+				                String building_sign = (line[5] == null?" ":line[5]);
+				                String type = line[6];
+				                double longtitude = Double.parseDouble(line[9]);
+				                double latitude = Double.parseDouble(line[10]);
+				                double altitude = 0.0;
+					                
+				                data.insertEquipment(area, exnum, settlement, street, building_num, building_sign, type, latitude, longtitude, altitude);
+				                counter++;
+				                publishProgress((counter*100)/lines);
+				            }//end while               
+				        }//end if
+				    }//end try
+						finally {
+					        try { is.close(); } catch (Throwable ignore) {}
+					    }//end finally
 
-					if (data.isEmpty()){
-						String str="";
-						InputStream is = getResources().openRawResource(R.raw.msag);
-						try {
-						
-					        BufferedReader reader = new BufferedReader(new InputStreamReader(is,"UTF-8"));
-					        if (is!=null) {       
-					        	reader.readLine(); //skip the headers line
-					            while ((str = reader.readLine()) != null) { 
-					                String[] line = str.split("\t");
-					                String x_isr = line[6];
-					                String y_isr = line[7];
-					                
-					                if (x_isr == "250000" && y_isr == "600000") continue;
-					                
-					                int area = Integer.parseInt(line[0]);
-					                String exnum = line[1];
-					                String settlement = line[2];
-					                String street = line[3];
-					                String building_num = line [4];
-					                String building_sign = (line[5] == null?" ":line[5]);
-					                double longtitude = Double.parseDouble(line[8]);
-					                double latitude = Double.parseDouble(line[9]);
-					                double altitude = 0.0;
-						                
-					                data.insertEquipment(area, exnum, settlement, street, building_num, building_sign, latitude, longtitude, altitude);
-					                counter++;
-					                publishProgress((counter*100)/lines);
-					            }//end while               
-					        }//end if
-					    }//end try
-							finally {
-						        try { is.close(); } catch (Throwable ignore) {}
-						    }//end finally
-						}//end if
 					data.close();
 				}//end synchronized
 			}//end try
