@@ -20,6 +20,11 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+/**
+ * AR view activity window
+ * @author Silver
+ *
+ */
 public class MainActivity extends AugmentedActivity {
     private static final String TAG = "MainActivity";
     EquipmentDataSource localData = null;
@@ -60,6 +65,7 @@ public class MainActivity extends AugmentedActivity {
 	
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+    	
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return true;
@@ -127,8 +133,8 @@ public class MainActivity extends AugmentedActivity {
 	}
     
     private void updateMarkers() throws IOException{
-        if(localData == null) localData =  new EquipmentDataSource(this.getResources());
-        ARData.addMarkers(localData.getMarkers(this));
+        if(localData == null) localData =  new EquipmentDataSource(this.getResources(), this);
+        ARData.addMarkers(localData.getMarkers(true,true,true,true));
     }
 }
     

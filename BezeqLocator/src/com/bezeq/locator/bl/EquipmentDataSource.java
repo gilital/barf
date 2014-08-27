@@ -1,6 +1,8 @@
 package com.bezeq.locator.bl;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.List;
 import com.bezeq.locator.db.EquipmentDataManager;
 import com.bezeq.locator.draw.IconMarker;
@@ -18,20 +20,66 @@ import android.graphics.Color;
  * @author Silver
  *
  */
-public class EquipmentDataSource extends LocalDataSource{
+public class EquipmentDataSource{
 
 	private EquipmentDataManager data;
+	private Dictionary<String,Bitmap> icons = new Hashtable<String,Bitmap>();
+	private List<Equipment> msags;
+	private List<Equipment> boxes;
+	private List<Equipment> pits;
+	private List<Equipment> poles;
 	
-	public EquipmentDataSource(Resources res) {
-		super(res);
+	public EquipmentDataSource(Resources res, Context context) {
+		data = new EquipmentDataManager(context);
 		createIcons(res);
+		populateLists();
 	}
-	
-	@Override
-	public List<Marker> getMarkers(Context context){
-		if (data == null) data = new EquipmentDataManager(context);
+
+	private void populateLists(){
+		msags = new ArrayList<Equipment>();
+		boxes = new ArrayList<Equipment>();
+		pits = new ArrayList<Equipment>();
+		poles = new ArrayList<Equipment>();
+		
 		data.open();
 		ArrayList<Equipment> list = data.getAllEquipment();
+		
+		for (Equipment equip:list){
+			if (equip.getType().equals("MSAG")){
+				msags.add(equip);
+				continue;
+			}
+			else if (equip.getType().equals("box")){
+				boxes.add(equip);
+				continue;
+			}
+			else if (equip.getType().equals("pit")){
+				pits.add(equip);
+				continue;
+			}
+			else if (equip.getType().equals("pole")){
+				poles.add(equip);
+			}
+		}
+		
+		data.close();
+		
+	}
+	
+	public List<Marker> getMarkers(boolean includeMsags, boolean includeBoxes, boolean includePits, boolean includePoles){
+		ArrayList<Equipment> list = new ArrayList<Equipment>();
+		if (includeMsags){
+			list.addAll(msags);
+		}
+		if (includeBoxes){
+			list.addAll(boxes);
+		}
+		if (includePits){
+			list.addAll(pits);
+		}
+		if (includePoles){
+			list.addAll(poles);
+		}
 		
 		List<Marker> markers = new ArrayList<Marker>();
 		for (Equipment equip:list){
@@ -54,7 +102,6 @@ public class EquipmentDataSource extends LocalDataSource{
 		return (icon == null)?icons.get("default"):icon;
 	}
 
-	@Override
 	protected void createIcons(Resources res) {
 		if (res==null) throw new NullPointerException();
 		icons.put("A", BitmapFactory.decodeResource(res, R.drawable.ic_action_good));

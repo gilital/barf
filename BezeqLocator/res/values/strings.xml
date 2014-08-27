@@ -21,6 +21,11 @@
     <string name="longitude">קו אורח</string>
     <string name="altitude">גובה</string>
     <string name="submit">שמור</string>
+    <string name="msags">MSAG</string>
+    <string name="boxes">תיבות</string>
+    <string name="pits">גובים</string>
+    <string name="poles">עמודים</string>
+    <string name="filter">סינון לפי סוג</string>
 	
 
 </resources>
