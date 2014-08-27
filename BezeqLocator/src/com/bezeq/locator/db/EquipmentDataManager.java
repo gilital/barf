@@ -40,8 +40,34 @@ public class EquipmentDataManager {
 	}
 	
 	public void insertEquipment (int area, String exnum, String settlement, String street, String bnum, String bsign, double latitude, double longtitude, double altitude){
-		ContentValues cv = new ContentValues();
+		Equipment equip = getEquipmentByExnum(exnum);
+
+		if (equip == null){
+			//if equipment not exists in DB -> add it
+			ContentValues cv = new ContentValues();
+			
+			cv.put(DBHelper.EQUIPMENT_COLUMN_AREA, area);
+			cv.put(DBHelper.EQUIPMENT_COLUMN_EXCHANGE_NUMBER, exnum);
+			cv.put(DBHelper.EQUIPMENT_COLUMN_SETTLEMENT, settlement);
+			cv.put(DBHelper.EQUIPMENT_COLUMN_STREET, street);
+			cv.put(DBHelper.EQUIPMENT_COLUMN_BUILDING_NUMBER, bnum);
+			cv.put(DBHelper.EQUIPMENT_COLUMN_BUILDING_SIGN, bsign);
+			cv.put(DBHelper.EQUIPMENT_COLUMN_LATITUDE, latitude);
+			cv.put(DBHelper.EQUIPMENT_COLUMN_LONGITUDE, longtitude);
+			cv.put(DBHelper.EQUIPMENT_COLUMN_ALTITUDE, altitude);
+			database.insert(DBHelper.EQUIPMENT_TABLE_NAME, null, cv);
+		}
+		else{
+			//if exists -> ensure that data is up to date
+			this.updateEquipment(area, exnum, settlement, street, bnum, bsign, latitude, longtitude, altitude);
+		}
+	}
+	
+	public void updateEquipment(int area, String exnum, String settlement, String street, String bnum, String bsign, double latitude, double longtitude, double altitude){
+		Equipment equip = getEquipmentByExnum(exnum);
 		
+		ContentValues cv = new ContentValues();
+	
 		cv.put(DBHelper.EQUIPMENT_COLUMN_AREA, area);
 		cv.put(DBHelper.EQUIPMENT_COLUMN_EXCHANGE_NUMBER, exnum);
 		cv.put(DBHelper.EQUIPMENT_COLUMN_SETTLEMENT, settlement);
@@ -51,11 +77,8 @@ public class EquipmentDataManager {
 		cv.put(DBHelper.EQUIPMENT_COLUMN_LATITUDE, latitude);
 		cv.put(DBHelper.EQUIPMENT_COLUMN_LONGITUDE, longtitude);
 		cv.put(DBHelper.EQUIPMENT_COLUMN_ALTITUDE, altitude);
-		database.insert(DBHelper.EQUIPMENT_TABLE_NAME, null, cv);
-	}
-	
-	public void updateEquipment(int area, String exnum, String settlement, String street, String bnum, String bsign, double latitude, double longtitude, double altitude){
-		//TODO : add function to update existing equipment
+		
+		database.update(DBHelper.EQUIPMENT_TABLE_NAME, cv, DBHelper.EQUIPMENT_COLUMN_ID + "=" + equip.getId(), null);
 	}
 	
 	public ArrayList<Equipment> getAllEquipment(){
@@ -95,8 +118,8 @@ public class EquipmentDataManager {
 	public Equipment getEquipmentByExnum(String exnum){
 		Equipment result = null;
 		Cursor cur = database.rawQuery("SELECT * FROM "+ DBHelper.EQUIPMENT_TABLE_NAME +" WHERE "+ DBHelper.EQUIPMENT_COLUMN_EXCHANGE_NUMBER +" = '"+ exnum +"'", null);
-				
-		if (cur != null){
+		boolean exists = cur.moveToFirst();	
+		if (exists){
 			cur.moveToFirst();
 			result = new Equipment();
 			result.setId(cur.getInt(0));
@@ -109,8 +132,9 @@ public class EquipmentDataManager {
 		    result.setLatitude(cur.getDouble(7));
 		    result.setLongitude(cur.getDouble(8));
 		    result.setAltitude(cur.getDouble(9));
+
 		}
-		
+	    cur.close();
 		return result;
 	}
 	public boolean isEmpty(){

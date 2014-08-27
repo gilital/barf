@@ -10,10 +10,9 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class AddEquipmentActivity extends Activity {
@@ -32,6 +31,7 @@ public class AddEquipmentActivity extends Activity {
 	private EditText txtLatitude;
 	private EditText txtLongitude;
 	private EditText txtAltitude;
+	private TextView tvArea;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +48,7 @@ public class AddEquipmentActivity extends Activity {
         
         if (action.equals("new")){
         	txtArea.setVisibility(0);
+        	tvArea.setVisibility(0);
         	txtStatus.setText("בהקמה");
         }
         if (action.equals("edit")){
@@ -78,6 +79,7 @@ public class AddEquipmentActivity extends Activity {
 		txtLatitude = (EditText)findViewById(R.id.lat);
 		txtLongitude = (EditText)findViewById(R.id.lon);
 		txtAltitude = (EditText)findViewById(R.id.alt);
+		tvArea = (TextView)findViewById(R.id.tvArea);
 	}
 	
 	public void fillLocation(){
@@ -91,6 +93,8 @@ public class AddEquipmentActivity extends Activity {
 	
 	public void save(View view){
 		if (action.equals("new")){
+			//adding new equipment (to local db only)
+			//TODO : VALIDATION!!!!
 			EquipmentDataManager eDataManager = new EquipmentDataManager(this);
 			eDataManager.open();
 			eDataManager.insertEquipment(
@@ -104,51 +108,51 @@ public class AddEquipmentActivity extends Activity {
 					Double.parseDouble(txtLongitude.getText().toString()),
 					Double.parseDouble(txtAltitude.getText().toString()));
 			eDataManager.close();
-			
-			ChangesDataManager cDataManager = new ChangesDataManager(this);
-			cDataManager.open();
-			cDataManager.insertChange(
-					txtTechId.getText().toString(),
+		
+			Toast t = Toast.makeText(getApplicationContext(), "ציוד הוסף בהצלחה", Toast.LENGTH_SHORT);
+	        t.setGravity(Gravity.BOTTOM, 0, 0);
+	        t.show();
+        }
+		
+		if (action.equals("edit")){
+			//editing existing equipment (in local db only)
+			//TODO : VALIDATION!!!!
+			EquipmentDataManager eDataManager = new EquipmentDataManager(this);
+			eDataManager.open();
+			eDataManager.updateEquipment(
 					Integer.parseInt(txtArea.getText().toString()),
 					txtExnum.getText().toString(),
 					txtSettlement.getText().toString(),
 					txtStreet.getText().toString(),
 					txtBnum.getText().toString(),
 					txtBsign.getText().toString(),
-					txtType.getText().toString(),
-					txtStatus.getText().toString(),
 					Double.parseDouble(txtLatitude.getText().toString()),
 					Double.parseDouble(txtLongitude.getText().toString()),
 					Double.parseDouble(txtAltitude.getText().toString()));
-			cDataManager.close();			
-			
-			Toast t = Toast.makeText(getApplicationContext(), "ציוד הוסף בהצלחה", Toast.LENGTH_SHORT);
+			eDataManager.close();
+								
+			Toast t = Toast.makeText(getApplicationContext(), "ציוד עודכן בהצלחה", Toast.LENGTH_SHORT);
 	        t.setGravity(Gravity.BOTTOM, 0, 0);
 	        t.show();
-
         }
-//		EditText cnum = (EditText)findViewById(R.id.cnum);
-//		EditText name = (EditText)findViewById(R.id.name);
-//		EditText type = (EditText)findViewById(R.id.type);
-//		EditText lat = (EditText)findViewById(R.id.latitude);
-//		EditText lon = (EditText)findViewById(R.id.longitude);
-//		EditText alt = (EditText)findViewById(R.id.altitude);
-//		EquipmentDataManager dataManager = new EquipmentDataManager(this);
-//		dataManager.open();
-//		dataManager.insertEquipment(
-//				cnum.getText().toString(), 
-//				name.getText().toString(), 
-//				" ",
-//				" ",
-//				type.getText().toString(),
-//				Double.parseDouble(lat.getText().toString()),
-//				Double.parseDouble(lon.getText().toString()),
-//				Double.parseDouble(alt.getText().toString()));
-//		
-//		Toast t = Toast.makeText(getApplicationContext(), "Equipment added successfully", Toast.LENGTH_SHORT);
-//        t.setGravity(Gravity.BOTTOM, 0, 0);
-//        t.show();
-//        this.finish();
+		
+		//insert new row to changes db with appropriate status
+		ChangesDataManager cDataManager = new ChangesDataManager(this);
+		cDataManager.open();
+		cDataManager.insertChange(
+				txtTechId.getText().toString(),
+				Integer.parseInt(txtArea.getText().toString()),
+				txtExnum.getText().toString(),
+				txtSettlement.getText().toString(),
+				txtStreet.getText().toString(),
+				txtBnum.getText().toString(),
+				txtBsign.getText().toString(),
+				txtType.getText().toString(),
+				txtStatus.getText().toString(),
+				Double.parseDouble(txtLatitude.getText().toString()),
+				Double.parseDouble(txtLongitude.getText().toString()),
+				Double.parseDouble(txtAltitude.getText().toString()));
+		cDataManager.close();	
 		finish();
 	}
 	

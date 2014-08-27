@@ -17,28 +17,29 @@ public final class R {
         public static final int ic_launcher=0x7f020003;
     }
     public static final class id {
-        public static final int add_equipment=0x7f080014;
-        public static final int alt=0x7f08000d;
-        public static final int area=0x7f080003;
-        public static final int bnum=0x7f080007;
-        public static final int bsign=0x7f080008;
-        public static final int btnSubmit=0x7f08000e;
-        public static final int equipExnum=0x7f080004;
-        public static final int equipStatus=0x7f08000a;
-        public static final int equipType=0x7f080009;
-        public static final int exit=0x7f080015;
+        public static final int add_equipment=0x7f080015;
+        public static final int alt=0x7f08000e;
+        public static final int area=0x7f080004;
+        public static final int bnum=0x7f080008;
+        public static final int bsign=0x7f080009;
+        public static final int btnSubmit=0x7f08000f;
+        public static final int equipExnum=0x7f080005;
+        public static final int equipStatus=0x7f08000b;
+        public static final int equipType=0x7f08000a;
+        public static final int exit=0x7f080016;
         public static final int footer=0x7f080001;
         public static final int header=0x7f080000;
-        public static final int lat=0x7f08000b;
-        public static final int lon=0x7f08000c;
-        public static final int pb_progressbar=0x7f08000f;
-        public static final int settlement=0x7f080005;
-        public static final int showRadar=0x7f080012;
-        public static final int showZoomBar=0x7f080013;
-        public static final int street=0x7f080006;
+        public static final int lat=0x7f08000c;
+        public static final int lon=0x7f08000d;
+        public static final int pb_progressbar=0x7f080010;
+        public static final int settlement=0x7f080006;
+        public static final int showRadar=0x7f080013;
+        public static final int showZoomBar=0x7f080014;
+        public static final int street=0x7f080007;
         public static final int techId=0x7f080002;
-        public static final int tv_loadingtext=0x7f080010;
-        public static final int tv_progress=0x7f080011;
+        public static final int tvArea=0x7f080003;
+        public static final int tv_loadingtext=0x7f080011;
+        public static final int tv_progress=0x7f080012;
     }
     public static final class layout {
         public static final int activity_add_equipment=0x7f030000;

@@ -50,13 +50,14 @@
                 android:layout_marginTop="5dip"
                 android:layout_marginBottom="20dip"
                 android:singleLine="true"
-                android:gravity="right" />"
+                android:gravity="right" />
             <!--  -->
             
             <!-- Area -->
             <TextView android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#372c24"
+                android:id="@+id/tvArea"
                 android:text="@string/area" 
                 android:visibility="gone"/>
             <EditText android:layout_width="fill_parent"
