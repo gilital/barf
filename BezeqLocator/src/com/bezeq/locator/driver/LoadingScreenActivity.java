@@ -5,8 +5,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import com.bezeq.locator.bl.Version;
 import com.bezeq.locator.db.EquipmentDataManager;
+import com.bezeq.locator.db.VersionsDataManager;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -77,30 +81,39 @@ public class LoadingScreenActivity extends Activity
 					try {
 					
 				        BufferedReader reader = new BufferedReader(new InputStreamReader(is,"UTF-8"));
-				        if (is!=null) {       
-				        	reader.readLine(); //skip the headers line
-				            while ((str = reader.readLine()) != null) { 
-				                String[] line = str.split("\t");
-				                String x_isr = line[6];
-				                String y_isr = line[7];
-				                
-				                if (x_isr == "250000" && y_isr == "600000") continue;
-				                
-				                int area = Integer.parseInt(line[0]);
-				                String exnum = line[1];
-				                String settlement = line[2];
-				                String street = line[3];
-				                String building_num = line [4];
-				                String building_sign = (line[5] == null?" ":line[5]);
-				                String type = line[6];
-				                double longtitude = Double.parseDouble(line[9]);
-				                double latitude = Double.parseDouble(line[10]);
-				                double altitude = 0.0;
+				        if (is!=null) {
+				        	String date = reader.readLine();
+				        	if(newVersion(date)){
+					        	
+					        	//reader.readLine(); //skip the headers line
+					        	
+					            while ((str = reader.readLine()) != null) { 
+					                String[] line = str.split("\t");
+					                String x_isr = line[6];
+					                String y_isr = line[7];
 					                
-				                data.insertEquipment(area, exnum, settlement, street, building_num, building_sign, type, latitude, longtitude, altitude);
-				                counter++;
-				                publishProgress((counter*100)/lines);
-				            }//end while               
+					                if (x_isr == "250000" && y_isr == "600000") continue;
+					                
+					                int area = Integer.parseInt(line[0]);
+					                String exnum = line[1];
+					                String settlement = line[2];
+					                String street = line[3];
+					                String building_num = line [4];
+					                String building_sign = (line[5] == null?" ":line[5]);
+					                String type = line[6];
+					                double longtitude = Double.parseDouble(line[9]);
+					                double latitude = Double.parseDouble(line[10]);
+					                double altitude = 0.0;
+						                
+					                data.insertEquipment(area, exnum, settlement, street, building_num, building_sign, type, latitude, longtitude, altitude);
+					                counter++;
+					                publishProgress((counter*100)/lines);
+				            }//end while
+				        	}
+				            
+				            //update version table
+				            updateVersionTable(counter, date);
+				            
 				        }//end if
 				    }//end try
 						finally {
@@ -115,6 +128,40 @@ public class LoadingScreenActivity extends Activity
 				e.printStackTrace();
 			}
 			return null;
+		}
+
+		private boolean newVersion(String fileDate) {
+			VersionsDataManager vdm = new VersionsDataManager(getApplicationContext());
+			try {				
+				vdm.open();
+				Version v = vdm.getLastVersionDate();
+				if(v == null){
+					return true;
+				}
+				Date fDate = parseDate(fileDate, "yyyy-MM-dd");
+				Date versionDate = parseDate(v.getTimeStamp(), "yyyy-MM-dd");
+				if(fDate.after(versionDate)){
+					return true;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally{
+				vdm.close();
+			}
+			return false;
+		}
+
+		private void updateVersionTable(int counter, String date) {
+			VersionsDataManager vdm = new VersionsDataManager(getApplicationContext());
+			try {				
+				vdm.open();
+				vdm.insert(counter, date);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally{
+				vdm.close();
+			}
+			
 		}
 
 		//Update the TextView and the progress at progress bar
@@ -181,6 +228,13 @@ public class LoadingScreenActivity extends Activity
 	    } finally {
 	        is.close();
 	    }
+	}
+	
+	
+	private Date parseDate(String date, String format) throws Exception
+	{
+	    SimpleDateFormat formatter = new SimpleDateFormat(format);
+	    return formatter.parse(date);
 	}
 }
 

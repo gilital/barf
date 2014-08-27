@@ -161,12 +161,6 @@ public class AddEquipmentActivity extends Activity {
 				Double.parseDouble(txtAltitude.getText().toString()));
 		cDataManager.close();
 		
-		//update Version tables
-		VersionsDataManager vDataManager = new VersionsDataManager(this);
-		vDataManager.open();
-		vDataManager.insert();
-		vDataManager.close();
-		
 		finish(); //finish this activity, and open previous
 	}
 	
