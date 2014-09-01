@@ -26,7 +26,8 @@ public final class R {
         public static final int equipExnum=0x7f080005;
         public static final int equipStatus=0x7f08000b;
         public static final int equipType=0x7f08000a;
-        public static final int exit=0x7f080016;
+        public static final int exit=0x7f080017;
+        public static final int filter=0x7f080016;
         public static final int footer=0x7f080001;
         public static final int header=0x7f080000;
         public static final int lat=0x7f08000c;

@@ -66,18 +66,19 @@ public class EquipmentDataSource{
 		
 	}
 	
-	public List<Marker> getMarkers(boolean includeMsags, boolean includeBoxes, boolean includePits, boolean includePoles){
+	public List<Marker> getMarkers(boolean[] includes){
+		//boolean includeMsags, boolean includeBoxes, boolean includePits, boolean includePoles
 		ArrayList<Equipment> list = new ArrayList<Equipment>();
-		if (includeMsags){
+		if (includes[0]){
 			list.addAll(msags);
 		}
-		if (includeBoxes){
+		if (includes[1]){
 			list.addAll(boxes);
 		}
-		if (includePits){
+		if (includes[2]){
 			list.addAll(pits);
 		}
-		if (includePoles){
+		if (includes[3]){
 			list.addAll(poles);
 		}
 		

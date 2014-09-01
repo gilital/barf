@@ -167,6 +167,7 @@ public abstract class ARData {
 
     public static void addMarkers(Collection<Marker> markers) {
     	markerList.clear();
+    	cache.clear();
     	if (markers==null) throw new NullPointerException();
 
     	if (markers.size()<=0) return;

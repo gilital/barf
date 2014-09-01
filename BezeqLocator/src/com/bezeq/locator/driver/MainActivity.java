@@ -9,6 +9,8 @@ import com.bezeq.locator.db.EquipmentDataManager;
 import com.bezeq.locator.draw.Marker;
 import com.bezeq.locator.gui.AugmentedActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -27,6 +30,8 @@ import android.widget.Toast;
  */
 public class MainActivity extends AugmentedActivity {
     private static final String TAG = "MainActivity";
+    private CharSequence[] items = {"MSAG","תיבות","גובים","עמודים"};
+    final boolean[] selected = new boolean[items.length];
     EquipmentDataSource localData = null;
     
 	@Override
@@ -90,6 +95,9 @@ public class MainActivity extends AugmentedActivity {
 		        startActivity(i);
 		        //finish();
             	break;
+            case R.id.filter:
+            	showFilterDialog();
+            	break;
             case R.id.exit:
                 finish();
                 break;
@@ -134,7 +142,33 @@ public class MainActivity extends AugmentedActivity {
     
     private void updateMarkers() throws IOException{
         if(localData == null) localData =  new EquipmentDataSource(this.getResources(), this);
-        ARData.addMarkers(localData.getMarkers(true,true,true,true));
+        ARData.addMarkers(localData.getMarkers(selected));
+    }
+    
+    private void showFilterDialog(){
+    	AlertDialog.Builder builder=new AlertDialog.Builder(this);
+    	builder.setTitle("נא לבחור סוג ציוד");
+    	builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            	try {
+					updateMarkers();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            }
+        });
+    	
+    	builder.setMultiChoiceItems(items, selected, new DialogInterface.OnMultiChoiceClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+					selected[which]=isChecked;	
+			}
+		});
+    	builder.show();
     }
 }
     
