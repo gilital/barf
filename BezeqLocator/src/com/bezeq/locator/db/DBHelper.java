@@ -13,18 +13,34 @@ public class DBHelper extends SQLiteOpenHelper{
 	
 	public static final String DATABASE_NAME = "BezeqLocator.db";
 	
-	public static final String EQUIPMENT_TABLE_NAME = "Equipment";
-	public static final String EQUIPMENT_COLUMN_ID = "id";
-	public static final String EQUIPMENT_COLUMN_AREA = "area";
-	public static final String EQUIPMENT_COLUMN_EXCHANGE_NUMBER = "exnum";
-	public static final String EQUIPMENT_COLUMN_SETTLEMENT = "settlement";
-	public static final String EQUIPMENT_COLUMN_STREET = "street";
-	public static final String EQUIPMENT_COLUMN_BUILDING_NUMBER = "bnum";
-	public static final String EQUIPMENT_COLUMN_BUILDING_SIGN = "bsign";
-	public static final String EQUIPMENT_COLUMN_EQUIPMENT_TYPE = "equip_type";
-	public static final String EQUIPMENT_COLUMN_LATITUDE = "latitude";
-	public static final String EQUIPMENT_COLUMN_LONGITUDE = "longitude";
-	public static final String EQUIPMENT_COLUMN_ALTITUDE = "altitude";
+	public static final String MSAG_TABLE_NAME = "Msags";
+	public static final String MSAG_COLUMN_ID = "id";
+	public static final String MSAG_COLUMN_AREA = "area";
+	public static final String MSAG_COLUMN_EXCHANGE_NUMBER = "exnum";
+	public static final String MSAG_COLUMN_SETTLEMENT = "settlement";
+	public static final String MSAG_COLUMN_STREET = "street";
+	public static final String MSAG_COLUMN_BUILDING_NUMBER = "bnum";
+	public static final String MSAG_COLUMN_BUILDING_SIGN = "bsign";
+	public static final String MSAG_COLUMN_LATITUDE = "latitude";
+	public static final String MSAG_COLUMN_LONGITUDE = "longitude";
+	public static final String MSAG_COLUMN_ALTITUDE = "altitude";
+	
+	public static final String BOX_TABLE_NAME = "Box";
+	public static final String BOX_COLUMN_ID = "id";
+	public static final String BOX_COLUMN_UFID = "ufid";
+	public static final String BOX_COLUMN_AREA = "area";
+	public static final String BOX_COLUMN_FRAMEWORK_NUMBER = "frame_num";
+	public static final String BOX_COLUMN_CBNT_TYPE = "cbnt_type";
+	public static final String BOX_COLUMN_LOCATION = "location";
+	public static final String BOX_COLUMN_CLOSER = "closer";
+	public static final String BOX_COLUMN_SETTLEMENT = "settlement";
+	public static final String BOX_COLUMN_STREET = "street";
+	public static final String BOX_COLUMN_BUILDING_NUMBER = "bnum";
+	public static final String BOX_COLUMN_BUILDING_SIGN = "bsign";
+	public static final String BOX_COLUMN_LATITUDE = "latitude";
+	public static final String BOX_COLUMN_LONGITUDE = "longitude";
+	public static final String BOX_COLUMN_ALTITUDE = "altitude";
+	
 	
 	public static final String CHANGES_TABLE_NAME = "Changes";
 	public static final String CHANGES_COLUMN_ID = "id";
@@ -54,19 +70,37 @@ public class DBHelper extends SQLiteOpenHelper{
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		String sqlCreateStatement = "CREATE TABLE " + EQUIPMENT_TABLE_NAME 
+		String sqlCreateStatement = "CREATE TABLE " + MSAG_TABLE_NAME 
 				  +"(" 
-			      + EQUIPMENT_COLUMN_ID + " integer primary key autoincrement, "
-			      + EQUIPMENT_COLUMN_AREA + " integer not null, "
-			      + EQUIPMENT_COLUMN_EXCHANGE_NUMBER + " text not null, "
-			      + EQUIPMENT_COLUMN_SETTLEMENT + " text not null, "
-			      + EQUIPMENT_COLUMN_STREET + " text not null, "
-			      + EQUIPMENT_COLUMN_BUILDING_NUMBER + " text not null, "
-			      + EQUIPMENT_COLUMN_BUILDING_SIGN + " text, "
-			      + EQUIPMENT_COLUMN_EQUIPMENT_TYPE + " text not null, "
-			      + EQUIPMENT_COLUMN_LATITUDE + " real not null, "
-			      + EQUIPMENT_COLUMN_LONGITUDE + " real not null, "
-			      + EQUIPMENT_COLUMN_ALTITUDE + " real not null "
+			      + MSAG_COLUMN_ID + " integer primary key autoincrement, "
+			      + MSAG_COLUMN_AREA + " integer not null, "
+			      + MSAG_COLUMN_EXCHANGE_NUMBER + " text not null, "
+			      + MSAG_COLUMN_SETTLEMENT + " text not null, "
+			      + MSAG_COLUMN_STREET + " text not null, "
+			      + MSAG_COLUMN_BUILDING_NUMBER + " text not null, "
+			      + MSAG_COLUMN_BUILDING_SIGN + " text, "
+			      + MSAG_COLUMN_LATITUDE + " real not null, "
+			      + MSAG_COLUMN_LONGITUDE + " real not null, "
+			      + MSAG_COLUMN_ALTITUDE + " real not null "
+			      +");";
+		db.execSQL(sqlCreateStatement);
+		
+		sqlCreateStatement = "CREATE TABLE " + BOX_TABLE_NAME 
+				  +"(" 
+			      + BOX_COLUMN_ID + " integer primary key autoincrement, "
+			      + BOX_COLUMN_UFID + " text not null, "
+			      + BOX_COLUMN_AREA + " integer, "
+			      + BOX_COLUMN_FRAMEWORK_NUMBER + " text, "
+			      + BOX_COLUMN_LOCATION + " text not null, "
+			      + BOX_COLUMN_CBNT_TYPE + " text not null, "
+			      + BOX_COLUMN_CLOSER + " text not null, "
+			      + BOX_COLUMN_SETTLEMENT + " text not null, "
+			      + BOX_COLUMN_STREET + " text not null, "
+			      + BOX_COLUMN_BUILDING_NUMBER + " text not null, "
+			      + BOX_COLUMN_BUILDING_SIGN + " text, "
+			      + BOX_COLUMN_LATITUDE + " real not null, "
+			      + BOX_COLUMN_LONGITUDE + " real not null, "
+			      + BOX_COLUMN_ALTITUDE + " real not null "
 			      +");";
 		db.execSQL(sqlCreateStatement);
 		
@@ -100,7 +134,10 @@ public class DBHelper extends SQLiteOpenHelper{
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL("DROP TABLE IF EXISTS " + EQUIPMENT_TABLE_NAME);
+		db.execSQL("DROP TABLE IF EXISTS " + MSAG_TABLE_NAME);
+		db.execSQL("DROP TABLE IF EXISTS " + BOX_TABLE_NAME);
+		db.execSQL("DROP TABLE IF EXISTS " + CHANGES_TABLE_NAME);
+		db.execSQL("DROP TABLE IF EXISTS " + VERSIONS_TABLE_NAME);
 	    onCreate(db);
 	}
 	

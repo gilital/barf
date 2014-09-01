@@ -1,11 +1,9 @@
 package com.bezeq.locator.driver;
 
 import com.bezeq.locator.bl.ARData;
-import com.bezeq.locator.bl.Equipment;
+import com.bezeq.locator.bl.Msag;
 import com.bezeq.locator.db.ChangesDataManager;
-import com.bezeq.locator.db.EquipmentDataManager;
-import com.bezeq.locator.db.VersionsDataManager;
-
+import com.bezeq.locator.db.MsagDataManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.location.Location;
@@ -53,9 +51,10 @@ public class AddEquipmentActivity extends Activity {
         	txtStatus.setText("בהקמה");
         }
         if (action.equals("edit")){
-            Equipment equip = (Equipment)i.getSerializableExtra("selectedEquipment");
+            Msag equip = (Msag)i.getSerializableExtra("selectedEquipment");
             txtExnum.setText(equip.getExchange_num());
             txtExnum.setEnabled(false);
+            txtType.setEnabled(false);
             txtArea.setText(equip.getArea() + "");
             txtSettlement.setText(equip.getSettlement());
             txtStreet.setText(equip.getStreet());
@@ -100,16 +99,15 @@ public class AddEquipmentActivity extends Activity {
 		if (action.equals("new")){
 			//adding new equipment (to local db only)
 			//TODO : VALIDATION!!!!
-			EquipmentDataManager eDataManager = new EquipmentDataManager(this);
+			MsagDataManager eDataManager = new MsagDataManager(this);
 			eDataManager.open();
-			eDataManager.insertEquipment(
+			eDataManager.insertMsag(
 					Integer.parseInt(txtArea.getText().toString()),
 					txtExnum.getText().toString(),
 					txtSettlement.getText().toString(),
 					txtStreet.getText().toString(),
 					txtBnum.getText().toString(),
 					txtBsign.getText().toString(),
-					txtType.getText().toString(),
 					Double.parseDouble(txtLatitude.getText().toString()),
 					Double.parseDouble(txtLongitude.getText().toString()),
 					Double.parseDouble(txtAltitude.getText().toString()));
@@ -123,16 +121,15 @@ public class AddEquipmentActivity extends Activity {
 		if (action.equals("edit")){
 			//editing existing equipment (in local db only)
 			//TODO : VALIDATION!!!!
-			EquipmentDataManager eDataManager = new EquipmentDataManager(this);
+			MsagDataManager eDataManager = new MsagDataManager(this);
 			eDataManager.open();
-			eDataManager.updateEquipment(
+			eDataManager.updateMsag(
 					Integer.parseInt(txtArea.getText().toString()),
 					txtExnum.getText().toString(),
 					txtSettlement.getText().toString(),
 					txtStreet.getText().toString(),
 					txtBnum.getText().toString(),
 					txtBsign.getText().toString(),
-					txtType.getText().toString(),
 					Double.parseDouble(txtLatitude.getText().toString()),
 					Double.parseDouble(txtLongitude.getText().toString()),
 					Double.parseDouble(txtAltitude.getText().toString()));

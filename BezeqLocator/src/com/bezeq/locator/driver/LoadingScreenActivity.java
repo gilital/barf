@@ -9,7 +9,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.bezeq.locator.bl.Version;
-import com.bezeq.locator.db.EquipmentDataManager;
+import com.bezeq.locator.db.BoxDataManager;
+import com.bezeq.locator.db.MsagDataManager;
 import com.bezeq.locator.db.VersionsDataManager;
 
 import android.app.Activity;
@@ -55,7 +56,7 @@ public class LoadingScreenActivity extends Activity
 			//Initialize the TextView and ProgressBar instances - IMPORTANT: call findViewById() from viewSwitcher.
 			tv_progress = (TextView) viewSwitcher.findViewById(R.id.tv_progress);
 			pb_progressBar = (ProgressBar) viewSwitcher.findViewById(R.id.pb_progressbar);
-			//Sets the maximum value of the progress bar to 100 			
+			//Sets the maximum value of the progress bar to 1000		
 			pb_progressBar.setMax(100);
 			
 			//Set ViewSwitcher instance as the current View.
@@ -73,11 +74,13 @@ public class LoadingScreenActivity extends Activity
 				synchronized (this) 
 				{
 					int counter = 0;
-					EquipmentDataManager data = new EquipmentDataManager(getApplicationContext());
-					data.open();
+					MsagDataManager mDataManager = new MsagDataManager(getApplicationContext());
+					BoxDataManager bDataManager = new BoxDataManager(getApplicationContext());
+					mDataManager.open();
+					bDataManager.open();
 					
 					String str="";
-					InputStream is = getResources().openRawResource(R.raw.msag);
+					InputStream is = getResources().openRawResource(R.raw.equip);
 					try {
 					
 				        BufferedReader reader = new BufferedReader(new InputStreamReader(is,"UTF-8"));
@@ -87,25 +90,50 @@ public class LoadingScreenActivity extends Activity
 					        	
 					        	//reader.readLine(); //skip the headers line
 					        	
-					            while ((str = reader.readLine()) != null) { 
+					            while ((str = reader.readLine()) != null) {
 					                String[] line = str.split("\t");
-					                String x_isr = line[6];
-					                String y_isr = line[7];
 					                
-					                if (x_isr == "250000" && y_isr == "600000") continue;
-					                
-					                int area = Integer.parseInt(line[0]);
-					                String exnum = line[1];
-					                String settlement = line[2];
-					                String street = line[3];
-					                String building_num = line [4];
-					                String building_sign = (line[5] == null?" ":line[5]);
-					                String type = line[6];
-					                double longtitude = Double.parseDouble(line[9]);
-					                double latitude = Double.parseDouble(line[10]);
-					                double altitude = 0.0;
+					                //check the type of equipment
+					                if (line[0].equals("MSAG")){
+					                	String x_isr = line[7];
+						                String y_isr = line[8];
 						                
-					                data.insertEquipment(area, exnum, settlement, street, building_num, building_sign, type, latitude, longtitude, altitude);
+						                if (x_isr == "250000" && y_isr == "600000") continue;
+						                
+						                int area = Integer.parseInt(line[1]);
+						                String exnum = line[2];
+						                String settlement = line[3];
+						                String street = line[4];
+						                String building_num = line [5];
+						                String building_sign = line[6];
+						                double longtitude = Double.parseDouble(line[9]);
+						                double latitude = Double.parseDouble(line[10]);
+						                double altitude = 0.0;
+							                
+						                mDataManager.insertMsag(area, exnum, settlement, street, building_num, building_sign, latitude, longtitude, altitude);
+					                }//end if MSAG
+					                
+					                if (line[0].equals("BOX")){
+					                	String x_isr = line[11];
+						                String y_isr = line[12];
+						                
+						                if (x_isr == "250000" && y_isr == "600000") continue;
+						                
+						                String ufid = line[1];
+						                int area = (line[2].equals("")?0:Integer.parseInt(line[2]));
+						                String framework = (line[3] == null?" ":line[3]);
+						                String location = line[4];
+						                String cbntType = line[5];
+						                String closer = line[6];
+						                String settlement = line[7];
+							            String street = line[8];
+							            String building_num = line [9];
+							            String building_sign = line[10];
+							            double longtitude = Double.parseDouble(line[13]);
+							            double latitude = Double.parseDouble(line[14]);
+							            double altitude = 0.0;
+						                bDataManager.insertBox(ufid, area, framework, location, cbntType, closer, settlement, street, building_num, building_sign, latitude, longtitude, altitude);
+					                }
 					                counter++;
 					                publishProgress((counter*100)/lines);
 				            }//end while
@@ -120,7 +148,8 @@ public class LoadingScreenActivity extends Activity
 					        try { is.close(); } catch (Throwable ignore) {}
 					    }//end finally
 
-					data.close();
+					mDataManager.close();
+					bDataManager.close();
 				}//end synchronized
 			}//end try
 			catch (IOException e) {
@@ -209,7 +238,7 @@ public class LoadingScreenActivity extends Activity
     }
 
 	public int countLines() throws IOException {
-		InputStream is = getResources().openRawResource(R.raw.msag);
+		InputStream is = getResources().openRawResource(R.raw.equip);
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is,"UTF-8"));
 	    try {
 	        char[] buffer = new char[1024];

@@ -3,9 +3,9 @@ package com.bezeq.locator.driver;
 import java.io.IOException;
 
 import com.bezeq.locator.bl.ARData;
-import com.bezeq.locator.bl.Equipment;
 import com.bezeq.locator.bl.EquipmentDataSource;
-import com.bezeq.locator.db.EquipmentDataManager;
+import com.bezeq.locator.bl.Msag;
+import com.bezeq.locator.db.MsagDataManager;
 import com.bezeq.locator.draw.Marker;
 import com.bezeq.locator.gui.AugmentedActivity;
 
@@ -37,6 +37,7 @@ public class MainActivity extends AugmentedActivity {
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //selected[0] = true;
         try {
 			updateMarkers();
 		} catch (IOException e) {
@@ -122,9 +123,9 @@ public class MainActivity extends AugmentedActivity {
 		else
 		{
 			//TODO: open edit activity
-			EquipmentDataManager dataManager = new EquipmentDataManager(this); 
+			MsagDataManager dataManager = new MsagDataManager(this); 
 			dataManager.open();
-			Equipment selected = dataManager.getEquipmentByExnum(marker.getName());
+			Msag selected = dataManager.getMsagByExnum(marker.getName());
 			dataManager.close();
 			if (selected != null){
 				Intent i = new Intent(this, AddEquipmentActivity.class);

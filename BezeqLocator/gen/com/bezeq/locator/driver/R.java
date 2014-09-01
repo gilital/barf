@@ -51,7 +51,7 @@ public final class R {
         public static final int menu=0x7f070000;
     }
     public static final class raw {
-        public static final int msag=0x7f040000;
+        public static final int equip=0x7f040000;
     }
     public static final class string {
         public static final int add_equipment=0x7f050005;

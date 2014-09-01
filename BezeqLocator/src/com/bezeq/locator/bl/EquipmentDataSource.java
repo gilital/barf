@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
-import com.bezeq.locator.db.EquipmentDataManager;
+
+import com.bezeq.locator.db.BoxDataManager;
+import com.bezeq.locator.db.MsagDataManager;
 import com.bezeq.locator.draw.IconMarker;
 import com.bezeq.locator.draw.Marker;
 import com.bezeq.locator.driver.R;
@@ -22,47 +24,57 @@ import android.graphics.Color;
  */
 public class EquipmentDataSource{
 
-	private EquipmentDataManager data;
+	private MsagDataManager mDataManager;
+	private BoxDataManager bDataManager;
 	private Dictionary<String,Bitmap> icons = new Hashtable<String,Bitmap>();
-	private List<Equipment> msags;
-	private List<Equipment> boxes;
-	private List<Equipment> pits;
-	private List<Equipment> poles;
+	private List<Msag> msags;
+	private List<Box> boxes;
+	private List<Msag> pits;
+	private List<Msag> poles;
 	
 	public EquipmentDataSource(Resources res, Context context) {
-		data = new EquipmentDataManager(context);
+		mDataManager = new MsagDataManager(context);
+		bDataManager = new BoxDataManager(context);
 		createIcons(res);
 		populateLists();
 	}
 
 	private void populateLists(){
-		msags = new ArrayList<Equipment>();
-		boxes = new ArrayList<Equipment>();
-		pits = new ArrayList<Equipment>();
-		poles = new ArrayList<Equipment>();
+		//Populate msags
+		mDataManager.open();
+		msags = mDataManager.getAllMsags();
+		mDataManager.close();
 		
-		data.open();
-		ArrayList<Equipment> list = data.getAllEquipment();
+		//Populate boxes
+		bDataManager.open();
+		boxes = bDataManager.getAllBoxes();
+		bDataManager.close();
 		
-		for (Equipment equip:list){
-			if (equip.getType().equals("MSAG")){
-				msags.add(equip);
-				continue;
-			}
-			else if (equip.getType().equals("box")){
-				boxes.add(equip);
-				continue;
-			}
-			else if (equip.getType().equals("pit")){
-				pits.add(equip);
-				continue;
-			}
-			else if (equip.getType().equals("pole")){
-				poles.add(equip);
-			}
-		}
+//		pits = new ArrayList<Msag>();
+//		poles = new ArrayList<Msag>();
 		
-		data.close();
+//		data.open();
+//		ArrayList<Msag> list = data.getAllMsags();
+//		
+//		for (Msag equip:list){
+//			if (equip.getType().equals("MSAG")){
+//				msags.add(equip);
+//				continue;
+//			}
+//			else if (equip.getType().equals("box")){
+//				boxes.add(equip);
+//				continue;
+//			}
+//			else if (equip.getType().equals("pit")){
+//				pits.add(equip);
+//				continue;
+//			}
+//			else if (equip.getType().equals("pole")){
+//				poles.add(equip);
+//			}
+//		}
+//		
+//		data.close();
 		
 	}
 	
@@ -85,13 +97,13 @@ public class EquipmentDataSource{
 		List<Marker> markers = new ArrayList<Marker>();
 		for (Equipment equip:list){
 			String comment = 
-					equip.getExchange_num() + "\n"
+					equip.getType() + "\n"
 					+ equip.getSettlement() + ", "
 					+ equip.getBuilding_num() 
 					+ equip.getBuilding_sign() + " "
 					+ equip.getStreet();	
 					
-			Marker temp = new IconMarker(equip.getExchange_num(),comment, equip.getLatitude(), equip.getLongitude(),equip.getAltitude() , Color.DKGRAY, getIcon("A"));
+			Marker temp = new IconMarker(equip.getType()+equip.getId(),comment, equip.getLatitude(), equip.getLongitude(),equip.getAltitude() , Color.DKGRAY, getIcon(equip.getType()));
 			markers.add(temp);
 		}
 		
@@ -105,10 +117,10 @@ public class EquipmentDataSource{
 
 	protected void createIcons(Resources res) {
 		if (res==null) throw new NullPointerException();
-		icons.put("A", BitmapFactory.decodeResource(res, R.drawable.ic_action_good));
-        icons.put("B", BitmapFactory.decodeResource(res, R.drawable.ic_action_accept));
-        icons.put("C", BitmapFactory.decodeResource(res, R.drawable.ic_action_share));
-        icons.put("default", BitmapFactory.decodeResource(res, R.drawable.ic_action_good));
+		icons.put("MSAG", BitmapFactory.decodeResource(res, R.drawable.ic_action_good));
+        icons.put("BOX", BitmapFactory.decodeResource(res, R.drawable.ic_action_accept));
+        icons.put("PIT", BitmapFactory.decodeResource(res, R.drawable.ic_action_share));
+        icons.put("POLE", BitmapFactory.decodeResource(res, R.drawable.ic_action_good));
 		
 	}
 }
