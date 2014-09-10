@@ -1,6 +1,7 @@
 package com.bezeq.locator.bl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
@@ -27,16 +28,17 @@ public class EquipmentDataSource{
 	private MsagDataManager mDataManager;
 	private BoxDataManager bDataManager;
 	private Dictionary<String,Bitmap> icons = new Hashtable<String,Bitmap>();
-	private List<Msag> msags;
-	private List<Box> boxes;
+	private List<Msag> msags = new ArrayList<Msag>();
+	private List<Box> boxes = new ArrayList<Box>();
 	private List<Msag> pits;
 	private List<Msag> poles;
+	private static final int MAX_RECORDS = 10;
 	
 	public EquipmentDataSource(Resources res, Context context) {
 		mDataManager = new MsagDataManager(context);
 		bDataManager = new BoxDataManager(context);
 		createIcons(res);
-		populateLists();
+		//populateLists();
 	}
 
 	private void populateLists(){
@@ -44,6 +46,8 @@ public class EquipmentDataSource{
 		mDataManager.open();
 		msags = mDataManager.getAllMsags();
 		mDataManager.close();
+		
+		
 		
 		//Populate boxes
 		bDataManager.open();
@@ -82,9 +86,31 @@ public class EquipmentDataSource{
 		//boolean includeMsags, boolean includeBoxes, boolean includePits, boolean includePoles
 		ArrayList<Equipment> list = new ArrayList<Equipment>();
 		if (includes[0]){
+			if (msags.isEmpty()){
+				mDataManager.open();
+				ArrayList<Msag> temp = mDataManager.getAllMsags();
+				mDataManager.close();
+				
+				Collections.sort(temp, new EquipmentComparator());
+				
+				for (int i=0; i < MAX_RECORDS; i++){
+					msags.add(temp.get(i));
+				}
+			}
 			list.addAll(msags);
 		}
 		if (includes[1]){
+			if (boxes.isEmpty()){
+				bDataManager.open();
+				ArrayList<Box> temp = bDataManager.getAllBoxes();
+				bDataManager.close();
+				
+				Collections.sort(temp, new EquipmentComparator());
+				
+				for (int i=0; i < MAX_RECORDS; i++){
+					boxes.add(temp.get(i));
+				}
+			}
 			list.addAll(boxes);
 		}
 		if (includes[2]){
