@@ -37,9 +37,10 @@ public class MainActivity extends AugmentedActivity {
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //selected[0] = true;
+        selected[0] = true;
         try {
 			updateMarkers();
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -62,6 +63,7 @@ public class MainActivity extends AugmentedActivity {
         super.onStart();
         try {
 			updateMarkers();
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

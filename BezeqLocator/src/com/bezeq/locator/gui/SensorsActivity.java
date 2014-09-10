@@ -94,6 +94,10 @@ public class SensorsActivity extends Activity implements SensorEventListener, Lo
             try {
 
                 try {
+                	if (System.currentTimeMillis() - locationMgr.getLastKnownLocation(LocationManager.GPS_PROVIDER).getTime() > (10 * 60 * 1000)){ //10 minutes                		
+                		locationMgr.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, this, null);
+                	}
+                	
                     Location gps=locationMgr.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                     Location network=locationMgr.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                     if(gps!=null)

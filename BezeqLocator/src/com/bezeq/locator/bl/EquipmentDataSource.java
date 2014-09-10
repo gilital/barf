@@ -1,7 +1,6 @@
 package com.bezeq.locator.bl;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
@@ -28,88 +27,33 @@ public class EquipmentDataSource{
 	private MsagDataManager mDataManager;
 	private BoxDataManager bDataManager;
 	private Dictionary<String,Bitmap> icons = new Hashtable<String,Bitmap>();
-	private List<Msag> msags = new ArrayList<Msag>();
-	private List<Box> boxes = new ArrayList<Box>();
+	private List<Msag> msags;
+	private List<Box> boxes;
 	private List<Msag> pits;
 	private List<Msag> poles;
-	private static final int MAX_RECORDS = 10;
 	
 	public EquipmentDataSource(Resources res, Context context) {
 		mDataManager = new MsagDataManager(context);
 		bDataManager = new BoxDataManager(context);
 		createIcons(res);
-		//populateLists();
 	}
 
-	private void populateLists(){
-		//Populate msags
-		mDataManager.open();
-		msags = mDataManager.getAllMsags();
-		mDataManager.close();
-		
-		
-		
-		//Populate boxes
-		bDataManager.open();
-		boxes = bDataManager.getAllBoxes();
-		bDataManager.close();
-		
-//		pits = new ArrayList<Msag>();
-//		poles = new ArrayList<Msag>();
-		
-//		data.open();
-//		ArrayList<Msag> list = data.getAllMsags();
-//		
-//		for (Msag equip:list){
-//			if (equip.getType().equals("MSAG")){
-//				msags.add(equip);
-//				continue;
-//			}
-//			else if (equip.getType().equals("box")){
-//				boxes.add(equip);
-//				continue;
-//			}
-//			else if (equip.getType().equals("pit")){
-//				pits.add(equip);
-//				continue;
-//			}
-//			else if (equip.getType().equals("pole")){
-//				poles.add(equip);
-//			}
-//		}
-//		
-//		data.close();
-		
-	}
-	
 	public List<Marker> getMarkers(boolean[] includes){
 		//boolean includeMsags, boolean includeBoxes, boolean includePits, boolean includePoles
 		ArrayList<Equipment> list = new ArrayList<Equipment>();
 		if (includes[0]){
-			if (msags.isEmpty()){
+			if (msags == null){
 				mDataManager.open();
-				ArrayList<Msag> temp = mDataManager.getAllMsags();
+				msags = mDataManager.getAllMsags();
 				mDataManager.close();
-				
-				Collections.sort(temp, new EquipmentComparator());
-				
-				for (int i=0; i < MAX_RECORDS; i++){
-					msags.add(temp.get(i));
-				}
 			}
 			list.addAll(msags);
 		}
 		if (includes[1]){
-			if (boxes.isEmpty()){
+			if (boxes == null){
 				bDataManager.open();
-				ArrayList<Box> temp = bDataManager.getAllBoxes();
+				boxes = bDataManager.getAllBoxes();
 				bDataManager.close();
-				
-				Collections.sort(temp, new EquipmentComparator());
-				
-				for (int i=0; i < MAX_RECORDS; i++){
-					boxes.add(temp.get(i));
-				}
 			}
 			list.addAll(boxes);
 		}
@@ -129,7 +73,7 @@ public class EquipmentDataSource{
 					+ equip.getBuilding_sign() + " "
 					+ equip.getStreet();	
 					
-			Marker temp = new IconMarker(equip.getType()+equip.getId(),comment, equip.getLatitude(), equip.getLongitude(),equip.getAltitude() , Color.DKGRAY, getIcon(equip.getType()));
+			Marker temp = new IconMarker(equip.getType()+ " " + equip.getId() + "\n",comment, equip.getLatitude(), equip.getLongitude(),equip.getAltitude() , Color.DKGRAY, getIcon(equip.getType()));
 			markers.add(temp);
 		}
 		

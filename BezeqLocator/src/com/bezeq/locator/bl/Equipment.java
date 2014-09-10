@@ -17,7 +17,7 @@ public abstract class Equipment implements Serializable{
 	private double latitude;
     private double longitude;
     private double altitude;
-    
+	
 	public Equipment(){};
 	
 	public Equipment(int id){
@@ -119,11 +119,6 @@ public abstract class Equipment implements Serializable{
 	public void setAltitude(double altitude) {
 		this.altitude = altitude;
 	}
-
-	public double getDistanceTo(double currentLat, double currentLon) {
-		return Math.sqrt(Math.pow(this.latitude-currentLat, 2) + Math.pow(this.longitude - currentLon, 2));
-	}
-
 	
 	
 }
