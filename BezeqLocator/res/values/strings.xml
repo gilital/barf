@@ -7,7 +7,7 @@
     <string name="hide_radar">הצג רדאר</string>
     <string name="hide_zoom_bar">הצג סרגל מרחק</string>
     <string name="add_equipment">הוספת ציוד חדש</string>
-    <string name="exit">יציאה</string>
+    <string name="map_id_selection">מפה</string>
     <string name="tech_id">ת.ז</string>
     <string name="area">מרכז</string>
     <string name="equip_exnum">מק"ט</string>
@@ -26,6 +26,7 @@
     <string name="pits">גובים</string>
     <string name="poles">עמודים</string>
     <string name="filter">סינון לפי סוג</string>
-	
+    <string name="title_activity_map">Map</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

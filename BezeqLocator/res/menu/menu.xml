@@ -11,7 +11,7 @@
     <item android:id="@+id/filter"
           android:title="@string/filter">
     </item>
-    <item android:id="@+id/exit" 
-          android:title="@string/exit">
+    <item android:id="@+id/map_id_selection" 
+          android:title="@string/map_id_selection">
     </item>
 </menu>

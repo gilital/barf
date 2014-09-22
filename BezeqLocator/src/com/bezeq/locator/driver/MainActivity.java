@@ -69,11 +69,9 @@ public class MainActivity extends AugmentedActivity {
 			e.printStackTrace();
 		}
     }
-
 	
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-    	
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return true;
@@ -101,8 +99,9 @@ public class MainActivity extends AugmentedActivity {
             case R.id.filter:
             	showFilterDialog();
             	break;
-            case R.id.exit:
-                finish();
+            case R.id.map_id_selection:
+            	Intent intent = new Intent(this, MapActivity.class);
+				startActivity(intent);
                 break;
         }
         return true;
