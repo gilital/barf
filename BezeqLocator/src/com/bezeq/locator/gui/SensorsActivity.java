@@ -6,9 +6,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.bezeq.locator.bl.ARData;
 import com.bezeq.locator.draw.LowPassFilter;
 import com.bezeq.locator.draw.Matrix;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesClient;
+import com.google.android.gms.location.LocationClient;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
+import android.content.IntentSender;
 import android.hardware.GeomagneticField;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -19,8 +25,10 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
-public class SensorsActivity extends Activity implements SensorEventListener, LocationListener {
+public class SensorsActivity extends Activity implements SensorEventListener, LocationListener,GooglePlayServicesClient.ConnectionCallbacks,
+GooglePlayServicesClient.OnConnectionFailedListener {
     private static final String TAG = "SensorsActivity";
     private static final AtomicBoolean computing = new AtomicBoolean(false); 
 
@@ -44,15 +52,20 @@ public class SensorsActivity extends Activity implements SensorEventListener, Lo
     private static Sensor sensorGrav = null;
     private static Sensor sensorMag = null;
     private static LocationManager locationMgr = null;
+    private static LocationClient locationClnt = null;
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        locationClnt = new LocationClient(this, this, this);
+
     }
 
 	@Override
     public void onStart() {
         super.onStart();
+        
+        locationClnt.connect();
         
         double angleX = Math.toRadians(-90);
         double angleY = Math.toRadians(-90);
@@ -91,6 +104,7 @@ public class SensorsActivity extends Activity implements SensorEventListener, Lo
             locationMgr = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             locationMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
 
+            
             try {
 
                 try {
@@ -100,18 +114,25 @@ public class SensorsActivity extends Activity implements SensorEventListener, Lo
                 	
                     Location gps=locationMgr.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                     Location network=locationMgr.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                    if(gps!=null)
-                    {
-                        onLocationChanged(gps);
-                    }
-                    else if (network!=null)
-                    {
-                        onLocationChanged(network);
-                    }
-                    else
-                    {
-                        onLocationChanged(ARData.hardFix);
-                    }
+                    Location google_play_client = locationClnt.getLastLocation();
+                    
+                    onLocationChanged(google_play_client);
+//                    if(gps!=null)
+//                    {
+//                        onLocationChanged(gps);
+//                    }
+//                    else if (network!=null)
+//                    {
+//                        onLocationChanged(network);
+//                    }
+//                    else if (google_play_client != null)
+//                    {
+//                    	onLocationChanged(google_play_client);
+//                    }
+//                    else
+//                    {
+//                        onLocationChanged(ARData.hardFix);
+//                    }
                 } catch (Exception ex2) {
                     onLocationChanged(ARData.hardFix);
                 }
@@ -161,7 +182,7 @@ public class SensorsActivity extends Activity implements SensorEventListener, Lo
 	@Override
     protected void onStop() {
         super.onStop();
-
+        locationClnt.disconnect();
         try {
             try {
                 sensorMgr.unregisterListener(this, sensorGrav);
@@ -263,4 +284,25 @@ public class SensorsActivity extends Activity implements SensorEventListener, Lo
             Log.e(TAG, "Compass data unreliable");
         }
     }
+
+	@Override
+	public void onConnectionFailed(ConnectionResult result) {
+		// TODO Auto-generated method stub
+	
+	}
+
+	@Override
+	public void onConnected(Bundle connectionHint) {
+		// TODO Auto-generated method stub
+		Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
+		
+
+	}
+
+	@Override
+	public void onDisconnected() {
+		// TODO Auto-generated method stub
+		Toast.makeText(this, "Disconnected. Please re-connect.",
+                Toast.LENGTH_SHORT).show();
+	}
 }

@@ -19,7 +19,6 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -30,8 +29,8 @@ import android.widget.Toast;
  */
 public class MainActivity extends AugmentedActivity {
     private static final String TAG = "MainActivity";
-    private CharSequence[] items = {"MSAG","תיבות","גובים","עמודים"};
-    final boolean[] selected = new boolean[items.length];
+    final private CharSequence[] items = {"MSAG","תיבות","גובים","עמודים"};
+    boolean[] selected = new boolean[items.length];
     EquipmentDataSource localData = null;
     
 	@Override
@@ -62,7 +61,11 @@ public class MainActivity extends AugmentedActivity {
     public void onStart() {
         super.onStart();
         try {
+			Toast t = Toast.makeText(getApplicationContext(), ARData.getCurrentLocation().getLongitude() + "" , Toast.LENGTH_SHORT);
+	        t.setGravity(Gravity.CENTER, 0, 0);
+	        t.show();
 			updateMarkers();
+
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -101,6 +104,7 @@ public class MainActivity extends AugmentedActivity {
             	break;
             case R.id.map_id_selection:
             	Intent intent = new Intent(this, MapActivity.class);
+            	intent.putExtra("selected", selected);
 				startActivity(intent);
                 break;
         }

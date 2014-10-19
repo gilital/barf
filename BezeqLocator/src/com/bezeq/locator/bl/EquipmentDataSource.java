@@ -10,6 +10,9 @@ import com.bezeq.locator.db.MsagDataManager;
 import com.bezeq.locator.draw.IconMarker;
 import com.bezeq.locator.draw.Marker;
 import com.bezeq.locator.driver.R;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -39,7 +42,42 @@ public class EquipmentDataSource{
 	}
 
 	public List<Marker> getMarkers(boolean[] includes){
-		//boolean includeMsags, boolean includeBoxes, boolean includePits, boolean includePoles
+		ArrayList<Equipment> list = getEquipment(includes);
+		
+		List<Marker> markers = new ArrayList<Marker>();
+		for (Equipment equip:list){
+			String comment = 
+					equip.getType() + "\n"
+					+ equip.getSettlement() + ", "
+					+ equip.getBuilding_num() 
+					+ equip.getBuilding_sign() + " "
+					+ equip.getStreet();	
+					
+			Marker temp = new IconMarker(equip.getType()+ " " + equip.getId() + "\n",comment, equip.getLatitude(), equip.getLongitude(),equip.getAltitude() , Color.DKGRAY, getIcon(equip.getType()));
+			markers.add(temp);
+		}
+		
+		return markers;
+	}
+	
+	public List<MarkerOptions> getMapMarkers(boolean[] includes){
+		ArrayList<Equipment> list = getEquipment(includes);
+		
+		List<MarkerOptions> markers = new ArrayList<MarkerOptions>();
+		for (Equipment equip:list){
+			markers.add(
+					new MarkerOptions()
+					.position(new LatLng(equip.getLatitude(), equip.getLongitude()))
+					.title(equip.getType() + "\n" + equip.getBuilding_num() + equip.getBuilding_sign() )
+					.draggable(false)
+					.icon(BitmapDescriptorFactory.fromBitmap(getIcon(equip.getType())))
+					);
+		}
+		
+		return markers;
+	}
+	
+	private ArrayList<Equipment> getEquipment(boolean[] includes){
 		ArrayList<Equipment> list = new ArrayList<Equipment>();
 		if (includes[0]){
 			if (msags == null){
@@ -64,20 +102,7 @@ public class EquipmentDataSource{
 			list.addAll(poles);
 		}
 		
-		List<Marker> markers = new ArrayList<Marker>();
-		for (Equipment equip:list){
-			String comment = 
-					equip.getType() + "\n"
-					+ equip.getSettlement() + ", "
-					+ equip.getBuilding_num() 
-					+ equip.getBuilding_sign() + " "
-					+ equip.getStreet();	
-					
-			Marker temp = new IconMarker(equip.getType()+ " " + equip.getId() + "\n",comment, equip.getLatitude(), equip.getLongitude(),equip.getAltitude() , Color.DKGRAY, getIcon(equip.getType()));
-			markers.add(temp);
-		}
-		
-		return markers;
+		return list;
 	}
 	
 	private Bitmap getIcon(String type){
