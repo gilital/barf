@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.bezeq.locator.db.BoxDataManager;
 import com.bezeq.locator.db.MsagDataManager;
@@ -34,6 +35,9 @@ public class EquipmentDataSource{
 	private List<Box> boxes;
 	private List<Msag> pits;
 	private List<Msag> poles;
+	private final static double RADAR_MAX_DISTANCE = 0.5;
+	private final static double MAP_MAX_DISTANCE = 3.0;
+	private static final double RAD = 6372.8; // using in haversine formula
 	
 	public EquipmentDataSource(Resources res, Context context) {
 		mDataManager = new MsagDataManager(context);
@@ -42,7 +46,7 @@ public class EquipmentDataSource{
 	}
 
 	public List<Marker> getMarkers(boolean[] includes){
-		ArrayList<Equipment> list = getEquipment(includes);
+		List<Equipment> list = getEquipment(includes, RADAR_MAX_DISTANCE);
 		
 		List<Marker> markers = new ArrayList<Marker>();
 		for (Equipment equip:list){
@@ -61,14 +65,14 @@ public class EquipmentDataSource{
 	}
 	
 	public List<MarkerOptions> getMapMarkers(boolean[] includes){
-		ArrayList<Equipment> list = getEquipment(includes);
+		List<Equipment> list = getEquipment(includes, MAP_MAX_DISTANCE);
 		
 		List<MarkerOptions> markers = new ArrayList<MarkerOptions>();
 		for (Equipment equip:list){
 			markers.add(
 					new MarkerOptions()
 					.position(new LatLng(equip.getLatitude(), equip.getLongitude()))
-					.title(equip.getType() + "\n" + equip.getBuilding_num() + equip.getBuilding_sign() )
+					.title(equip.getType() + "\n" + equip.getBuilding_num() + equip.getBuilding_sign() + " " + equip.getStreet())
 					.draggable(false)
 					.icon(BitmapDescriptorFactory.fromBitmap(getIcon(equip.getType())))
 					);
@@ -77,8 +81,14 @@ public class EquipmentDataSource{
 		return markers;
 	}
 	
-	private ArrayList<Equipment> getEquipment(boolean[] includes){
-		ArrayList<Equipment> list = new ArrayList<Equipment>();
+	/**
+	 * 
+	 * @param includes - type of equipment to be included in search
+	 * @param range - max distance to equipment from current location
+	 * @return
+	 */
+	private List<Equipment> getEquipment(boolean[] includes, double range){
+		List<Equipment> list = new CopyOnWriteArrayList<Equipment>();
 		if (includes[0]){
 			if (msags == null){
 				mDataManager.open();
@@ -90,7 +100,9 @@ public class EquipmentDataSource{
 		if (includes[1]){
 			if (boxes == null){
 				bDataManager.open();
-				boxes = bDataManager.getAllBoxes();
+				boxes = new ArrayList<Box>();
+				boxes.addAll(bDataManager.getAllBoxes());
+						
 				bDataManager.close();
 			}
 			list.addAll(boxes);
@@ -102,6 +114,13 @@ public class EquipmentDataSource{
 			list.addAll(poles);
 		}
 		
+		for (Equipment equip:list){
+			if (haversine(ARData.getCurrentLocation().getLatitude(),
+				  	  ARData.getCurrentLocation().getLongitude(),
+				  	  equip.getLatitude(),
+				  	  equip.getLongitude()) > range)
+			list.remove(equip);
+		}
 		return list;
 	}
 	
@@ -116,6 +135,16 @@ public class EquipmentDataSource{
         icons.put("BOX", BitmapFactory.decodeResource(res, R.drawable.ic_action_accept));
         icons.put("PIT", BitmapFactory.decodeResource(res, R.drawable.ic_action_share));
         icons.put("POLE", BitmapFactory.decodeResource(res, R.drawable.ic_action_good));
-		
 	}
+	
+	private double haversine(double lat1, double lon1, double lat2, double lon2) {
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLon = Math.toRadians(lon2 - lon1);
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+ 
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+        double c = 2 * Math.asin(Math.sqrt(a));
+        return RAD * c;
+    }
 }

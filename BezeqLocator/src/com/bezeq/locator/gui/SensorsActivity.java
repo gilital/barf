@@ -30,8 +30,7 @@ import android.widget.Toast;
 public class SensorsActivity extends Activity implements SensorEventListener, LocationListener,GooglePlayServicesClient.ConnectionCallbacks,
 GooglePlayServicesClient.OnConnectionFailedListener {
     private static final String TAG = "SensorsActivity";
-    private static final AtomicBoolean computing = new AtomicBoolean(false); 
-
+    private static final AtomicBoolean computing = new AtomicBoolean(false);
     private static final int MIN_TIME = 30*1000;
     private static final int MIN_DISTANCE = 10;
 
@@ -58,7 +57,6 @@ GooglePlayServicesClient.OnConnectionFailedListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         locationClnt = new LocationClient(this, this, this);
-
     }
 
 	@Override
@@ -114,25 +112,19 @@ GooglePlayServicesClient.OnConnectionFailedListener {
                 	
                     Location gps=locationMgr.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                     Location network=locationMgr.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                    Location google_play_client = locationClnt.getLastLocation();
-                    
-                    onLocationChanged(google_play_client);
-//                    if(gps!=null)
-//                    {
-//                        onLocationChanged(gps);
-//                    }
-//                    else if (network!=null)
-//                    {
-//                        onLocationChanged(network);
-//                    }
-//                    else if (google_play_client != null)
-//                    {
-//                    	onLocationChanged(google_play_client);
-//                    }
-//                    else
-//                    {
-//                        onLocationChanged(ARData.hardFix);
-//                    }
+
+                    if(gps!=null & gps.getLatitude() != 0)
+                    {
+                        onLocationChanged(gps);
+                    }
+                    else if (network!=null & network.getLatitude() != 0)
+                    {
+                        onLocationChanged(network);
+                    }
+                    else
+                    {
+                        onLocationChanged(ARData.hardFix);
+                    }
                 } catch (Exception ex2) {
                     onLocationChanged(ARData.hardFix);
                 }
@@ -294,8 +286,9 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 	@Override
 	public void onConnected(Bundle connectionHint) {
 		// TODO Auto-generated method stub
+		Location google_play_client = locationClnt.getLastLocation();
+		onLocationChanged(google_play_client);
 		Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
-		
 
 	}
 

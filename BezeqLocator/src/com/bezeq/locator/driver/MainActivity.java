@@ -61,10 +61,11 @@ public class MainActivity extends AugmentedActivity {
     public void onStart() {
         super.onStart();
         try {
+			updateMarkers();
+			
 			Toast t = Toast.makeText(getApplicationContext(), ARData.getCurrentLocation().getLongitude() + "" , Toast.LENGTH_SHORT);
 	        t.setGravity(Gravity.CENTER, 0, 0);
 	        t.show();
-			updateMarkers();
 
 			
 		} catch (IOException e) {

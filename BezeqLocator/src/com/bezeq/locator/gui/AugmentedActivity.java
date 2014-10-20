@@ -39,7 +39,7 @@ public class AugmentedActivity extends SensorsActivity implements OnTouchListene
     
     private long firstClick;
 
-    public static final float MAX_ZOOM = 1; //in KM
+    public static final float MAX_ZOOM = 0.5f; //in KM
     public static final float ONE_PERCENT = MAX_ZOOM/100f;
     public static final float TEN_PERCENT = 10f*ONE_PERCENT;
     public static final float TWENTY_PERCENT = 2f*TEN_PERCENT;

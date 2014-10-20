@@ -167,8 +167,8 @@ public class LoadingScreenActivity extends Activity
 				if(v == null){
 					return true;
 				}
-				Date fDate = parseDate(fileDate, "yyyy-MM-dd");
-				Date versionDate = parseDate(v.getTimeStamp(), "yyyy-MM-dd");
+				Date fDate = new SimpleDateFormat("yyyy-MM-dd").parse(fileDate);
+				Date versionDate = new SimpleDateFormat("yyyy-MM-dd").parse(v.getTimeStamp());
 				if(fDate.after(versionDate)){
 					return true;
 				}

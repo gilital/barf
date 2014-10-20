@@ -49,7 +49,7 @@ public class MapActivity extends FragmentActivity  {
                     .zoom(17)                   // Sets the zoom
                     .bearing(0)                // Sets the orientation of the camera to north
                     .build();                   // Creates a CameraPosition from the builder
-                map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                
 
                 if(localData == null) localData =  new EquipmentDataSource(this.getResources(), this);
                 ArrayList<MarkerOptions> markers = (ArrayList<MarkerOptions>) localData.getMapMarkers(selected);
@@ -57,6 +57,8 @@ public class MapActivity extends FragmentActivity  {
                 for (MarkerOptions marker:markers){
                 	map.addMarker(marker);
                 }
+                
+                map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                 }
             }
         }
