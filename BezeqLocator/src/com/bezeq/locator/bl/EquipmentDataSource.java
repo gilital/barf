@@ -131,10 +131,10 @@ public class EquipmentDataSource{
 
 	protected void createIcons(Resources res) {
 		if (res==null) throw new NullPointerException();
-		icons.put("MSAG", BitmapFactory.decodeResource(res, R.drawable.ic_action_good));
-        icons.put("BOX", BitmapFactory.decodeResource(res, R.drawable.ic_action_accept));
-        icons.put("PIT", BitmapFactory.decodeResource(res, R.drawable.ic_action_share));
-        icons.put("POLE", BitmapFactory.decodeResource(res, R.drawable.ic_action_good));
+		icons.put("MSAG", BitmapFactory.decodeResource(res, R.drawable.msag));
+        icons.put("BOX", BitmapFactory.decodeResource(res, R.drawable.box));
+        icons.put("PIT", BitmapFactory.decodeResource(res, R.drawable.pit));
+        icons.put("POLE", BitmapFactory.decodeResource(res, R.drawable.pole));
 	}
 	
 	private double haversine(double lat1, double lon1, double lat2, double lon2) {

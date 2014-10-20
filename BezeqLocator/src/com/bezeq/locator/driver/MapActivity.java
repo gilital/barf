@@ -34,6 +34,7 @@ public class MapActivity extends FragmentActivity  {
         
         if (map == null) {
             map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+            
             // Check if we were successful in obtaining the map.
             if (map != null) {
             	map.setMyLocationEnabled(true);
