@@ -1,4 +1,4 @@
-package com.bezeq.locator.gui;
+package com.bezeq.locator.draw;
 
 import android.content.Context;
 import android.graphics.Canvas;

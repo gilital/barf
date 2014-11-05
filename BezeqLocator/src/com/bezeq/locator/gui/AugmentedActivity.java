@@ -2,7 +2,9 @@ package com.bezeq.locator.gui;
 
 import java.text.DecimalFormat;
 import com.bezeq.locator.bl.ARData;
+import com.bezeq.locator.draw.CameraSurface;
 import com.bezeq.locator.draw.Marker;
+import com.bezeq.locator.draw.VerticalSeekBar;
 
 import android.content.Context;
 import android.graphics.Color;

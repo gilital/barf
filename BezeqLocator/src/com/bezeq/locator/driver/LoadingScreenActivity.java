@@ -209,7 +209,7 @@ public class LoadingScreenActivity extends Activity
 		@Override
 		protected void onPostExecute(Void result) 
 		{
-			startMainActivity();
+			startMapActivity();
 		}
     }
     
@@ -231,8 +231,8 @@ public class LoadingScreenActivity extends Activity
     	}
     }
     
-    public void startMainActivity(){
-		Intent i = new Intent(this, MainActivity.class);
+    public void startMapActivity(){
+		Intent i = new Intent(this, MapActivity.class);
         startActivity(i);
         finish();
     }

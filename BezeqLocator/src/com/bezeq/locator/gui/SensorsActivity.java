@@ -24,12 +24,15 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.Toast;
 
-public class SensorsActivity extends Activity implements SensorEventListener, LocationListener,GooglePlayServicesClient.ConnectionCallbacks,
+public class SensorsActivity extends FragmentActivity implements SensorEventListener, LocationListener,GooglePlayServicesClient.ConnectionCallbacks,
 GooglePlayServicesClient.OnConnectionFailedListener {
     private static final String TAG = "SensorsActivity";
+    
+    
     private static final AtomicBoolean computing = new AtomicBoolean(false);
     private static final int MIN_TIME = 30*1000;
     private static final int MIN_DISTANCE = 10;
@@ -52,6 +55,11 @@ GooglePlayServicesClient.OnConnectionFailedListener {
     private static Sensor sensorMag = null;
     private static LocationManager locationMgr = null;
     private static LocationClient locationClnt = null;
+    
+    protected static boolean[] selected = new boolean[4];
+    protected static CharSequence[] items = {"MSAG","תיבות","גובים","עמודים"};
+    
+    Location google_play_client = null;
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,7 +87,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
                 (float) Math.cos(angleX));
 
         try {
-            sensorMgr = (SensorManager) getSystemService(SENSOR_SERVICE);
+           sensorMgr = (SensorManager) getSystemService(SENSOR_SERVICE);
 
             sensors = sensorMgr.getSensorList(Sensor.TYPE_ACCELEROMETER);
             
@@ -112,20 +120,39 @@ GooglePlayServicesClient.OnConnectionFailedListener {
                 	
                     Location gps=locationMgr.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                     Location network=locationMgr.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-                    if(gps!=null & gps.getLatitude() != 0)
+                    if (locationClnt.isConnected()){
+                    	google_play_client = locationClnt.getLastLocation();	
+                    }
+                    
+                    System.out.println("++++++++++++++++sys data = " + System.currentTimeMillis());
+                    System.out.println("++++++++++++++++gps data = " + gps.getTime());
+                    
+                    if(locationMgr.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                		Toast.makeText(this, "GPS OK", Toast.LENGTH_SHORT).show();
+                    }else{
+                    	Toast.makeText(this, "START THE FUCKING GPS! OK?", Toast.LENGTH_SHORT).show();
+                    }
+                    	
+                    
+                    if(gps!=null && gps.getLatitude() != 0)
                     {
+                    	System.out.println("++++++++++++++++Compass data unreliable");
                         onLocationChanged(gps);
                     }
-                    else if (network!=null & network.getLatitude() != 0)
+//                    else if (network!=null & network.getLatitude() != 0)
+//                    {
+//                        onLocationChanged(network);
+//                    }
+                    else if (google_play_client != null)
                     {
-                        onLocationChanged(network);
+                     	onLocationChanged(google_play_client);
                     }
                     else
                     {
                         onLocationChanged(ARData.hardFix);
                     }
                 } catch (Exception ex2) {
+                	ex2.printStackTrace();
                     onLocationChanged(ARData.hardFix);
                 }
 
@@ -286,9 +313,8 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 	@Override
 	public void onConnected(Bundle connectionHint) {
 		// TODO Auto-generated method stub
-		Location google_play_client = locationClnt.getLastLocation();
+		google_play_client = locationClnt.getLastLocation();
 		onLocationChanged(google_play_client);
-		Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
 
 	}
 

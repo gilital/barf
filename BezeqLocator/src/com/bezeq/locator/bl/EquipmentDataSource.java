@@ -57,7 +57,7 @@ public class EquipmentDataSource{
 					+ equip.getBuilding_sign() + " "
 					+ equip.getStreet();	
 					
-			Marker temp = new IconMarker(equip.getType()+ " " + equip.getId() + "\n",comment, equip.getLatitude(), equip.getLongitude(),equip.getAltitude() , Color.DKGRAY, getIcon(equip.getType()));
+			Marker temp = new IconMarker(equip.getId() + "\n",comment, equip.getLatitude(), equip.getLongitude(),equip.getAltitude() , Color.DKGRAY, getIcon(equip.getType()));
 			markers.add(temp);
 		}
 		
@@ -108,10 +108,15 @@ public class EquipmentDataSource{
 			list.addAll(boxes);
 		}
 		if (includes[2]){
-			list.addAll(pits);
+			if (pits != null){
+				list.addAll(pits);
+			}
+			
 		}
 		if (includes[3]){
-			list.addAll(poles);
+			if (poles != null){
+				list.addAll(poles);
+			}
 		}
 		
 		for (Equipment equip:list){

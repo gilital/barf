@@ -1,4 +1,4 @@
-package com.bezeq.locator.gui;
+package com.bezeq.locator.draw;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

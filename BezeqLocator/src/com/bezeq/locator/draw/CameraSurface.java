@@ -1,7 +1,8 @@
-package com.bezeq.locator.gui;
+package com.bezeq.locator.draw;
 
 import java.util.Iterator;
 import java.util.List;
+
 
 import android.content.Context;
 import android.hardware.Camera;

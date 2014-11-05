@@ -29,21 +29,12 @@ import android.widget.Toast;
  */
 public class MainActivity extends AugmentedActivity {
     private static final String TAG = "MainActivity";
-    final private CharSequence[] items = {"MSAG","תיבות","גובים","עמודים"};
-    boolean[] selected = new boolean[items.length];
+
     EquipmentDataSource localData = null;
     
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        selected[0] = true;
-        try {
-			updateMarkers();
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
     }
 
 	@Override
@@ -52,6 +43,9 @@ public class MainActivity extends AugmentedActivity {
 		try {
 			updateMarkers();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -66,12 +60,26 @@ public class MainActivity extends AugmentedActivity {
 			Toast t = Toast.makeText(getApplicationContext(), ARData.getCurrentLocation().getLongitude() + "" , Toast.LENGTH_SHORT);
 	        t.setGravity(Gravity.CENTER, 0, 0);
 	        t.show();
+	        
+	        updateMarkers();
 
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+    }
+	
+	@Override
+    public void onStop() {
+        super.onStop();
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("selected", selected);
+        setResult(1,returnIntent);
+        finish();
     }
 	
     @Override
@@ -104,9 +112,7 @@ public class MainActivity extends AugmentedActivity {
             	showFilterDialog();
             	break;
             case R.id.map_id_selection:
-            	Intent intent = new Intent(this, MapActivity.class);
-            	intent.putExtra("selected", selected);
-				startActivity(intent);
+                finish();
                 break;
         }
         return true;
@@ -147,9 +153,15 @@ public class MainActivity extends AugmentedActivity {
 	    super.updateDataOnZoom();
 	}
     
-    private void updateMarkers() throws IOException{
-        if(localData == null) localData =  new EquipmentDataSource(this.getResources(), this);
-        ARData.addMarkers(localData.getMarkers(selected));
+    private void updateMarkers() throws IOException, InterruptedException{
+    	if(localData == null) localData =  new EquipmentDataSource(this.getResources(), this);
+    	Thread t = new Thread(new Runnable() {
+    	    	public void run() {
+    	    		ARData.addMarkers(localData.getMarkers(selected));
+    	    	}
+    		});
+    	t.start();
+    	t.join();
     }
     
     private void showFilterDialog(){
@@ -162,6 +174,9 @@ public class MainActivity extends AugmentedActivity {
             	try {
 					updateMarkers();
 				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}

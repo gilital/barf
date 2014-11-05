@@ -28,5 +28,6 @@
     <string name="filter">סינון לפי סוג</string>
     <string name="title_activity_map">Map</string>
     <string name="action_settings">Settings</string>
+    <string name="ar_id_selection">תלת מימד</string>
 
 </resources>

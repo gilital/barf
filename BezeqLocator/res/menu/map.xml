@@ -2,10 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.bezeq.locator.driver.MapActivity" >
 
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/action_settings"/>
-
+    <item android:id="@+id/map_filter"
+          android:title="@string/filter">
+    </item>
+    <item android:id="@+id/ar_id_selection" 
+          android:title="@string/ar_id_selection">
+    </item>
 </menu>
