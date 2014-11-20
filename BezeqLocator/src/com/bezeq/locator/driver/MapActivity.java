@@ -25,7 +25,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapActivity extends SensorsActivity  {
 
-	private static final String TAG = "MapActivity";
+	//private static final String TAG = "MapActivity";
     static final int AR_ACTIVITY_REQUEST = 1;
 	private GoogleMap map;
 	private EquipmentDataSource localData = null;
@@ -154,18 +154,18 @@ public class MapActivity extends SensorsActivity  {
         } //end for
     }//end updateMarkers()
     
-    private boolean compareArrays(boolean[] first, boolean[] second){
-    	if (first.length != second.length){
-    		return false;
-    	}
-    	
-    	for (int i=0; i < first.length; i++){
-    		if (first[i] != second[i]){
-    			return false;
-    		}
-    	}
-    	
-    	return true;
-    }
+//    private boolean compareArrays(boolean[] first, boolean[] second){
+//    	if (first.length != second.length){
+//    		return false;
+//    	}
+//    	
+//    	for (int i=0; i < first.length; i++){
+//    		if (first[i] != second[i]){
+//    			return false;
+//    		}
+//    	}
+//    	
+//    	return true;
+//    }
 }
 
