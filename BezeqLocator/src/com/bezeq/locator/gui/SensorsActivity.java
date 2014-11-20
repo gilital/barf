@@ -1,6 +1,5 @@
 package com.bezeq.locator.gui;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -11,14 +10,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentSender;
 import android.hardware.GeomagneticField;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -50,7 +42,6 @@ GooglePlayServicesClient.OnConnectionFailedListener {
     private static final Matrix worldCoord = new Matrix();
     private static final Matrix magneticCompensatedCoord = new Matrix();
     private static final Matrix xAxisRotation = new Matrix();
-    private static final Matrix yAxisRotation = new Matrix();
     private static final Matrix magneticNorthCompensation = new Matrix();
     
     private static GeomagneticField gmf = null;
@@ -96,10 +87,6 @@ GooglePlayServicesClient.OnConnectionFailedListener {
                 (float) Math.sin(angleX), 
                 (float) Math.cos(angleX));
 
-        
-        yAxisRotation.set((float)Math.cos(angleY), 0f, (float)Math.sin(angleY),
-        		0f, 1f, 0f,
-        		(float)-Math.sin(angleY), 0f, (float)Math.cos(angleY));
         try {
            sensorMgr = (SensorManager) getSystemService(SENSOR_SERVICE);
 
@@ -273,8 +260,6 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 
      	// Cross product with the world coordinates to get a mag north compensated coords
         magneticCompensatedCoord.prod(worldCoord);
-        
-        magneticCompensatedCoord.prod(yAxisRotation);
 
         magneticCompensatedCoord.invert(); 
 
