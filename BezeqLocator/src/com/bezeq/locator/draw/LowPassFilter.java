@@ -2,10 +2,10 @@ package com.bezeq.locator.draw;
 
 public class LowPassFilter {
 
-    private static final float ALPHA_DEFAULT = 0.333f;
+    private static final float ALPHA_DEFAULT = 0.01f;
     private static final float ALPHA_STEADY       = 0.001f;
-    private static final float ALPHA_START_MOVING = 0.8f;
-    private static final float ALPHA_MOVING       = 0.9f;
+    private static final float ALPHA_START_MOVING = 0.01f;
+    private static final float ALPHA_MOVING       = 0.01f;
 
     private LowPassFilter() { }
 

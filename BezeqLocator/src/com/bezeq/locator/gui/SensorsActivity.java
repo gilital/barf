@@ -1,5 +1,6 @@
 package com.bezeq.locator.gui;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -11,9 +12,12 @@ import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.IntentSender;
 import android.hardware.GeomagneticField;
 import android.hardware.Sensor;
@@ -26,6 +30,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.widget.Toast;
 
 public class SensorsActivity extends FragmentActivity implements SensorEventListener, LocationListener,GooglePlayServicesClient.ConnectionCallbacks,
@@ -45,6 +50,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
     private static final Matrix worldCoord = new Matrix();
     private static final Matrix magneticCompensatedCoord = new Matrix();
     private static final Matrix xAxisRotation = new Matrix();
+    private static final Matrix yAxisRotation = new Matrix();
     private static final Matrix magneticNorthCompensation = new Matrix();
     
     private static GeomagneticField gmf = null;
@@ -65,17 +71,21 @@ GooglePlayServicesClient.OnConnectionFailedListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         locationClnt = new LocationClient(this, this, this);
+        locationMgr = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
     }
 
 	@Override
     public void onStart() {
         super.onStart();
-        
         locationClnt.connect();
         
         double angleX = Math.toRadians(-90);
         double angleY = Math.toRadians(-90);
 
+     // Counter-clockwise rotation at -90 degrees around the x-axis
+     // [ 1, 0, 0 ]
+     // [ 0, cos, -sin ]
+     // [ 0, sin, cos ]
         xAxisRotation.set( 1f, 
                 0f, 
                 0f, 
@@ -86,6 +96,10 @@ GooglePlayServicesClient.OnConnectionFailedListener {
                 (float) Math.sin(angleX), 
                 (float) Math.cos(angleX));
 
+        
+        yAxisRotation.set((float)Math.cos(angleY), 0f, (float)Math.sin(angleY),
+        		0f, 1f, 0f,
+        		(float)-Math.sin(angleY), 0f, (float)Math.cos(angleY));
         try {
            sensorMgr = (SensorManager) getSystemService(SENSOR_SERVICE);
 
@@ -107,53 +121,52 @@ GooglePlayServicesClient.OnConnectionFailedListener {
             sensorMgr.registerListener(this, sensorGrav, SensorManager.SENSOR_DELAY_FASTEST);
             sensorMgr.registerListener(this, sensorMag, SensorManager.SENSOR_DELAY_FASTEST);
             
-            locationMgr = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            
             locationMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
-
+            locationMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
             
             try {
 
                 try {
-                	if (System.currentTimeMillis() - locationMgr.getLastKnownLocation(LocationManager.GPS_PROVIDER).getTime() > (10 * 60 * 1000)){ //10 minutes                		
-                		locationMgr.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, this, null);
+                	Location gps = null;
+                	Location network = null;
+                	if(locationMgr.isProviderEnabled( LocationManager.GPS_PROVIDER )){
+                		//if gps is turned on
+                		if (System.currentTimeMillis() - locationMgr.getLastKnownLocation(LocationManager.GPS_PROVIDER).getTime() > (10 * 60 * 1000)) { //10 minutes
+                			//if last location not up to date
+                			if (locationMgr.isProviderEnabled( LocationManager.NETWORK_PROVIDER )){
+        						locationMgr.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, this,null);
+        						network = locationMgr.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        						onLocationChanged(network);
+                			}
+                			else{
+                				throw new Exception("Connection is down and GPS location is not up to date");
+                			}
+    					}
+    					else
+    					{
+    						gps=locationMgr.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+    						onLocationChanged(gps);
+    					}
                 	}
-                	
-                    Location gps=locationMgr.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                    Location network=locationMgr.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                    if (locationClnt.isConnected()){
-                    	google_play_client = locationClnt.getLastLocation();	
-                    }
-                    
-                    System.out.println("++++++++++++++++sys data = " + System.currentTimeMillis());
-                    System.out.println("++++++++++++++++gps data = " + gps.getTime());
-                    
-                    if(locationMgr.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-                		Toast.makeText(this, "GPS OK", Toast.LENGTH_SHORT).show();
-                    }else{
-                    	Toast.makeText(this, "START THE FUCKING GPS! OK?", Toast.LENGTH_SHORT).show();
-                    }
-                    	
-                    
-                    if(gps!=null && gps.getLatitude() != 0)
-                    {
-                    	System.out.println("++++++++++++++++Compass data unreliable");
-                        onLocationChanged(gps);
-                    }
-//                    else if (network!=null & network.getLatitude() != 0)
-//                    {
-//                        onLocationChanged(network);
-//                    }
-                    else if (google_play_client != null)
-                    {
-                     	onLocationChanged(google_play_client);
-                    }
-                    else
-                    {
-                        onLocationChanged(ARData.hardFix);
-                    }
+                	else
+                	{
+                		if (locationMgr.isProviderEnabled( LocationManager.NETWORK_PROVIDER )){
+    						locationMgr.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, this,null);
+    						network = locationMgr.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+    						onLocationChanged(network);
+            			}
+            			else{
+            				throw new Exception("Connection is down and GPS location is not up to date");
+            			}
+                	}
                 } catch (Exception ex2) {
                 	ex2.printStackTrace();
                     onLocationChanged(ARData.hardFix);
+                    Toast t = Toast.makeText(getApplicationContext(), ex2.getMessage() , Toast.LENGTH_LONG);
+        	        t.setGravity(Gravity.CENTER, 0, 0);
+        	        t.show();
+        	        finish();
                 }
 
                 gmf = new GeomagneticField((float) ARData.getCurrentLocation().getLatitude(), 
@@ -197,6 +210,12 @@ GooglePlayServicesClient.OnConnectionFailedListener {
             }
         }
     }
+	
+	@Override
+	public void onResume(){
+		super.onResume();
+
+	}
 
 	@Override
     protected void onStop() {
@@ -237,6 +256,8 @@ GooglePlayServicesClient.OnConnectionFailedListener {
             mag[2] = smooth[2];
         }
 
+        // Find real world position relative to phone location
+        // Get rotation matrix given the gravity and geomagnetic matrices
         SensorManager.getRotationMatrix(temp, null, grav, mag);
 
         SensorManager.remapCoordinateSystem(temp, SensorManager.AXIS_Y, SensorManager.AXIS_MINUS_X, rotation);
@@ -246,13 +267,18 @@ GooglePlayServicesClient.OnConnectionFailedListener {
         magneticCompensatedCoord.toIdentity();
 
         synchronized (magneticNorthCompensation) {
+        	// Cross product the matrix with the magnetic north compensation
             magneticCompensatedCoord.prod(magneticNorthCompensation);
         }
 
+     	// Cross product with the world coordinates to get a mag north compensated coords
         magneticCompensatedCoord.prod(worldCoord);
+        
+        magneticCompensatedCoord.prod(yAxisRotation);
 
         magneticCompensatedCoord.invert(); 
 
+        // Set the rotation matrix (used to translate all object from lat/lon to x/y/z)
         ARData.setRotationMatrix(magneticCompensatedCoord);
 
         computing.set(false);
