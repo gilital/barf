@@ -29,5 +29,7 @@
     <string name="title_activity_map">Map</string>
     <string name="action_settings">Settings</string>
     <string name="ar_id_selection">תלת מימד</string>
+    <string name="problem_description">תיאור הבעיה</string>
+    <string name="problem_report">דיווח על בעיה</string>
 
 </resources>

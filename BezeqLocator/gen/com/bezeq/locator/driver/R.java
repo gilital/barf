@@ -413,9 +413,11 @@ containing a value of this type.
         public static final int powered_by_google_light=0x7f020024;
     }
     public static final class id {
-        public static final int add_equipment=0x7f08002c;
+        public static final int add_equipment=0x7f080034;
+        public static final int address_lat=0x7f080025;
+        public static final int address_long=0x7f080026;
         public static final int alt=0x7f080022;
-        public static final int ar_id_selection=0x7f080029;
+        public static final int ar_id_selection=0x7f080031;
         public static final int area=0x7f080018;
         public static final int bnum=0x7f08001c;
         public static final int book_now=0x7f080010;
@@ -428,7 +430,7 @@ containing a value of this type.
         public static final int equipExnum=0x7f080019;
         public static final int equipStatus=0x7f08001f;
         public static final int equipType=0x7f08001e;
-        public static final int filter=0x7f08002d;
+        public static final int filter=0x7f080035;
         public static final int footer=0x7f080015;
         public static final int grayscale=0x7f080012;
         public static final int header=0x7f080014;
@@ -437,28 +439,34 @@ containing a value of this type.
         public static final int hybrid=0x7f080004;
         public static final int lat=0x7f080020;
         public static final int lon=0x7f080021;
-        public static final int map=0x7f080027;
-        public static final int map_filter=0x7f080028;
-        public static final int map_id_selection=0x7f08002e;
+        public static final int map=0x7f08002b;
+        public static final int map_filter=0x7f08002f;
+        public static final int map_id_selection=0x7f080036;
+        public static final int map_problem_report=0x7f080030;
         public static final int match_parent=0x7f08000c;
         public static final int monochrome=0x7f080013;
         public static final int none=0x7f080000;
         public static final int normal=0x7f080001;
-        public static final int pb_progressbar=0x7f080024;
+        public static final int pb_progressbar=0x7f080028;
         public static final int production=0x7f080007;
+        public static final int report_btnSubmit=0x7f080027;
+        public static final int report_description=0x7f08002c;
+        public static final int report_lat=0x7f08002d;
+        public static final int report_long=0x7f08002e;
+        public static final int report_techId=0x7f080024;
         public static final int sandbox=0x7f080008;
         public static final int satellite=0x7f080002;
         public static final int selectionDetails=0x7f08000b;
         public static final int settlement=0x7f08001a;
-        public static final int showRadar=0x7f08002a;
-        public static final int showZoomBar=0x7f08002b;
+        public static final int showRadar=0x7f080032;
+        public static final int showZoomBar=0x7f080033;
         public static final int street=0x7f08001b;
         public static final int strict_sandbox=0x7f080009;
         public static final int techId=0x7f080016;
         public static final int terrain=0x7f080003;
         public static final int tvArea=0x7f080017;
-        public static final int tv_loadingtext=0x7f080025;
-        public static final int tv_progress=0x7f080026;
+        public static final int tv_loadingtext=0x7f080029;
+        public static final int tv_progress=0x7f08002a;
         public static final int wrap_content=0x7f08000d;
     }
     public static final class integer {
@@ -466,9 +474,11 @@ containing a value of this type.
     }
     public static final class layout {
         public static final int activity_add_equipment=0x7f030000;
-        public static final int activity_loading=0x7f030001;
-        public static final int activity_main=0x7f030002;
-        public static final int activity_map=0x7f030003;
+        public static final int activity_address=0x7f030001;
+        public static final int activity_loading=0x7f030002;
+        public static final int activity_main=0x7f030003;
+        public static final int activity_map=0x7f030004;
+        public static final int activity_report=0x7f030005;
     }
     public static final class menu {
         public static final int map=0x7f0b0000;
@@ -603,6 +613,8 @@ containing a value of this type.
         public static final int msags=0x7f060037;
         public static final int pits=0x7f060039;
         public static final int poles=0x7f06003a;
+        public static final int problem_description=0x7f06003f;
+        public static final int problem_report=0x7f060040;
         public static final int settlement=0x7f06002d;
         public static final int store_picture_message=0x7f060001;
         public static final int store_picture_title=0x7f060000;

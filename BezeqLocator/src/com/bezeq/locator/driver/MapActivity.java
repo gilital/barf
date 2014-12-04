@@ -90,9 +90,13 @@ public class MapActivity extends SensorsActivity  {
             case R.id.map_filter:
             	showFilterDialog();
             	break;
+            case R.id.map_problem_report:
+            	Intent problemReportIntent = new Intent(this, ProblemReportActivity.class);
+            	startActivity(problemReportIntent);
+                break;
             case R.id.ar_id_selection:
-            	Intent intent = new Intent(this, MainActivity.class);
-            	startActivityForResult(intent, AR_ACTIVITY_REQUEST);
+            	Intent ar_intent = new Intent(this, MainActivity.class);
+            	startActivityForResult(ar_intent, AR_ACTIVITY_REQUEST);
                 break;
         }
         return true;

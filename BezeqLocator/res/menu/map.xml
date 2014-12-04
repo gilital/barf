@@ -5,6 +5,9 @@
     <item android:id="@+id/map_filter"
           android:title="@string/filter">
     </item>
+        <item android:id="@+id/map_problem_report" 
+          android:title="@string/problem_report">
+    </item>
     <item android:id="@+id/ar_id_selection" 
           android:title="@string/ar_id_selection">
     </item>
