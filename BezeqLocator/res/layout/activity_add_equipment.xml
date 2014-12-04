@@ -1,247 +1,318 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent"
-  android:fillViewport="true">
-  <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" android:background="#ffffff">
- 
-        <!--  Header Starts-->
-        <LinearLayout android:id="@+id/header"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="5dip"
-                android:paddingBottom="5dip"
-                android:orientation="horizontal">
-                <!-- Logo Start-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true" >
 
-                <!-- Logo Ends -->
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff" 
+        android:orientation="vertical">
+
+        <!-- Header Starts -->
+
+        <LinearLayout
+            android:id="@+id/header"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="5dip"
+            android:paddingTop="5dip" >
+
+            <!-- Logo Start -->
+
+
+            <!-- Logo Ends -->
         </LinearLayout>
-        <!--  Header Ends -->
- 
+        <!-- Header Ends -->
+
+
         <!-- Footer Start -->
-        <LinearLayout android:id="@+id/footer"
-                android:layout_width="fill_parent"
-                android:layout_height="90dip"
-                android:layout_alignParentBottom="true"
-                android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/footer"
+            android:layout_width="fill_parent"
+            android:layout_height="90dip"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal" >
         </LinearLayout>
         <!-- Footer Ends -->
- 
+
+
         <!-- Adding/Editing Form -->
+
         <LinearLayout
-          android:orientation="vertical"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:padding="10dip"
-          android:layout_below="@id/header">
-          
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/header"
+            android:orientation="vertical"
+            android:padding="10dip" >
+
             <!-- Tech id -->
-            <TextView android:layout_width="fill_parent"
+
+            <TextView
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#372c24"
-                android:text="@string/tech_id" />
-            <EditText android:layout_width="fill_parent"
-                android:hint="@string/tech_id"
-                android:layout_height="wrap_content"
+                android:text="@string/tech_id"
+                android:textColor="#372c24" />
+
+            <EditText
                 android:id="@+id/techId"
-                android:layout_marginTop="5dip"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="20dip"
-                android:singleLine="true"
-                android:gravity="right" 
-                android:imeOptions="flagNoExtractUi"/>
+                android:layout_marginTop="5dip"
+                android:gravity="right"
+                android:hint="@string/tech_id"
+                android:imeOptions="flagNoExtractUi"
+                android:singleLine="true" />
             <!--  -->
-            
+
+
             <!-- Area -->
-            <TextView android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#372c24"
+
+            <TextView
                 android:id="@+id/tvArea"
-                android:text="@string/area" 
-                android:visibility="gone"/>
-            <EditText android:layout_width="fill_parent"
-                android:hint="@string/area"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/area"
+                android:textColor="#372c24"
+                android:visibility="gone" />
+
+            <EditText
                 android:id="@+id/area"
-                android:layout_marginTop="5dip"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="20dip"
+                android:layout_marginTop="5dip"
+                android:gravity="right"
+                android:hint="@string/area"
+                android:imeOptions="flagNoExtractUi"
                 android:singleLine="true"
-                android:visibility="gone"
-                android:gravity="right" 
-                android:imeOptions="flagNoExtractUi"/>
+                android:visibility="gone" />
             <!--  -->
-            
+
+
             <!-- Equipment exnum -->
-            <TextView android:layout_width="fill_parent"
+
+            <TextView
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#372c24"
-                android:text="@string/equip_exnum" />
-            <EditText android:layout_width="fill_parent"
-                android:hint="@string/equip_exnum"
-                android:layout_height="wrap_content"
+                android:text="@string/equip_exnum"
+                android:textColor="#372c24" />
+
+            <EditText
                 android:id="@+id/equipExnum"
-                android:layout_marginTop="5dip"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="20dip"
-                android:singleLine="true"
-                android:gravity="right" 
-                android:imeOptions="flagNoExtractUi"/>
-          	<!--  -->
-          	
-          	<!-- Settlement -->
-            <TextView android:layout_width="fill_parent"
+                android:layout_marginTop="5dip"
+                android:gravity="right"
+                android:hint="@string/equip_exnum"
+                android:imeOptions="flagNoExtractUi"
+                android:singleLine="true" />
+            <!--  -->
+
+
+            <!-- Settlement -->
+
+            <TextView
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#372c24"
-                android:text="@string/settlement" />
-            <EditText android:layout_width="fill_parent"
-                android:hint="@string/settlement"
-                android:layout_height="wrap_content"
+                android:text="@string/settlement"
+                android:textColor="#372c24" />
+
+            <EditText
                 android:id="@+id/settlement"
-                android:layout_marginTop="5dip"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="20dip"
-                android:singleLine="true"
-                android:gravity="right" 
-                android:imeOptions="flagNoExtractUi"/>
-          	<!--  -->
-          	
-          	<!-- Street -->
-            <TextView android:layout_width="fill_parent"
+                android:layout_marginTop="5dip"
+                android:gravity="right"
+                android:hint="@string/settlement"
+                android:imeOptions="flagNoExtractUi"
+                android:singleLine="true" />
+            <!--  -->
+
+
+            <!-- Street -->
+
+            <TextView
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#372c24"
-                android:text="@string/street" />
-            <EditText android:layout_width="fill_parent"
-                android:hint="@string/street"
-                android:layout_height="wrap_content"
+                android:text="@string/street"
+                android:textColor="#372c24" />
+
+            <EditText
                 android:id="@+id/street"
-                android:layout_marginTop="5dip"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="20dip"
-                android:singleLine="true"
-                android:gravity="right" 
-                android:imeOptions="flagNoExtractUi"/>
-          	<!--  -->
-          	
-          	<!-- Building number -->
-            <TextView android:layout_width="fill_parent"
+                android:layout_marginTop="5dip"
+                android:gravity="right"
+                android:hint="@string/street"
+                android:imeOptions="flagNoExtractUi"
+                android:singleLine="true" />
+            <!--  -->
+
+
+            <!-- Building number -->
+
+            <TextView
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#372c24"
-                android:text="@string/bnum" />
-            <EditText android:layout_width="fill_parent"
-                android:hint="@string/bnum"
-                android:layout_height="wrap_content"
+                android:text="@string/bnum"
+                android:textColor="#372c24" />
+
+            <EditText
                 android:id="@+id/bnum"
-                android:layout_marginTop="5dip"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="20dip"
-                android:singleLine="true"
-                android:gravity="right" 
-                android:imeOptions="flagNoExtractUi"/>
-          	<!--  -->
-          	
-          	<!-- Building sign -->
-            <TextView android:layout_width="fill_parent"
+                android:layout_marginTop="5dip"
+                android:gravity="right"
+                android:hint="@string/bnum"
+                android:imeOptions="flagNoExtractUi"
+                android:singleLine="true" />
+            <!--  -->
+
+
+            <!-- Building sign -->
+
+            <TextView
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#372c24"
-                android:text="@string/bsign" />
-            <EditText android:layout_width="fill_parent"
-                android:hint="@string/bsign"
-                android:layout_height="wrap_content"
+                android:text="@string/bsign"
+                android:textColor="#372c24" />
+
+            <EditText
                 android:id="@+id/bsign"
-                android:layout_marginTop="5dip"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="20dip"
-                android:singleLine="true"
-                android:gravity="right" 
-                android:imeOptions="flagNoExtractUi"/>
-          	<!--  -->
-          	
-          	<!-- Equipment type -->
-            <TextView android:layout_width="fill_parent"
+                android:layout_marginTop="5dip"
+                android:gravity="right"
+                android:hint="@string/bsign"
+                android:imeOptions="flagNoExtractUi"
+                android:singleLine="true" />
+            <!--  -->
+
+
+            <!-- Equipment type -->
+
+            <TextView
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#372c24"
-                android:text="@string/equip_type" />
-            <EditText android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/equip_type"
+                android:text="@string/equip_type"
+                android:textColor="#372c24" />
+
+            <EditText
                 android:id="@+id/equipType"
-                android:layout_marginTop="5dip"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="20dip"
-                android:singleLine="true"
-                android:gravity="right" 
-                android:imeOptions="flagNoExtractUi"/>
+                android:layout_marginTop="5dip"
+                android:gravity="right"
+                android:hint="@string/equip_type"
+                android:imeOptions="flagNoExtractUi"
+                android:singleLine="true" />
             <!--  -->
-            
+
+
             <!-- Status -->
-            <TextView android:layout_width="fill_parent"
+
+            <TextView
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#372c24"
-                android:text="@string/equip_status" />
-            <EditText android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/equip_status"
+                android:text="@string/equip_status"
+                android:textColor="#372c24" />
+
+            <EditText
                 android:id="@+id/equipStatus"
-                android:layout_marginTop="5dip"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="20dip"
-                android:singleLine="true"
-                android:gravity="right" 
-                android:imeOptions="flagNoExtractUi"/>
+                android:layout_marginTop="5dip"
+                android:gravity="right"
+                android:hint="@string/equip_status"
+                android:imeOptions="flagNoExtractUi"
+                android:singleLine="true" />
             <!--  -->
-            
+
+
             <!-- Latitude -->
-            <TextView android:layout_width="fill_parent"
+
+            <TextView
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#372c24"
-                android:text="@string/latitude" />
-            <EditText android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/latitude"
+                android:text="@string/latitude"
+                android:textColor="#372c24" />
+
+            <EditText
                 android:id="@+id/lat"
-                android:layout_marginTop="5dip"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="20dip"
-                android:singleLine="true"
-                android:gravity="right" 
-                android:imeOptions="flagNoExtractUi"/>
+                android:layout_marginTop="5dip"
+                android:gravity="right"
+                android:hint="@string/latitude"
+                android:imeOptions="flagNoExtractUi"
+                android:singleLine="true" />
             <!--  -->
-            
+
+
             <!-- Longitude -->
-            <TextView android:layout_width="fill_parent"
+
+            <TextView
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#372c24"
-                android:text="@string/longitude" />
-            <EditText android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/longitude"
+                android:text="@string/longitude"
+                android:textColor="#372c24" />
+
+            <EditText
                 android:id="@+id/lon"
-                android:layout_marginTop="5dip"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="20dip"
-                android:singleLine="true"
-                android:gravity="right" 
-                android:imeOptions="flagNoExtractUi"/>
+                android:layout_marginTop="5dip"
+                android:gravity="right"
+                android:hint="@string/longitude"
+                android:imeOptions="flagNoExtractUi"
+                android:singleLine="true" />
             <!--  -->
-            
+
+
             <!-- Altitude -->
-            <TextView android:layout_width="fill_parent"
+
+            <TextView
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#372c24"
-                android:text="@string/altitude" />
-            <EditText android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/altitude"
+                android:text="@string/altitude"
+                android:textColor="#372c24" />
+
+            <EditText
                 android:id="@+id/alt"
-                android:layout_marginTop="5dip"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="20dip"
-                android:singleLine="true"
-                android:gravity="right" 
-                android:imeOptions="flagNoExtractUi"/>
+                android:layout_marginTop="5dip"
+                android:gravity="right"
+                android:hint="@string/altitude"
+                android:imeOptions="flagNoExtractUi"
+                android:singleLine="true" />
             <!--  -->
-            
-            <Button android:id="@+id/btnSubmit"
+
+            <Button
+                android:id="@+id/btnSubmit"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dip"
-                android:text="@string/submit"
-                android:onClick="save"/>
-            
-         </LinearLayout>
+                android:onClick="save"
+                android:text="@string/submit" />
+        </LinearLayout>
         <!-- Adding/Editing Form Ends -->
- 
-  </RelativeLayout>
+
+    </RelativeLayout>
+
 </ScrollView>

@@ -31,5 +31,6 @@
     <string name="ar_id_selection">תלת מימד</string>
     <string name="problem_description">תיאור הבעיה</string>
     <string name="problem_report">דיווח על בעיה</string>
+    <string name="picture">צירוף תמונה</string>
 
 </resources>
