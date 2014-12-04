@@ -18,7 +18,7 @@
     <string name="equip_type">סוג ציוד</string>
     <string name="equip_status">סטטוס</string>
     <string name="latitude">קו רוחב</string>
-    <string name="longitude">קו אורח</string>
+    <string name="longitude">קו אורך</string>
     <string name="altitude">גובה</string>
     <string name="submit">שמור</string>
     <string name="msags">MSAG</string>
