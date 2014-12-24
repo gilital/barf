@@ -93,24 +93,29 @@ public class MainActivity extends AugmentedActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         Log.v(TAG, "onOptionsItemSelected() item="+item);
         switch (item.getItemId()) {
-            case R.id.showRadar:
-                showRadar = !showRadar;
-                item.setTitle(((showRadar)? "Hide" : "Show")+" Radar");
-                break;
-            case R.id.showZoomBar:
-                showZoomBar = !showZoomBar;
-                item.setTitle(((showZoomBar)? "Hide" : "Show")+" Zoom Bar");
-                zoomLayout.setVisibility((showZoomBar)?LinearLayout.VISIBLE:LinearLayout.GONE);
-                break;
-            case R.id.add_equipment:
-            	Intent i = new Intent(this, AddEquipmentActivity.class);
-				i.putExtra("action", "new");
-		        startActivity(i);
-		        //finish();
-            	break;
+//            case R.id.showRadar:
+//                showRadar = !showRadar;
+//                item.setTitle(((showRadar)? "Hide" : "Show")+" Radar");
+//                break;
+//            case R.id.showZoomBar:
+//                showZoomBar = !showZoomBar;
+//                item.setTitle(((showZoomBar)? "Hide" : "Show")+" Zoom Bar");
+//                zoomLayout.setVisibility((showZoomBar)?LinearLayout.VISIBLE:LinearLayout.GONE);
+//                break;
+//            case R.id.add_equipment:
+//            	Intent i = new Intent(this, AddEquipmentActivity.class);
+//				i.putExtra("action", "new");
+//		        startActivity(i);
+//		        //finish();
+//            	break;
             case R.id.filter:
             	showFilterDialog();
             	break;
+            case R.id.ar_problem_report:
+            	Intent problemReportIntent = new Intent(this, ProblemReportActivity.class);
+            	//this.startActivityForResult(problemReportIntent, 0);
+            	startActivity(problemReportIntent);
+                break;
             case R.id.map_id_selection:
                 finish();
                 break;
@@ -135,16 +140,16 @@ public class MainActivity extends AugmentedActivity {
 		else
 		{
 			//TODO: open edit activity
-			MsagDataManager dataManager = new MsagDataManager(this); 
-			dataManager.open();
-			Msag selected = dataManager.getMsagByExnum(marker.getName());
-			dataManager.close();
-			if (selected != null){
-				Intent i = new Intent(this, AddEquipmentActivity.class);
-				i.putExtra("action", "edit");
-				i.putExtra("selectedEquipment", selected);
-		        startActivity(i);
-			}
+//			MsagDataManager dataManager = new MsagDataManager(this); 
+//			dataManager.open();
+//			Msag selected = dataManager.getMsagByExnum(marker.getName());
+//			dataManager.close();
+//			if (selected != null){
+//				Intent i = new Intent(this, AddEquipmentActivity.class);
+//				i.putExtra("action", "edit");
+//				i.putExtra("selectedEquipment", selected);
+//		        startActivity(i);
+//			}
 		}       
 	}
 	

@@ -413,9 +413,9 @@ containing a value of this type.
         public static final int powered_by_google_light=0x7f020024;
     }
     public static final class id {
-        public static final int add_equipment=0x7f080034;
         public static final int alt=0x7f080022;
         public static final int ar_id_selection=0x7f080031;
+        public static final int ar_problem_report=0x7f080033;
         public static final int area=0x7f080018;
         public static final int bnum=0x7f08001c;
         public static final int book_now=0x7f080010;
@@ -429,7 +429,7 @@ containing a value of this type.
         public static final int equipExnum=0x7f080019;
         public static final int equipStatus=0x7f08001f;
         public static final int equipType=0x7f08001e;
-        public static final int filter=0x7f080035;
+        public static final int filter=0x7f080032;
         public static final int footer=0x7f080015;
         public static final int grayscale=0x7f080012;
         public static final int header=0x7f080014;
@@ -441,7 +441,7 @@ containing a value of this type.
         public static final int lon=0x7f080021;
         public static final int map=0x7f080027;
         public static final int map_filter=0x7f08002f;
-        public static final int map_id_selection=0x7f080036;
+        public static final int map_id_selection=0x7f080034;
         public static final int map_problem_report=0x7f080030;
         public static final int match_parent=0x7f08000c;
         public static final int monochrome=0x7f080013;
@@ -458,8 +458,6 @@ containing a value of this type.
         public static final int satellite=0x7f080002;
         public static final int selectionDetails=0x7f08000b;
         public static final int settlement=0x7f08001a;
-        public static final int showRadar=0x7f080032;
-        public static final int showZoomBar=0x7f080033;
         public static final int street=0x7f08001b;
         public static final int strict_sandbox=0x7f080009;
         public static final int techId=0x7f080016;

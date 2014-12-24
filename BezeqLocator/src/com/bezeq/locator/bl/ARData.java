@@ -106,12 +106,12 @@ public abstract class ARData {
     
     public static List<Marker> getMarkers() {
         if (dirty.compareAndSet(true, false)) {
-            Log.v(TAG, "DIRTY flag found, resetting all marker heights to zero.");
-            for(Marker ma : markerList.values()) {
-                ma.getLocation().get(locationArray);
-                locationArray[1]=ma.getInitialY();
-                ma.getLocation().set(locationArray);
-            }
+//            Log.v(TAG, "DIRTY flag found, resetting all marker heights to zero.");
+//            for(Marker ma : markerList.values()) {
+//                ma.getLocation().get(locationArray);
+//                locationArray[1]=ma.getInitialY();
+//                ma.getLocation().set(locationArray);
+//            }
 
             Log.v(TAG, "Populating the cache.");
             List<Marker> copy = new ArrayList<Marker>();

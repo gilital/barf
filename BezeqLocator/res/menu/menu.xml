@@ -1,5 +1,7 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/showRadar" 
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!--
+          <item android:id="@+id/showRadar" 
           android:title="@string/hide_radar">
     </item>
     <item android:id="@+id/showZoomBar" 
@@ -8,10 +10,18 @@
     <item android:id="@+id/add_equipment"
           android:title="@string/add_equipment">
     </item>
-    <item android:id="@+id/filter"
-          android:title="@string/filter">
+    -->
+    <item
+        android:id="@+id/filter"
+        android:title="@string/filter">
     </item>
-    <item android:id="@+id/map_id_selection" 
-          android:title="@string/map_id_selection">
+    <item
+        android:id="@+id/ar_problem_report"
+        android:title="@string/problem_report">
     </item>
+    <item
+        android:id="@+id/map_id_selection"
+        android:title="@string/map_id_selection">
+    </item>
+
 </menu>

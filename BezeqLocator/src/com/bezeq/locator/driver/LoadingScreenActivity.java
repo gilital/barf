@@ -9,8 +9,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.bezeq.locator.bl.Version;
-import com.bezeq.locator.db.BoxDataManager;
+import com.bezeq.locator.db.CabinetDataManager;
+import com.bezeq.locator.db.DboxDataManager;
+import com.bezeq.locator.db.HoleDataManager;
 import com.bezeq.locator.db.MsagDataManager;
+import com.bezeq.locator.db.PoleDataManager;
 import com.bezeq.locator.db.VersionsDataManager;
 
 import android.app.Activity;
@@ -23,43 +26,31 @@ import android.widget.ViewSwitcher;
 
 public class LoadingScreenActivity extends Activity 
 {
-	//creates a ViewSwitcher object, to switch between Views
 	private ViewSwitcher viewSwitcher;
 
-    /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) 
     {
         super.onCreate(savedInstanceState);
-
-		//Initialize a LoadViewTask object and call the execute() method
         new LoadViewTask().execute();
     }
     
-    //To use the AsyncTask, it must be subclassed
     private class LoadViewTask extends AsyncTask<Void, Integer, Void>
     {
-    	//A TextView object and a ProgressBar object
     	private TextView tv_progress;
     	private ProgressBar pb_progressBar;
     	
-    	//Before running code in the separate thread
 		@Override
 		protected void onPreExecute() 
 		{
-			//Initialize the ViewSwitcher object
 	        viewSwitcher = new ViewSwitcher(LoadingScreenActivity.this);
-	        /* Initialize the loading screen with data from the 'loadingscreen.xml' layout xml file. 
-	         * Add the initialized View to the viewSwitcher.*/
 			viewSwitcher.addView(ViewSwitcher.inflate(LoadingScreenActivity.this, R.layout.activity_loading, null));
 			
-			//Initialize the TextView and ProgressBar instances - IMPORTANT: call findViewById() from viewSwitcher.
 			tv_progress = (TextView) viewSwitcher.findViewById(R.id.tv_progress);
 			pb_progressBar = (ProgressBar) viewSwitcher.findViewById(R.id.pb_progressbar);
-			//Sets the maximum value of the progress bar to 1000		
+					
 			pb_progressBar.setMax(100);
 			
-			//Set ViewSwitcher instance as the current View.
 			setContentView(viewSwitcher);
 		}
 
@@ -70,14 +61,15 @@ public class LoadingScreenActivity extends Activity
 			try 
 			{
 				int lines = countLines();
-				//Get the current thread's token
 				synchronized (this) 
 				{
 					int counter = 0;
 					MsagDataManager mDataManager = new MsagDataManager(getApplicationContext());
-					BoxDataManager bDataManager = new BoxDataManager(getApplicationContext());
-					mDataManager.open();
-					bDataManager.open();
+					CabinetDataManager cDataManager = new CabinetDataManager(getApplicationContext());
+					DboxDataManager dDataManager = new DboxDataManager(getApplicationContext());
+					HoleDataManager hDataManager = new HoleDataManager(getApplicationContext());
+					PoleDataManager pDataManager = new PoleDataManager(getApplicationContext());
+
 					
 					String str="";
 					InputStream is = getResources().openRawResource(R.raw.equip);
@@ -91,51 +83,100 @@ public class LoadingScreenActivity extends Activity
 					        	//reader.readLine(); //skip the headers line
 					        	
 					            while ((str = reader.readLine()) != null) {
+					            	try{
+					            		
+					            	
 					                String[] line = str.split("\t");
+					                int objectID = Integer.parseInt(line[0]);
+					                String type = line[1];
+					                int merkaz = line[2].equalsIgnoreCase("")?0:Integer.parseInt(line[2]);
+					                int featureNum = line[3].equalsIgnoreCase("")?0:Integer.parseInt(line[3]);
+					                String cityName = line[5];
+					                String streetName = line[7];
+					                int buildingNum = Integer.parseInt(line[8]);
+					                String buildingLetter = line[9];
+					                String x_isr = line[10];
+					                String y_isr = line[11];
+					                double lon = Double.parseDouble(line[12]);
+					                double lat = Double.parseDouble(line[13]);
 					                
-					                //check the type of equipment
-					                if (line[0].equals("MSAG")){
-					                	String x_isr = line[7];
-						                String y_isr = line[8];
-						                
-						                if (x_isr == "250000" && y_isr == "600000") continue;
-						                
-						                int area = Integer.parseInt(line[1]);
-						                String exnum = line[2];
-						                String settlement = line[3];
-						                String street = line[4];
-						                String building_num = line [5];
-						                String building_sign = line[6];
-						                double longtitude = Double.parseDouble(line[9]);
-						                double latitude = Double.parseDouble(line[10]);
-						                double altitude = 0.0;
-							                
-						                mDataManager.insertMsag(area, exnum, settlement, street, building_num, building_sign, latitude, longtitude, altitude);
-					                }//end if MSAG
+					                System.out.println(objectID + " inserted\n");
 					                
-					                if (line[0].equals("BOX")){
-					                	String x_isr = line[11];
-						                String y_isr = line[12];
-						                
-						                if (x_isr == "250000" && y_isr == "600000") continue;
-						                
-						                String ufid = line[1];
-						                int area = (line[2].equals("")?0:Integer.parseInt(line[2]));
-						                String framework = (line[3] == null?" ":line[3]);
-						                String location = line[4];
-						                String cbntType = line[5];
-						                String closer = line[6];
-						                String settlement = line[7];
-							            String street = line[8];
-							            String building_num = line [9];
-							            String building_sign = line[10];
-							            double longtitude = Double.parseDouble(line[13]);
-							            double latitude = Double.parseDouble(line[14]);
-							            double altitude = 0.0;
-						                bDataManager.insertBox(ufid, area, framework, location, cbntType, closer, settlement, street, building_num, building_sign, latitude, longtitude, altitude);
+					                if (type.equalsIgnoreCase("msag_mitkan")){
+					                	mDataManager.open();
+					                	mDataManager.insert(objectID, merkaz, featureNum, cityName, streetName, buildingNum, buildingLetter, lat, lon);
+					                	mDataManager.close();
 					                }
+					                
+					                if (type.equalsIgnoreCase("cabinet")){
+					                	cDataManager.open();
+					                	cDataManager.insert(objectID, merkaz, featureNum, cityName, streetName, buildingNum, buildingLetter, lat, lon);
+					                	cDataManager.close();
+					                }
+					                
+					                if (type.equalsIgnoreCase("dbox_all")){
+					                	dDataManager.open();
+					                	dDataManager.insert(objectID, merkaz, featureNum, cityName, streetName, buildingNum, buildingLetter, lat, lon);
+					                	dDataManager.close();
+					                }
+					                
+					                if (type.equalsIgnoreCase("hole")){
+					                	hDataManager.open();
+					                	hDataManager.insert(objectID, merkaz, featureNum, cityName, streetName, buildingNum, buildingLetter, lat, lon);
+					                	hDataManager.close();
+					                }
+					                if (type.equalsIgnoreCase("pole")){
+					                	pDataManager.open();
+					                	pDataManager.insert(objectID, merkaz, featureNum, cityName, streetName, buildingNum, buildingLetter, lat, lon);
+					                	pDataManager.close();
+					                }
+					            	}
+					            	catch (Exception ex){
+					            		is.close();
+					            	}
+					                //check the type of equipment
+//					                if (line[0].equals("MSAG")){
+//					                	String x_isr = line[7];
+//						                String y_isr = line[8];
+//						                
+//						                if (x_isr == "250000" && y_isr == "600000") continue;
+//						                
+//						                int area = Integer.parseInt(line[1]);
+//						                String exnum = line[2];
+//						                String settlement = line[3];
+//						                String street = line[4];
+//						                String building_num = line [5];
+//						                String building_sign = line[6];
+//						                double longtitude = Double.parseDouble(line[9]);
+//						                double latitude = Double.parseDouble(line[10]);
+//						                double altitude = 0.0;
+//							                
+//						                mDataManager.insertMsag(area, exnum, settlement, street, building_num, building_sign, latitude, longtitude, altitude);
+//					                }//end if MSAG
+//					                
+//					                if (line[0].equals("BOX")){
+//					                	String x_isr = line[11];
+//						                String y_isr = line[12];
+//						                
+//						                if (x_isr == "250000" && y_isr == "600000") continue;
+//						                
+//						                String ufid = line[1];
+//						                int area = (line[2].equals("")?0:Integer.parseInt(line[2]));
+//						                String framework = (line[3] == null?" ":line[3]);
+//						                String location = line[4];
+//						                String cbntType = line[5];
+//						                String closer = line[6];
+//						                String settlement = line[7];
+//							            String street = line[8];
+//							            String building_num = line [9];
+//							            String building_sign = line[10];
+//							            double longtitude = Double.parseDouble(line[13]);
+//							            double latitude = Double.parseDouble(line[14]);
+//							            double altitude = 0.0;
+//						                bDataManager.insertBox(ufid, area, framework, location, cbntType, closer, settlement, street, building_num, building_sign, latitude, longtitude, altitude);
+//					                }
 					                counter++;
-					                publishProgress((counter*100)/lines);
+					                publishProgress((counter*100)/lines, counter, lines);
 				            }//end while
 				        	}
 				            
@@ -148,8 +189,7 @@ public class LoadingScreenActivity extends Activity
 					        try { is.close(); } catch (Throwable ignore) {}
 					    }//end finally
 
-					mDataManager.close();
-					bDataManager.close();
+
 				}//end synchronized
 			}//end try
 			catch (IOException e) {
@@ -200,7 +240,7 @@ public class LoadingScreenActivity extends Activity
 			//Update the progress at the UI if progress value is smaller than 100
 			if(values[0] <= 100)
 			{
-				tv_progress.setText("Progress: " + Integer.toString(values[0]) + "%");
+				tv_progress.setText("Progress: " + Integer.toString(values[1]) + " / " + Integer.toString(values[2]) + " , " + Integer.toString(values[0]) + "%");
 				pb_progressBar.setProgress(values[0]);
 			}
 		}

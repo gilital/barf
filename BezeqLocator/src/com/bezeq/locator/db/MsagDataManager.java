@@ -2,6 +2,7 @@ package com.bezeq.locator.db;
 
 import java.util.ArrayList;
 
+import com.bezeq.locator.bl.Equipment;
 import com.bezeq.locator.bl.Msag;
 
 import android.content.ContentValues;
@@ -26,16 +27,17 @@ public class MsagDataManager {
 	private DBHelper dbHelper;
 	
 	private String[] allColumns = {
-			DBHelper.MSAG_COLUMN_ID,
-			DBHelper.MSAG_COLUMN_AREA,
-			DBHelper.MSAG_COLUMN_EXCHANGE_NUMBER,
-			DBHelper.MSAG_COLUMN_SETTLEMENT,
-			DBHelper.MSAG_COLUMN_STREET,
-			DBHelper.MSAG_COLUMN_BUILDING_NUMBER,
-			DBHelper.MSAG_COLUMN_BUILDING_SIGN,
-			DBHelper.MSAG_COLUMN_LATITUDE,
-			DBHelper.MSAG_COLUMN_LONGITUDE,
-			DBHelper.MSAG_COLUMN_ALTITUDE};
+			DBHelper.PKID_COLUMN,
+			DBHelper.OBJECT_ID_COLUMN,
+			DBHelper.MERKAZ_COLUMN,
+			DBHelper.FEATURE_NUM_COLUMN,
+			DBHelper.CITY_NAME_COLUMN,
+			DBHelper.STREET_NAME_COLUMN,
+			DBHelper.BUILDING_NUM_COLUMN,
+			DBHelper.BUILDING_LETTER_COLUMN,
+			DBHelper.LONGITUDE_COLUMN,
+			DBHelper.LATITUDE_COLUMN
+			};
 	
 	public MsagDataManager(Context context) {
 		dbHelper = new DBHelper(context);
@@ -49,69 +51,78 @@ public class MsagDataManager {
 		dbHelper.close();
 	}
 	
-	public void insertMsag (int area, String exnum, String settlement, String street, String bnum, String bsign, double latitude, double longtitude, double altitude){
-		Msag equip = getMsagByExnum(exnum);
+	public void insert (int objectID, int merkaz, int featureNum,
+			String cityName, String streetName, int buildingNum,
+			String buildingLetter, double lat, double lon){
+		
+		Equipment equip = getByObjectID(objectID);
 
 		if (equip == null){
 			//if equipment not exists in DB -> add it
 			ContentValues cv = new ContentValues();
-			
-			cv.put(DBHelper.MSAG_COLUMN_AREA, area);
-			cv.put(DBHelper.MSAG_COLUMN_EXCHANGE_NUMBER, exnum);
-			cv.put(DBHelper.MSAG_COLUMN_SETTLEMENT, settlement);
-			cv.put(DBHelper.MSAG_COLUMN_STREET, street);
-			cv.put(DBHelper.MSAG_COLUMN_BUILDING_NUMBER, bnum);
-			cv.put(DBHelper.MSAG_COLUMN_BUILDING_SIGN, bsign);
-			cv.put(DBHelper.MSAG_COLUMN_LATITUDE, latitude);
-			cv.put(DBHelper.MSAG_COLUMN_LONGITUDE, longtitude);
-			cv.put(DBHelper.MSAG_COLUMN_ALTITUDE, altitude);
+			cv.put(DBHelper.OBJECT_ID_COLUMN, objectID);
+			cv.put(DBHelper.MERKAZ_COLUMN, merkaz);
+			cv.put(DBHelper.FEATURE_NUM_COLUMN, featureNum);
+			cv.put(DBHelper.CITY_NAME_COLUMN, cityName);
+			cv.put(DBHelper.STREET_NAME_COLUMN, streetName);
+			cv.put(DBHelper.BUILDING_NUM_COLUMN, buildingNum);
+			cv.put(DBHelper.BUILDING_LETTER_COLUMN, buildingLetter);
+			cv.put(DBHelper.LONGITUDE_COLUMN, lon);
+			cv.put(DBHelper.LATITUDE_COLUMN, lat);
 			database.insert(DBHelper.MSAG_TABLE_NAME, null, cv);
 		}
 		else{
 			//if exists -> ensure that data is up to date
-			this.updateMsag(area, exnum, settlement, street, bnum, bsign, latitude, longtitude, altitude);
+			this.update(equip.getId(),objectID,merkaz,featureNum,
+					cityName,streetName,buildingNum,
+					buildingLetter,lat,lon);
 		}
 	}
 	
-	public void updateMsag(int area, String exnum, String settlement, String street, String bnum, String bsign, double latitude, double longtitude, double altitude){
-		Msag equip = getMsagByExnum(exnum);
+	public void update(int pkid, int objectID, int merkaz, int featureNum,
+			String cityName, String streetName, int buildingNum,
+			String buildingLetter, double lat, double lon){
+		
 		
 		ContentValues cv = new ContentValues();
 	
-		cv.put(DBHelper.MSAG_COLUMN_AREA, area);
-		cv.put(DBHelper.MSAG_COLUMN_EXCHANGE_NUMBER, exnum);
-		cv.put(DBHelper.MSAG_COLUMN_SETTLEMENT, settlement);
-		cv.put(DBHelper.MSAG_COLUMN_STREET, street);
-		cv.put(DBHelper.MSAG_COLUMN_BUILDING_NUMBER, bnum);
-		cv.put(DBHelper.MSAG_COLUMN_BUILDING_SIGN, bsign);
-		cv.put(DBHelper.MSAG_COLUMN_LATITUDE, latitude);
-		cv.put(DBHelper.MSAG_COLUMN_LONGITUDE, longtitude);
-		cv.put(DBHelper.MSAG_COLUMN_ALTITUDE, altitude);
+		cv.put(DBHelper.OBJECT_ID_COLUMN, objectID);
+		cv.put(DBHelper.MERKAZ_COLUMN, merkaz);
+		cv.put(DBHelper.FEATURE_NUM_COLUMN, featureNum);
+		cv.put(DBHelper.CITY_NAME_COLUMN, cityName);
+		cv.put(DBHelper.STREET_NAME_COLUMN, streetName);
+		cv.put(DBHelper.BUILDING_NUM_COLUMN, buildingNum);
+		cv.put(DBHelper.BUILDING_LETTER_COLUMN, buildingLetter);
+		cv.put(DBHelper.LONGITUDE_COLUMN, lon);
+		cv.put(DBHelper.LATITUDE_COLUMN, lat);
 		
-		database.update(DBHelper.MSAG_TABLE_NAME, cv, DBHelper.MSAG_COLUMN_ID + "=" + equip.getId(), null);
+		database.update(DBHelper.MSAG_TABLE_NAME, cv, DBHelper.PKID_COLUMN + "=" + pkid, null);
 	}
 	
-	public ArrayList<Msag> getAllMsags(){
+	public ArrayList<Msag> getAll(){
 		ArrayList<Msag> list = new ArrayList<Msag>();
 		Cursor cursor = database.query(DBHelper.MSAG_TABLE_NAME,
 		        allColumns, null, null, null, null, null);
 
 		    cursor.moveToFirst();
 		    while (!cursor.isAfterLast()) {
-		    	Msag msag = new Msag();
+		    	Msag msag = new Msag(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getInt(3),
+		    			cursor.getString(4), cursor.getString(5), cursor.getInt(6),
+		    			cursor.getString(7), cursor.getDouble(8),cursor.getDouble(9));
 		      
-		    	msag.setId(cursor.getInt(0));
-		    	msag.setArea(cursor.getInt(1));
-		    	msag.setExchange_num(cursor.getString(2));
-		    	msag.setSettlement(cursor.getString(3));
-		    	msag.setStreet(cursor.getString(4));
-		    	msag.setBuilding_num(cursor.getString(5));
-		    	msag.setBuilding_sign(cursor.getString(6));
-		    	//msag.setType(cursor.getString(7));
-		    	msag.setLatitude(cursor.getDouble(7));
-		    	msag.setLongitude(cursor.getDouble(8));
-		    	msag.setAltitude(cursor.getDouble(9));
+//		    	msag.setId(cursor.getInt(0));
+//		    	msag.setArea(cursor.getInt(1));
+//		    	msag.setExchange_num(cursor.getString(2));
+//		    	msag.setSettlement(cursor.getString(3));
+//		    	msag.setStreet(cursor.getString(4));
+//		    	msag.setBuilding_num(cursor.getString(5));
+//		    	msag.setBuilding_sign(cursor.getString(6));
+//		    	//msag.setType(cursor.getString(7));
+//		    	msag.setLatitude(cursor.getDouble(7));
+//		    	msag.setLongitude(cursor.getDouble(8));
+//		    	msag.setAltitude(cursor.getDouble(9));
 		      
+		    	//TODO: CHECK THE RADIUS AND FILTER
 		      list.add(msag);
 		      cursor.moveToNext();
 		    }
@@ -121,39 +132,31 @@ public class MsagDataManager {
 		    return list;
 	}
 	
-	public void deleteMsag(Msag msag){
+	public void delete(Msag msag){
 		int id = msag.getId();
-		database.delete(DBHelper.MSAG_TABLE_NAME, DBHelper.MSAG_COLUMN_ID + " = " + id, null);
+		database.delete(DBHelper.MSAG_TABLE_NAME, DBHelper.PKID_COLUMN + " = " + id, null);
 	}
 	
-	public Msag getMsagByExnum(String exnum){
+	public Msag getByObjectID(int objectId){
 		Msag result = null;
-		Cursor cur = database.rawQuery("SELECT * FROM "+ DBHelper.MSAG_TABLE_NAME +" WHERE "+ DBHelper.MSAG_COLUMN_EXCHANGE_NUMBER +" = '"+ exnum +"'", null);
-		boolean exists = cur.moveToFirst();	
+		Cursor cursor = database.rawQuery("SELECT * FROM "+ DBHelper.MSAG_TABLE_NAME +" WHERE "+ DBHelper.OBJECT_ID_COLUMN +" = '"+ objectId +"'", null);
+		boolean exists = cursor.moveToFirst();	
 		if (exists){
-			cur.moveToFirst();
-			result = new Msag();
-			result.setId(cur.getInt(0));
-		    result.setArea(cur.getInt(1));
-		    result.setExchange_num(cur.getString(2));
-		    result.setSettlement(cur.getString(3));
-		    result.setStreet(cur.getString(4));
-		    result.setBuilding_num(cur.getString(5));
-		    result.setBuilding_sign(cur.getString(6));
-		    result.setLatitude(cur.getDouble(7));
-		    result.setLongitude(cur.getDouble(8));
-		    result.setAltitude(cur.getDouble(9));
+			cursor.moveToFirst();
+			result = new Msag(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getInt(3),
+	    			cursor.getString(4), cursor.getString(5), cursor.getInt(6),
+	    			cursor.getString(7), cursor.getDouble(8),cursor.getDouble(9));
 
 		}
-	    cur.close();
+	    cursor.close();
 		return result;
 	}
 	public boolean isEmpty(){
-		Cursor cur = database.rawQuery("SELECT COUNT(*) FROM " + DBHelper.MSAG_TABLE_NAME, null);
+		Cursor cursor = database.rawQuery("SELECT COUNT(*) FROM " + DBHelper.MSAG_TABLE_NAME, null);
 		boolean isExists = false;
-		if (cur != null) {
-		    cur.moveToFirst();                     
-		    if (cur.getInt (0) == 0) {               // Zero count means empty table.
+		if (cursor != null) {
+		    cursor.moveToFirst();                     
+		    if (cursor.getInt (0) == 0) {               // Zero count means empty table.
 		    	isExists = true;
 		    }
 		}
