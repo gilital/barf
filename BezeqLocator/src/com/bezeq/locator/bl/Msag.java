@@ -22,10 +22,10 @@ public class Msag extends Equipment {
 
 	public Msag(int id, int objectID, int merkaz, int featureNum,
 			String cityName, String streetName, int buildingNum,
-			String buildingLetter, double lat, double lon) {
+			String buildingLetter, double lon, double lat) {
 		super(id, objectID, Constants.EquipmentTypes.MSAG, merkaz, featureNum,
-				cityName, streetName, buildingNum, buildingLetter, lat, lon,
-				0.0);
+				cityName, streetName, buildingNum, buildingLetter,lon, lat, 
+				1.0);
 	}
 
 }

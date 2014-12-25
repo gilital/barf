@@ -27,7 +27,7 @@ public abstract class Equipment implements Serializable {
 		this.setId(id);
 	}
 
-	public Equipment(int id, double lat, double lon, double alt) {
+	public Equipment(int id, double lon, double lat, double alt) {
 		this(id);
 		this.latitude = lat;
 		this.longitude = lon;
@@ -36,9 +36,9 @@ public abstract class Equipment implements Serializable {
 
 	public Equipment(int id, int objectID, Constants.EquipmentTypes type,
 			int merkaz, int featureNum, String cityName, String streetName,
-			int buildingNum, String buildingLetter, double lat, double lon,
+			int buildingNum, String buildingLetter, double lon, double lat,
 			double alt) {
-		this(id, lat, lon, alt);
+		this(id, lon, lat, alt);
 		this.setObjectID(objectID);
 		this.setType(type);
 		this.setMerkaz(merkaz);

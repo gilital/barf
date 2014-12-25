@@ -22,6 +22,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.util.Log;
 
 /**
  * Class for conversion of Equipment data row to ARData marker
@@ -45,9 +46,8 @@ public class EquipmentDataSource {
 	private List<Pole> poles;
 
 	private final static double RADAR_MAX_DISTANCE = 0.5;
-	private final static double MAP_MAX_DISTANCE = 3.0;
-	private static final double RAD = 6372.8; // using in haversine formula
-
+	private final static double MAP_MAX_DISTANCE = 0.5;
+	
 	public EquipmentDataSource(Resources res, Context context) {
 		mDataManager = new MsagDataManager(context);
 		cDataManager = new CabinetDataManager(context);
@@ -108,7 +108,8 @@ public class EquipmentDataSource {
 		if (includes[0]) {
 			if (msags == null) {
 				mDataManager.open();
-				msags = mDataManager.getAll();
+				//msags = mDataManager.getAll();
+				msags = mDataManager.getInRange(500.0);
 				mDataManager.close();
 			}
 			list.addAll(msags);
@@ -116,7 +117,8 @@ public class EquipmentDataSource {
 		if (includes[1]) {
 			if (boxes == null) {
 				dDataManager.open();
-				boxes = dDataManager.getAll();
+				//boxes = dDataManager.getAll();
+				boxes = dDataManager.getInRange(250.0);
 				dDataManager.close();
 			}
 			list.addAll(boxes);
@@ -124,7 +126,8 @@ public class EquipmentDataSource {
 		if (includes[2]) {
 			if (holes == null) {
 				hDataManager.open();
-				holes = hDataManager.getAll();
+				//holes = hDataManager.getAll();
+				holes = hDataManager.getInRange(250.0);
 				hDataManager.close();
 			}
 			list.addAll(holes);
@@ -133,7 +136,8 @@ public class EquipmentDataSource {
 		if (includes[3]) {
 			if (poles == null) {
 				pDataManager.open();
-				poles = pDataManager.getAll();
+				//poles = pDataManager.getAll();
+				poles = pDataManager.getInRange(250.0);
 				pDataManager.close();
 			}
 			list.addAll(poles);
@@ -141,12 +145,18 @@ public class EquipmentDataSource {
 		
 		//TODO: CABINET
 
+		Log.i("EDS", list.size() + "");
+		int counter = 0;
 		for (Equipment equip : list) {
-			if (haversine(ARData.getCurrentLocation().getLatitude(), ARData
-					.getCurrentLocation().getLongitude(), equip.getLatitude(),
-					equip.getLongitude()) > range)
-				list.remove(equip);
+//			if (haversine(ARData.getCurrentLocation().getLatitude(), ARData
+//					.getCurrentLocation().getLongitude(), equip.getLatitude(),
+//					equip.getLongitude()) > range){
+//				Log.i("EDS", equip.getObjectID() + " " + equip.getStreetName() + " " + equip.getBuildingNum());
+//				list.remove(equip);
+				counter++;
+//			}
 		}
+		Log.i("EDS", "Total " + counter);
 		return list;
 	}
 
@@ -165,17 +175,5 @@ public class EquipmentDataSource {
 		//TODO create icon for cabinet
 		icons.put(Constants.EquipmentTypes.CABINET, BitmapFactory.decodeResource(res, R.drawable.pole));
 		//TODO create default icon
-	}
-
-	private double haversine(double lat1, double lon1, double lat2, double lon2) {
-		double dLat = Math.toRadians(lat2 - lat1);
-		double dLon = Math.toRadians(lon2 - lon1);
-		lat1 = Math.toRadians(lat1);
-		lat2 = Math.toRadians(lat2);
-
-		double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.sin(dLon / 2)
-				* Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
-		double c = 2 * Math.asin(Math.sqrt(a));
-		return RAD * c;
 	}
 }

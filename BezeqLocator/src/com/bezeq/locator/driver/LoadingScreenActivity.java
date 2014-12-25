@@ -15,6 +15,7 @@ import com.bezeq.locator.db.HoleDataManager;
 import com.bezeq.locator.db.MsagDataManager;
 import com.bezeq.locator.db.PoleDataManager;
 import com.bezeq.locator.db.VersionsDataManager;
+import com.bezeq.locator.gui.SensorsActivity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -24,7 +25,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
-public class LoadingScreenActivity extends Activity 
+public class LoadingScreenActivity extends SensorsActivity 
 {
 	private ViewSwitcher viewSwitcher;
 
@@ -104,30 +105,30 @@ public class LoadingScreenActivity extends Activity
 					                
 					                if (type.equalsIgnoreCase("msag_mitkan")){
 					                	mDataManager.open();
-					                	mDataManager.insert(objectID, merkaz, featureNum, cityName, streetName, buildingNum, buildingLetter, lat, lon);
+					                	mDataManager.insert(objectID, merkaz, featureNum, cityName, streetName, buildingNum, buildingLetter, lon, lat);
 					                	mDataManager.close();
 					                }
 					                
 					                if (type.equalsIgnoreCase("cabinet")){
 					                	cDataManager.open();
-					                	cDataManager.insert(objectID, merkaz, featureNum, cityName, streetName, buildingNum, buildingLetter, lat, lon);
+					                	cDataManager.insert(objectID, merkaz, featureNum, cityName, streetName, buildingNum, buildingLetter, lon, lat);
 					                	cDataManager.close();
 					                }
 					                
 					                if (type.equalsIgnoreCase("dbox_all")){
 					                	dDataManager.open();
-					                	dDataManager.insert(objectID, merkaz, featureNum, cityName, streetName, buildingNum, buildingLetter, lat, lon);
+					                	dDataManager.insert(objectID, merkaz, featureNum, cityName, streetName, buildingNum, buildingLetter, lon, lat);
 					                	dDataManager.close();
 					                }
 					                
 					                if (type.equalsIgnoreCase("hole")){
 					                	hDataManager.open();
-					                	hDataManager.insert(objectID, merkaz, featureNum, cityName, streetName, buildingNum, buildingLetter, lat, lon);
+					                	hDataManager.insert(objectID, merkaz, featureNum, cityName, streetName, buildingNum, buildingLetter, lon, lat);
 					                	hDataManager.close();
 					                }
 					                if (type.equalsIgnoreCase("pole")){
 					                	pDataManager.open();
-					                	pDataManager.insert(objectID, merkaz, featureNum, cityName, streetName, buildingNum, buildingLetter, lat, lon);
+					                	pDataManager.insert(objectID, merkaz, featureNum, cityName, streetName, buildingNum, buildingLetter, lon, lat);
 					                	pDataManager.close();
 					                }
 					            	}
