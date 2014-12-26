@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true" 
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff" >
+
+        <!-- Header Starts -->
+
+        <LinearLayout
+            android:id="@+id/header"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="5dip"
+            android:paddingTop="5dip" >
+
+            <!-- Logo Start -->
+
+
+            <!-- Logo Ends -->
+        </LinearLayout>
+        <!-- Header Ends -->
+
+
+        <!-- Footer Start -->
+
+        <LinearLayout
+            android:id="@+id/footer"
+            android:layout_width="fill_parent"
+            android:layout_height="90dip"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal" >
+        </LinearLayout>
+        <!-- Footer Ends -->
+
+
+        <!-- Adding/Editing Form -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/header"
+            android:orientation="vertical"
+            android:padding="10dip" >
+
+            <!-- Tech id -->
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tech_id"
+                android:textColor="#372c24" />
+
+            <EditText
+                android:id="@+id/report_techId"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dip"
+                android:layout_marginTop="5dip"
+                android:gravity="right"
+                android:hint="@string/tech_id"
+                android:imeOptions="flagNoExtractUi"
+                android:singleLine="true" />
+            <!--  -->
+
+
+            <!-- Problem description area -->
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/problem_description"
+                android:textColor="#372c24" />
+
+            <EditText
+                android:id="@+id/report_description"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dip"
+                android:layout_marginTop="5dip"
+                android:gravity="right"
+                android:hint="@string/problem_description"
+                android:imeOptions="flagNoExtractUi" />
+            <!--  -->
+
+
+            <!-- Image -->
+
+            <Button
+                android:id="@+id/btnPicture"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:onClick="capture"
+                android:text="@string/picture" />
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:contentDescription="@string/picture" />
+            <!--  -->
+
+
+            <!-- Latitude -->
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/latitude"
+                android:textColor="#372c24" 
+                android:visibility="gone"/>
+
+            <EditText
+                android:id="@+id/report_lat"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dip"
+                android:layout_marginTop="5dip"
+                android:focusable="false"
+                android:gravity="right"
+                android:hint="@string/latitude"
+                android:imeOptions="flagNoExtractUi"
+                android:singleLine="true" 
+                android:visibility="gone"/>
+            <!--  -->
+
+
+            <!-- Longitude -->
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/longitude"
+                android:textColor="#372c24" 
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/report_long"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dip"
+                android:layout_marginTop="5dip"
+                android:focusable="false"
+                android:gravity="right"
+                android:hint="@string/longitude"
+                android:imeOptions="flagNoExtractUi"
+                android:singleLine="true" 
+                android:visibility="gone" />
+            <!--  -->
+
+            <Button
+                android:id="@+id/report_btnSubmit"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:onClick="save"
+                android:text="@string/submit" />
+        </LinearLayout>
+        <!-- Adding/Editing Form Ends -->
+    </RelativeLayout>
+
+</ScrollView>
