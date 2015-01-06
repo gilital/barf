@@ -15,7 +15,7 @@ public class AsyncCallWS extends AsyncTask<String, Void, String> {
 	@Override
 	protected String doInBackground(String... params) {
 		WsHelper ws = new WsHelper();
-		return ws.callWS(params[0]);
+		return ws.getEquipInRange(params[0], params[1], params[2]);
 	}
 
 	@Override

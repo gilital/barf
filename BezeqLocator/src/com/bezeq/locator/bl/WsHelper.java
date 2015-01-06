@@ -11,32 +11,22 @@ import org.ksoap2.transport.HttpTransportSE;
 
 public class WsHelper {
 	
-	public String callWS(String fValue) {
+	public String getEquipInRange(String Lat, String Lon, String range) {
 		String data = null;
  
         SoapObject request = new SoapObject(Constants.NAMESPACE, Constants.METHOD_NAME);
-        //request.addProperty("Fahrenheit", fValue);
- 
+        request.addProperty("Lat",Lat.toString());
+        request.addProperty("Lon",Lon.toString());
+        request.addProperty("RadiusInMeter",range.toString());
+         
         SoapSerializationEnvelope envelope = getSoapSerializationEnvelope(request);
  
         HttpTransportSE ht = getHttpTransportSE();
         try {
             ht.call(Constants.SOAP_ACTION, envelope);
-            //testHttpResponse(ht);
             SoapPrimitive resultsString = (SoapPrimitive)envelope.getResponse();
- 
-            //List COOKIE_HEADER = (List)      ht.getServiceConnection().getResponseProperties();
- 
-//            for (int i = 0; i < COOKIE_HEADER.size(); i++) {
-//                String key = COOKIE_HEADER.get(i).getKey();
-//                String value = COOKIE_HEADER.get(i).getValue();
-// 
-//                if (key != null && key.equalsIgnoreCase("set-cookie")) {
-//                    SoapRequests.SESSION_ID = value.trim();
-//                    Log.v("SOAP RETURN", "Cookie :" + SoapRequests.SESSION_ID);
-//                    break;
-//                }
-//            }
+
+            //TODO : MOVE JSON PARSING TO HERE FROM ACTIVITY
             data = resultsString.toString();
  
         } catch (SocketTimeoutException t) {

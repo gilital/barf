@@ -52,6 +52,7 @@ public class MsagDataManager extends EquipmentDataManager {
 			cv.put(DBHelper.LONGITUDE_COLUMN, lon);
 			cv.put(DBHelper.LATITUDE_COLUMN, lat);
 			database.insert(DBHelper.MSAG_TABLE_NAME, null, cv);
+			Log.i("MSAG_MANAGER","Added new MSAG " + objectID);
 		} else {
 			// if exists -> ensure that data is up to date
 			this.update(equip.getId(), objectID, merkaz, featureNum, cityName,
@@ -77,6 +78,7 @@ public class MsagDataManager extends EquipmentDataManager {
 
 		database.update(DBHelper.MSAG_TABLE_NAME, cv, DBHelper.PKID_COLUMN
 				+ "=" + pkid, null);
+		Log.i("MSAG_MANAGER","Updating MSAG " + objectID);
 	}
 
 	public ArrayList<Msag> getAll() {

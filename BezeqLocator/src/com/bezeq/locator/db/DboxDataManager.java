@@ -51,6 +51,8 @@ public class DboxDataManager extends EquipmentDataManager {
 			cv.put(DBHelper.LATITUDE_COLUMN, lat);
 			
 			database.insert(DBHelper.DBOX_TABLE_NAME, null, cv);
+			
+			Log.i("MSAG_MANAGER","Added new BOX " + objectID);
 		}
 		else{
 			//if exists -> ensure that data is up to date
@@ -78,6 +80,8 @@ public class DboxDataManager extends EquipmentDataManager {
 		cv.put(DBHelper.LATITUDE_COLUMN, lat);
 		
 		database.update(DBHelper.DBOX_TABLE_NAME, cv, DBHelper.PKID_COLUMN + "=" + pkid, null);
+		
+		Log.i("MSAG_MANAGER","Updating BOX " + objectID);
 	}
 	
 	public ArrayList<Dbox> getAll(){

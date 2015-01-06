@@ -51,6 +51,7 @@ public class CabinetDataManager extends EquipmentDataManager {
 			cv.put(DBHelper.LATITUDE_COLUMN, lat);
 			
 			database.insert(DBHelper.CABINET_TABLE_NAME, null, cv);
+			Log.i("MSAG_MANAGER","Added new CABINET " + objectID);
 		}
 		else{
 			//if exists -> ensure that data is up to date
@@ -78,6 +79,8 @@ public class CabinetDataManager extends EquipmentDataManager {
 		cv.put(DBHelper.LATITUDE_COLUMN, lat);
 		
 		database.update(DBHelper.CABINET_TABLE_NAME, cv, DBHelper.PKID_COLUMN + "=" + pkid, null);
+		
+		Log.i("MSAG_MANAGER","Updating CABINET " + objectID);
 	}
 	
 	public ArrayList<Cabinet> getAll(){

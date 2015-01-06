@@ -49,6 +49,8 @@ public class HoleDataManager extends EquipmentDataManager {
 			cv.put(DBHelper.LATITUDE_COLUMN, lat);
 
 			database.insert(DBHelper.HOLE_TABLE_NAME, null, cv);
+			
+			Log.i("MSAG_MANAGER","Added new HOLE " + objectID);
 		} else {
 			// if exists -> ensure that data is up to date
 			this.update(equip.getId(), objectID, merkaz, featureNum, cityName,
@@ -74,6 +76,8 @@ public class HoleDataManager extends EquipmentDataManager {
 
 		database.update(DBHelper.HOLE_TABLE_NAME, cv, DBHelper.PKID_COLUMN
 				+ "=" + pkid, null);
+		
+		Log.i("MSAG_MANAGER","Updating HOLE " + objectID);
 	}
 
 	public ArrayList<Hole> getAll() {
