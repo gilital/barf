@@ -7,7 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.bezeq.locator.bl.ARData;
-import com.bezeq.locator.bl.AsyncCallWS;
+import com.bezeq.locator.bl.AsyncGetEquipmentInRange;
 import com.bezeq.locator.bl.WsHelper;
 import com.bezeq.locator.db.CabinetDataManager;
 import com.bezeq.locator.db.DboxDataManager;
@@ -67,7 +67,7 @@ public class CallWSActivity extends Activity {
 		// "250"};
 		String[] params = { "32.074278", "34.792389", "250" };
 		try {
-			String result = new AsyncCallWS(this).execute(params).get();
+			String result = new AsyncGetEquipmentInRange(this).execute(params).get();
 			Log.i("CALL_WS", "" + result);
 
 			if (result != null) {

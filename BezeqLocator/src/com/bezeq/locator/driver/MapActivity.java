@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,7 +37,6 @@ public class MapActivity extends SensorsActivity  {
         if(localData == null) localData =  new EquipmentDataSource(this.getResources(), this);
         setContentView(R.layout.activity_map);
         selected[0] = true;
-
     }//end onCreate()
     
     @Override
@@ -101,6 +101,22 @@ public class MapActivity extends SensorsActivity  {
         }
         return true;
     }//end onOptionItemSelected()
+    
+	@Override
+    public void onLocationChanged(Location location) {
+        super.onLocationChanged(location);
+        Location lastKnownLocation = ARData.getLastKnownLocation();
+        Location currentLocation = ARData.getCurrentLocation();
+        Log.i("MAP_ACTIVITY","Last location = " + lastKnownLocation.getLatitude() + "," + lastKnownLocation.getLongitude());
+        Log.i("MAP_ACTIVITY","Current location = " + currentLocation.getLatitude() + "," + currentLocation.getLongitude());
+        Log.i("MAP_ACTIVITY","Distance : " + lastKnownLocation.distanceTo(currentLocation));
+        
+        if (lastKnownLocation.distanceTo(currentLocation) > 50.0){
+        	localData.getUpdateFromWS();
+        	ARData.setLastKnownLocation(ARData.getCurrentLocation());
+        }
+        
+    }
     
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {

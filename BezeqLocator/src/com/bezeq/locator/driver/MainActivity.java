@@ -126,6 +126,17 @@ public class MainActivity extends AugmentedActivity {
 	@Override
     public void onLocationChanged(Location location) {
         super.onLocationChanged(location);
+        Location lastKnownLocation = ARData.getLastKnownLocation();
+        Location currentLocation = ARData.getCurrentLocation();
+        Log.i("AR_ACTIVITY","Last location = " + lastKnownLocation.getLatitude() + "," + lastKnownLocation.getLongitude());
+        Log.i("AR_ACTIVITY","Current location = " + currentLocation.getLatitude() + "," + currentLocation.getLongitude());
+        Log.i("AR_ACTIVITY","Distance : " + lastKnownLocation.distanceTo(currentLocation));
+        
+        if (lastKnownLocation.distanceTo(currentLocation) > 50.0){
+        	localData.getUpdateFromWS();
+        	ARData.setLastKnownLocation(ARData.getCurrentLocation());
+        }
+        
     }
 
 	@Override

@@ -22,7 +22,6 @@ public abstract class ARData {
     private static final List<Marker> cache = new CopyOnWriteArrayList<Marker>();
     private static final AtomicBoolean dirty = new AtomicBoolean(false);
     private static final float[] locationArray = new float[3];
-    
     public static final Location hardFix = new Location("ATL");
     static {
         hardFix.setLatitude(0);
@@ -36,6 +35,7 @@ public abstract class ARData {
     private static final Object zoomProgressLock = new Object();
     private static int zoomProgress = 0;
     private static Location currentLocation = hardFix;
+    private static Location lastKnownLocation = hardFix;
     private static Matrix rotationMatrix = new Matrix();
     private static final Object azimuthLock = new Object();
     private static float azimuth = 0;
@@ -89,6 +89,20 @@ public abstract class ARData {
     public static Location getCurrentLocation() {
         synchronized (ARData.currentLocation) {
             return ARData.currentLocation;
+        }
+    }
+    
+    public static void setLastKnownLocation(Location lastKnownLocation) {
+    	if (lastKnownLocation==null) throw new NullPointerException();
+    	
+    	synchronized (lastKnownLocation) {
+    	    ARData.lastKnownLocation = lastKnownLocation;
+    	}
+    }
+    
+    public static Location getLastKnownLocation() {
+        synchronized (ARData.lastKnownLocation) {
+            return ARData.lastKnownLocation;
         }
     }
 
