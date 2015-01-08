@@ -1,5 +1,7 @@
 package com.bezeq.locator.db;
 
+import java.io.IOException;
+
 import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -29,7 +31,10 @@ public class EquipmentDataManager {
 	}
 	
 	public void open() throws SQLException {
-		database = dbHelper.getWritableDatabase();
+		if (dbHelper.open()){
+			database = dbHelper.getReadableDatabase();
+		}
+		
 	}
 
 	public void close() {
