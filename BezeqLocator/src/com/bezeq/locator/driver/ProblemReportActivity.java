@@ -1,7 +1,9 @@
 package com.bezeq.locator.driver;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -24,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bezeq.locator.bl.ARData;
+import com.bezeq.locator.bl.AsyncSubmitReport;
 
 public class ProblemReportActivity extends Activity {
 
@@ -81,7 +84,25 @@ public class ProblemReportActivity extends Activity {
 				+ txtDescription.getText() + "\n"
 				+ "Lat : " + txtLatitude.getText() + "\n"
 				+ "Long : " + txtLongitude.getText() + "\n";
-		
+		//id, reportType, description, picture, Lat, Lon
+//		String picture = null; //TODO: getPicture as STring
+//		try{
+//			//this.getContentResolver().notifyChange(photoUri, null);
+//		    ContentResolver cr = this.getContentResolver();
+//			InputStream in = cr.openInputStream(photoUri);
+//			BufferedReader r = new BufferedReader(new InputStreamReader(in));
+//			StringBuilder total = new StringBuilder();
+//			String line;
+//			while ((line = r.readLine()) != null) {
+//			    total.append(line);
+//			}
+//			picture = total.toString();
+//		}
+//		catch (Exception ex){
+//			ex.printStackTrace();
+//		}
+//		String[] params = {txtTechId.getText() + "",selected, txtDescription.getText() + "", picture, txtLatitude.getText() + "", txtLongitude.getText() + ""};
+//		new AsyncSubmitReport(getApplicationContext()).execute(params);
 		Intent intent = new Intent(android.content.Intent.ACTION_SEND); // it's not ACTION_SEND
 		intent.setType("text/plain");
 		intent.putExtra(Intent.EXTRA_SUBJECT, selected);

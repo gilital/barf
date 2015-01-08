@@ -72,7 +72,7 @@ public class MapActivity extends SensorsActivity  {
             }//end if
             
 			updateMarkers();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -112,7 +112,7 @@ public class MapActivity extends SensorsActivity  {
         Log.i("MAP_ACTIVITY","Distance : " + lastKnownLocation.distanceTo(currentLocation));
         
         if (lastKnownLocation.distanceTo(currentLocation) > 50.0){
-        	localData.getUpdateFromWS();
+        	localData.getUpdateFromWS(this, null);
         	ARData.setLastKnownLocation(ARData.getCurrentLocation());
         }
         
@@ -144,7 +144,7 @@ public class MapActivity extends SensorsActivity  {
             public void onClick(DialogInterface dialog, int which) {
             	try {
 					updateMarkers();
-				} catch (IOException e) {
+				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -161,7 +161,7 @@ public class MapActivity extends SensorsActivity  {
     	builder.show();
     }//end showFilterDialog()
     
-    private void updateMarkers() throws IOException{
+    public void updateMarkers() throws IOException{
         
         ARData.addMarkers(localData.getMarkers(selected));
         

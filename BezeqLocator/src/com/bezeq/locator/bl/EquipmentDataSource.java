@@ -17,6 +17,8 @@ import com.bezeq.locator.db.MsagDataManager;
 import com.bezeq.locator.db.PoleDataManager;
 import com.bezeq.locator.draw.IconMarker;
 import com.bezeq.locator.draw.Marker;
+import com.bezeq.locator.driver.MainActivity;
+import com.bezeq.locator.driver.MapActivity;
 import com.bezeq.locator.driver.R;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -36,21 +38,6 @@ import android.util.Log;
  * 
  */
 public class EquipmentDataSource {
-	private static final String JSON_TAG_OBJECT_ID = "OBJECTID";
-	private static final String JSON_TAG_ENTITY_TYPE = "ENTITY_TYPE";
-	private static final String JSON_TAG_MERKAZ = "MERKAZ";
-	private static final String JSON_TAG_FEATURE_NUM = "FEATURE_NUM";
-	private static final String JSON_TAG_CITY_CODE = "CITY_CODE";
-	private static final String JSON_TAG_CITY_NAME = "CITY_NAME";
-	private static final String JSON_TAG_STREET_CODE = "STREET_CODE";
-	private static final String JSON_TAG_STREET_NAME = "STREET_NAME";
-	private static final String JSON_TAG_BUILDING_NUM = "BUILDING_NUM";
-	private static final String JSON_TAG_BUILDING_LETTER = "BUILDING_LETTER";
-	private static final String JSON_TAG_X = "X";
-	private static final String JSON_TAG_Y = "Y";
-	private static final String JSON_TAG_LON = "LON";
-	private static final String JSON_TAG_LAT = "LAT";
-
 	private MsagDataManager mDataManager;
 	private CabinetDataManager cDataManager;
 	private DboxDataManager dDataManager;
@@ -77,94 +64,10 @@ public class EquipmentDataSource {
 		this.context = context;
 	}
 
-	public void getUpdateFromWS() {
-		String[] params = {ARData.getCurrentLocation().getLatitude() + "",ARData.getCurrentLocation().getLongitude() + "", "250"};
-		//String[] params = { "32.074278", "34.792389", "250" };
-		try {
-			String result = new AsyncGetEquipmentInRange(context).execute(
-					params).get();
-			Log.i("CALL_WS", "" + result);
-
-			if (result != null) {
-				JSONArray equips = new JSONArray(result);
-
-				for (int i = 0; i < equips.length(); i++) {
-					JSONObject equip = equips.getJSONObject(i);
-
-					int objectID = equip.getInt(JSON_TAG_OBJECT_ID);
-					String type = equip.getString(JSON_TAG_ENTITY_TYPE);
-					int merkaz = equip.getString(JSON_TAG_MERKAZ)
-							.equalsIgnoreCase("") ? 0 : Integer.parseInt(equip
-							.getString(JSON_TAG_MERKAZ));
-					int featureNum = equip.getString(JSON_TAG_FEATURE_NUM)
-							.equalsIgnoreCase("") ? 0 : Integer.parseInt(equip
-							.getString(JSON_TAG_FEATURE_NUM));
-					String cityName = equip.getString(JSON_TAG_CITY_NAME);
-					String streetName = equip.getString(JSON_TAG_STREET_NAME);
-					int buildingNum = equip.getInt(JSON_TAG_BUILDING_NUM);
-					String buildingLetter = equip.getString(
-							JSON_TAG_BUILDING_LETTER).equalsIgnoreCase("null") ? ""
-							: equip.getString(JSON_TAG_BUILDING_LETTER);
-					String x_isr = equip.getString(JSON_TAG_X);
-					String y_isr = equip.getString(JSON_TAG_Y);
-					double lon = equip.getDouble(JSON_TAG_LON);
-					double lat = equip.getDouble(JSON_TAG_LAT);
-
-					if (type.equalsIgnoreCase("msag_mitkan")) {
-						mDataManager.open();
-						mDataManager.insert(objectID, merkaz, featureNum,
-								cityName, streetName, buildingNum,
-								buildingLetter, lon, lat);
-						Log.i("CALL_WS", "Insert new MSAG : " + objectID);
-						mDataManager.close();
-					}
-
-					if (type.equalsIgnoreCase("cabinet")) {
-						cDataManager.open();
-						cDataManager.insert(objectID, merkaz, featureNum,
-								cityName, streetName, buildingNum,
-								buildingLetter, lon, lat);
-						Log.i("CALL_WS", "Insert new CABINET : " + objectID);
-						cDataManager.close();
-					}
-
-					if (type.equalsIgnoreCase("dbox_all")) {
-						dDataManager.open();
-						dDataManager.insert(objectID, merkaz, featureNum,
-								cityName, streetName, buildingNum,
-								buildingLetter, lon, lat);
-						Log.i("CALL_WS", "Insert new BOX : " + objectID);
-						dDataManager.close();
-					}
-
-					if (type.equalsIgnoreCase("hole")) {
-						hDataManager.open();
-						hDataManager.insert(objectID, merkaz, featureNum,
-								cityName, streetName, buildingNum,
-								buildingLetter, lon, lat);
-						Log.i("CALL_WS", "Insert new HOLE : " + objectID);
-						hDataManager.close();
-					}
-					if (type.equalsIgnoreCase("pole")) {
-						pDataManager.open();
-						pDataManager.insert(objectID, merkaz, featureNum,
-								cityName, streetName, buildingNum,
-								buildingLetter, lon, lat);
-						Log.i("CALL_WS", "Insert new POLE : " + objectID);
-						pDataManager.close();
-					}
-				}
-			}
-		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void getUpdateFromWS(MapActivity map, MainActivity ar) {
+		String[] params = { ARData.getCurrentLocation().getLatitude() + "",
+				ARData.getCurrentLocation().getLongitude() + "", "300" };
+		new AsyncGetEquipmentInRange(context, map, ar).execute(params);
 	}
 
 	public List<Marker> getMarkers(boolean[] includes) {

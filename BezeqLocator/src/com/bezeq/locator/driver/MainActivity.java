@@ -133,7 +133,7 @@ public class MainActivity extends AugmentedActivity {
         Log.i("AR_ACTIVITY","Distance : " + lastKnownLocation.distanceTo(currentLocation));
         
         if (lastKnownLocation.distanceTo(currentLocation) > 50.0){
-        	localData.getUpdateFromWS();
+        	localData.getUpdateFromWS(null, this);
         	ARData.setLastKnownLocation(ARData.getCurrentLocation());
         }
         
@@ -169,7 +169,7 @@ public class MainActivity extends AugmentedActivity {
 	    super.updateDataOnZoom();
 	}
     
-    private void updateMarkers() throws IOException, InterruptedException{
+    public void updateMarkers() throws IOException, InterruptedException{
     	if(localData == null) localData =  new EquipmentDataSource(this.getResources(), this);
     	Thread t = new Thread(new Runnable() {
     	    	public void run() {

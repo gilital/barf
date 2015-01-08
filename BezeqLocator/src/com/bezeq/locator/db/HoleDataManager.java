@@ -31,7 +31,7 @@ public class HoleDataManager extends EquipmentDataManager {
 
 	public void insert(int objectID, int merkaz, int featureNum,
 			String cityName, String streetName, int buildingNum,
-			String buildingLetter, double lat, double lon) {
+			String buildingLetter, double lon, double lat) {
 
 		Equipment equip = getByObjectID(objectID);
 
@@ -54,13 +54,13 @@ public class HoleDataManager extends EquipmentDataManager {
 		} else {
 			// if exists -> ensure that data is up to date
 			this.update(equip.getId(), objectID, merkaz, featureNum, cityName,
-					streetName, buildingNum, buildingLetter, lat, lon);
+					streetName, buildingNum, buildingLetter, lon,lat);
 		}
 	}
 
 	public void update(int pkid, int objectID, int merkaz, int featureNum,
 			String cityName, String streetName, int buildingNum,
-			String buildingLetter, double lat, double lon) {
+			String buildingLetter, double lon, double lat) {
 
 		ContentValues cv = new ContentValues();
 

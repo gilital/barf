@@ -33,7 +33,7 @@ public class DboxDataManager extends EquipmentDataManager {
 	
 	public void insert (int objectID, int merkaz, int featureNum,
 			String cityName, String streetName, int buildingNum,
-			String buildingLetter, double lat, double lon){
+			String buildingLetter, double lon, double lat){
 		
 		Equipment equip = getByObjectID(objectID);
 
@@ -58,13 +58,13 @@ public class DboxDataManager extends EquipmentDataManager {
 			//if exists -> ensure that data is up to date
 			this.update(equip.getId(),objectID,merkaz,featureNum,
 					cityName,streetName,buildingNum,
-					buildingLetter,lat,lon);
+					buildingLetter,lon,lat);
 		}
 	}
 	
 	public void update(int pkid, int objectID, int merkaz, int featureNum,
 			String cityName, String streetName, int buildingNum,
-			String buildingLetter, double lat, double lon){
+			String buildingLetter, double lon, double lat){
 		
 		
 		ContentValues cv = new ContentValues();
