@@ -9,8 +9,8 @@ public class Constants {
 	public static final String EQUIPMENT_SOAP_ACTION = "http://tempuri.org/GetEquipInRange";
     public static final String EQUIPMENT_METHOD_NAME = "GetEquipInRange";
     
-    public static final String REPORT_SOAP_ACTION = "";
-    public static final String REPORT_METHOD_NAME = "";
+    public static final String REPORT_SOAP_ACTION = "http://tempuri.org/SubmitReport";
+    public static final String REPORT_METHOD_NAME = "SubmitReport";
     
     public enum EquipmentTypes {MSAG, CABINET, DBOX, HOLE, POLE}
     public static final String SYSTEM_IP = "1.1.1.1";

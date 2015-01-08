@@ -101,19 +101,19 @@ public class ProblemReportActivity extends Activity {
 //		catch (Exception ex){
 //			ex.printStackTrace();
 //		}
-//		String[] params = {txtTechId.getText() + "",selected, txtDescription.getText() + "", picture, txtLatitude.getText() + "", txtLongitude.getText() + ""};
-//		new AsyncSubmitReport(getApplicationContext()).execute(params);
-		Intent intent = new Intent(android.content.Intent.ACTION_SEND); // it's not ACTION_SEND
-		intent.setType("text/plain");
-		intent.putExtra(Intent.EXTRA_SUBJECT, selected);
-		intent.putExtra(Intent.EXTRA_TEXT, message);
-		intent.setData(Uri.parse("mailto:silver.alex.333@gmail.com")); // or just "mailto:" for blank
-		intent.putExtra(android.content.Intent.EXTRA_EMAIL,new String[] { "Krochit@gmail.com", "ser-leha@yandex.ru" });
-		if (photoUri != null){
-			intent.putExtra(Intent.EXTRA_STREAM, photoUri);
-		}
-		intent.setType("image/jpeg");
-		startActivity(Intent.createChooser(intent, "Send email using"));
+		String[] params = {txtTechId.getText() + "",selected, txtDescription.getText() + "", photoUri.getPath(), txtLatitude.getText() + "", txtLongitude.getText() + ""};
+		new AsyncSubmitReport(getApplicationContext()).execute(params);
+//		Intent intent = new Intent(android.content.Intent.ACTION_SEND); // it's not ACTION_SEND
+//		intent.setType("text/plain");
+//		intent.putExtra(Intent.EXTRA_SUBJECT, selected);
+//		intent.putExtra(Intent.EXTRA_TEXT, message);
+//		intent.setData(Uri.parse("mailto:silver.alex.333@gmail.com")); // or just "mailto:" for blank
+//		intent.putExtra(android.content.Intent.EXTRA_EMAIL,new String[] { "Krochit@gmail.com", "ser-leha@yandex.ru" });
+//		if (photoUri != null){
+//			intent.putExtra(Intent.EXTRA_STREAM, photoUri);
+//		}
+//		intent.setType("image/jpeg");
+//		startActivity(Intent.createChooser(intent, "Send email using"));
 		finish();
 	}
 	
