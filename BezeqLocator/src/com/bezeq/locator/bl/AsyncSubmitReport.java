@@ -23,19 +23,28 @@ public class AsyncSubmitReport extends AsyncTask<String, String, String>{
 		Log.i("ASYNC_SUBMIT_REPORT","id : " + params[0]);
 		Log.i("ASYNC_SUBMIT_REPORT","reportType : " + params[1]);
 		Log.i("ASYNC_SUBMIT_REPORT","description : " + params[2]);
-		Log.i("ASYNC_SUBMIT_REPORT","picture : " + params[3]);
+		if (params[3] != null){
+			Log.i("ASYNC_SUBMIT_REPORT","picture : " + params[3]);	
+		}
 		Log.i("ASYNC_SUBMIT_REPORT","Lat, Lon : " + params[4] + "," + params[5]);
 		
-		String result = ws.submitReport(params[0], params[1], params[2],params[3],params[4],params[5]);
-		Log.i("SUBMIT",result);
+		String result = ws.submitReport(0,params[0], params[1], params[2],params[3],params[4],params[5],params[6]);
+		//Log.i("SUBMIT",result);
 		return result;
 	}
 	
 	protected void onPostExecute(String result) {
-
-		Toast t = Toast.makeText(context, "Submitted" , Toast.LENGTH_SHORT);
-        t.setGravity(Gravity.BOTTOM, 0, 0);
-        t.show();
+		if (result == null){
+			Toast t = Toast.makeText(context, "Failed" , Toast.LENGTH_SHORT);
+	        t.setGravity(Gravity.BOTTOM, 0, 0);
+	        t.show();
+		}
+		else{
+			Toast t = Toast.makeText(context, "Submitted" , Toast.LENGTH_SHORT);
+	        t.setGravity(Gravity.BOTTOM, 0, 0);
+	        t.show();
+		}
+		
 //		progressDialog.dismiss();
 	}
 

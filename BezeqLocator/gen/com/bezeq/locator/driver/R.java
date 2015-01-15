@@ -414,8 +414,9 @@ containing a value of this type.
     }
     public static final class id {
         public static final int alt=0x7f080022;
-        public static final int ar_id_selection=0x7f080031;
-        public static final int ar_problem_report=0x7f080033;
+        public static final int ar_id_selection=0x7f080038;
+        public static final int ar_problem_report=0x7f08003b;
+        public static final int ar_search=0x7f080039;
         public static final int area=0x7f080018;
         public static final int bnum=0x7f08001c;
         public static final int book_now=0x7f080010;
@@ -425,14 +426,18 @@ containing a value of this type.
         public static final int buyButton=0x7f08000a;
         public static final int buy_now=0x7f08000f;
         public static final int buy_with_google=0x7f08000e;
+        public static final int cabinetCheckBox=0x7f080034;
         public static final int classic=0x7f080011;
+        public static final int dboxCheckBox=0x7f080031;
+        public static final int dialog_layout_root=0x7f08002f;
         public static final int equipExnum=0x7f080019;
         public static final int equipStatus=0x7f08001f;
         public static final int equipType=0x7f08001e;
-        public static final int filter=0x7f080032;
+        public static final int filter=0x7f08003a;
         public static final int footer=0x7f080015;
         public static final int grayscale=0x7f080012;
         public static final int header=0x7f080014;
+        public static final int holeCheckBox=0x7f080032;
         public static final int holo_dark=0x7f080005;
         public static final int holo_light=0x7f080006;
         public static final int hybrid=0x7f080004;
@@ -440,14 +445,17 @@ containing a value of this type.
         public static final int lat=0x7f080020;
         public static final int lon=0x7f080021;
         public static final int map=0x7f080027;
-        public static final int map_filter=0x7f08002f;
-        public static final int map_id_selection=0x7f080034;
-        public static final int map_problem_report=0x7f080030;
+        public static final int map_filter=0x7f080036;
+        public static final int map_id_selection=0x7f08003c;
+        public static final int map_problem_report=0x7f080037;
+        public static final int map_search=0x7f080035;
         public static final int match_parent=0x7f08000c;
         public static final int monochrome=0x7f080013;
+        public static final int msagCheckBox=0x7f080030;
         public static final int none=0x7f080000;
         public static final int normal=0x7f080001;
         public static final int pb_progressbar=0x7f080024;
+        public static final int poleCheckBox=0x7f080033;
         public static final int production=0x7f080007;
         public static final int report_btnSubmit=0x7f08002e;
         public static final int report_description=0x7f080029;
@@ -476,6 +484,7 @@ containing a value of this type.
         public static final int activity_main=0x7f030002;
         public static final int activity_map=0x7f030003;
         public static final int activity_report=0x7f030004;
+        public static final int filter_dialog=0x7f030005;
     }
     public static final class menu {
         public static final int map=0x7f0b0000;
@@ -486,15 +495,16 @@ containing a value of this type.
     }
     public static final class string {
         public static final int accept=0x7f060002;
-        public static final int action_settings=0x7f06003d;
+        public static final int action_settings=0x7f06003e;
         public static final int add_equipment=0x7f060028;
         public static final int altitude=0x7f060035;
         public static final int app_name=0x7f060023;
-        public static final int ar_id_selection=0x7f06003e;
+        public static final int ar_id_selection=0x7f06003f;
         public static final int area=0x7f06002b;
         public static final int bnum=0x7f06002f;
         public static final int boxes=0x7f060038;
         public static final int bsign=0x7f060030;
+        public static final int cabinets=0x7f06003b;
         /**   Text for notification shown when the Android Wear apps needs to be updated. Only shown on the wearable. [CHAR LIMIT=NONE] 
          */
         public static final int common_android_wear_notification_needs_update_text=0x7f060009;
@@ -600,19 +610,20 @@ containing a value of this type.
         public static final int equip_exnum=0x7f06002c;
         public static final int equip_status=0x7f060032;
         public static final int equip_type=0x7f060031;
-        public static final int filter=0x7f06003b;
+        public static final int filter=0x7f06003c;
         public static final int hello_world=0x7f060024;
         public static final int hide_radar=0x7f060026;
         public static final int hide_zoom_bar=0x7f060027;
+        public static final int holes=0x7f060039;
         public static final int latitude=0x7f060033;
         public static final int longitude=0x7f060034;
         public static final int map_id_selection=0x7f060029;
         public static final int msags=0x7f060037;
-        public static final int picture=0x7f060041;
-        public static final int pits=0x7f060039;
+        public static final int picture=0x7f060042;
         public static final int poles=0x7f06003a;
-        public static final int problem_description=0x7f06003f;
-        public static final int problem_report=0x7f060040;
+        public static final int problem_description=0x7f060040;
+        public static final int problem_report=0x7f060041;
+        public static final int search=0x7f060043;
         public static final int settlement=0x7f06002d;
         public static final int store_picture_message=0x7f060001;
         public static final int store_picture_title=0x7f060000;
@@ -620,7 +631,7 @@ containing a value of this type.
         public static final int submit=0x7f060036;
         public static final int tech_id=0x7f06002a;
         public static final int title_activity_equipment=0x7f060025;
-        public static final int title_activity_map=0x7f06003c;
+        public static final int title_activity_map=0x7f06003d;
         /**  Text on a placeholder buy button when Google Play services is not
          available or up-to-date 
          */

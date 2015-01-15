@@ -33,45 +33,45 @@ public class WsHelper {
 			SoapPrimitive resultsString = (SoapPrimitive) envelope
 					.getResponse();
 			data = resultsString.toString();
-
-		} catch (SocketTimeoutException t) {
-			t.printStackTrace();
-		} catch (IOException i) {
-			i.printStackTrace();
 		} catch (Exception q) {
 			q.printStackTrace();
 		}
 		return data;
 	}
 
-	public String submitReport(String id, String reportType, String description,
-			String picture, String Lat, String Lon) {
+	public String submitReport(int pkid, String id, String reportType, String description,
+			String picture, String Lat, String Lon, String timeStamp) {
 
+		//IF pkid == 0 --> new report, else, trying submit old report
 		String data = null;
 		SoapObject request = new SoapObject(Constants.NAMESPACE,
 				Constants.REPORT_METHOD_NAME);
-
+		
 		InputStream is = null;
 		byte[] array = null;
-		try {
-			is = new FileInputStream(picture);
-			if (picture != null) {
-				try {
-					array = streamToBytes(is);
-				} finally {
-					is.close();
+		if (picture != null){
+			try {
+				is = new FileInputStream(picture);
+				if (is != null) {
+					try {
+						array = streamToBytes(is);
+					} finally {
+						is.close();
+					}
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
-
+		
 		request.addProperty("id", id);
 		request.addProperty("reportType", reportType);
 		request.addProperty("description", description);
 		request.addProperty("picture", array);
 		request.addProperty("Lat", Lat);
 		request.addProperty("Lon", Lon);
+		request.addProperty("timeStamp", timeStamp);
+		
 
 		SoapSerializationEnvelope envelope = getSoapSerializationEnvelope(request);
 
@@ -80,13 +80,12 @@ public class WsHelper {
 			ht.call(Constants.REPORT_SOAP_ACTION, envelope);
 			SoapPrimitive result = (SoapPrimitive) envelope.getResponse();
 			data =  result.toString();
-			// TODO : MOVE JSON PARSING TO HERE FROM ACTIVITY
-		} catch (SocketTimeoutException t) {
-			t.printStackTrace();
-		} catch (IOException i) {
-			i.printStackTrace();
 		} catch (Exception q) {
 			q.printStackTrace();
+		}
+		
+		if (data == null && pkid != 0){
+			//TODO : error to connect, save to local DB
 		}
 		return data;
 	}

@@ -1,23 +1,8 @@
 package com.bezeq.locator.driver;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import com.bezeq.locator.bl.Version;
-import com.bezeq.locator.db.CabinetDataManager;
 import com.bezeq.locator.db.DBHelper;
-import com.bezeq.locator.db.DboxDataManager;
-import com.bezeq.locator.db.HoleDataManager;
-import com.bezeq.locator.db.MsagDataManager;
-import com.bezeq.locator.db.PoleDataManager;
-import com.bezeq.locator.db.VersionsDataManager;
 import com.bezeq.locator.gui.SensorsActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -301,12 +286,12 @@ public class LoadingScreenActivity extends SensorsActivity {
 		protected void onProgressUpdate(Integer... values) {
 			// Update the progress at the UI if progress value is smaller than
 			// 100
-			if (values[0] <= 100) {
-				tv_progress.setText("Progress: " + Integer.toString(values[1])
-						+ " / " + Integer.toString(values[2]) + " , "
-						+ Integer.toString(values[0]) + "%");
-				pb_progressBar.setProgress(values[0]);
-			}
+//			if (values[0] <= 100) {
+//				tv_progress.setText("Progress: " + Integer.toString(values[1])
+//						+ " / " + Integer.toString(values[2]) + " , "
+//						+ Integer.toString(values[0]) + "%");
+//				pb_progressBar.setProgress(values[0]);
+//			}
 		}
 
 		// After executing the code in the thread
@@ -336,31 +321,31 @@ public class LoadingScreenActivity extends SensorsActivity {
 		finish();
 	}
 
-	public int countLines() throws IOException {
-		InputStream is = getResources().openRawResource(R.raw.equip);
-		BufferedReader reader = new BufferedReader(new InputStreamReader(is,
-				"UTF-8"));
-		try {
-			char[] buffer = new char[1024];
-			int count = 0;
-			int readChars = 0;
-			boolean empty = true;
-			while ((readChars = reader.read(buffer)) != -1) {
-				empty = false;
-				for (int i = 0; i < readChars; ++i) {
-					if (buffer[i] == '\n') {
-						++count;
-					}
-				}
-			}
-			return (count == 0 && !empty) ? 1 : count;
-		} finally {
-			is.close();
-		}
-	}
-
-	private Date parseDate(String date, String format) throws Exception {
-		SimpleDateFormat formatter = new SimpleDateFormat(format);
-		return formatter.parse(date);
-	}
+//	public int countLines() throws IOException {
+//		InputStream is = getResources().openRawResource(R.raw.equip);
+//		BufferedReader reader = new BufferedReader(new InputStreamReader(is,
+//				"UTF-8"));
+//		try {
+//			char[] buffer = new char[1024];
+//			int count = 0;
+//			int readChars = 0;
+//			boolean empty = true;
+//			while ((readChars = reader.read(buffer)) != -1) {
+//				empty = false;
+//				for (int i = 0; i < readChars; ++i) {
+//					if (buffer[i] == '\n') {
+//						++count;
+//					}
+//				}
+//			}
+//			return (count == 0 && !empty) ? 1 : count;
+//		} finally {
+//			is.close();
+//		}
+//	}
+//
+//	private Date parseDate(String date, String format) throws Exception {
+//		SimpleDateFormat formatter = new SimpleDateFormat(format);
+//		return formatter.parse(date);
+//	}
 }

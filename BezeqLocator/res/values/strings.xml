@@ -20,17 +20,19 @@
     <string name="latitude">קו רוחב</string>
     <string name="longitude">קו אורך</string>
     <string name="altitude">גובה</string>
-    <string name="submit">שמור</string>
+    <string name="submit">שלח</string>
     <string name="msags">MSAG</string>
     <string name="boxes">תיבות</string>
-    <string name="pits">גובים</string>
+    <string name="holes">גובים</string>
     <string name="poles">עמודים</string>
+    <string name="cabinets">ארונות</string>
     <string name="filter">סינון לפי סוג</string>
     <string name="title_activity_map">Map</string>
     <string name="action_settings">Settings</string>
     <string name="ar_id_selection">תלת מימד</string>
     <string name="problem_description">תיאור הבעיה</string>
-    <string name="problem_report">דיווח על בעיה</string>
+    <string name="problem_report">דיווח מהשטח</string>
     <string name="picture">צירוף תמונה</string>
+    <string name="search">חיפוש</string>
 
 </resources>

@@ -57,8 +57,8 @@ GooglePlayServicesClient.OnConnectionFailedListener {
     private static LocationManager locationMgr = null;
     private static LocationClient locationClnt = null;
     
-    protected static boolean[] selected = new boolean[4];
-    protected static CharSequence[] items = {"MSAG","תיבות","גובים","עמודים"};
+    protected static boolean[] selected = new boolean[5];
+    protected static CharSequence[] items = {"MSAG","תיבות","גובים","עמודים", "ארונות"};
     
     Location google_play_client = null;
 

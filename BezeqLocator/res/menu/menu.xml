@@ -12,6 +12,10 @@
     </item>
     -->
     <item
+        android:id="@+id/ar_search"
+        android:title="@string/search">
+    </item>
+    <item
         android:id="@+id/filter"
         android:title="@string/filter">
     </item>

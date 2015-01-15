@@ -3,6 +3,10 @@
     tools:context="com.bezeq.locator.driver.MapActivity" >
 
     <item
+        android:id="@+id/map_search"
+        android:title="@string/search">
+    </item>
+    <item
         android:id="@+id/map_filter"
         android:title="@string/filter">
     </item>

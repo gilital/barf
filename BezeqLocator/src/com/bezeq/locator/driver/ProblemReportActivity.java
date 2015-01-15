@@ -101,7 +101,7 @@ public class ProblemReportActivity extends Activity {
 //		catch (Exception ex){
 //			ex.printStackTrace();
 //		}
-		String[] params = {txtTechId.getText() + "",selected, txtDescription.getText() + "", photoUri.getPath(), txtLatitude.getText() + "", txtLongitude.getText() + ""};
+		String[] params = {txtTechId.getText() + "",selected, txtDescription.getText() + "", photoUri.getPath(), txtLatitude.getText() + "", txtLongitude.getText() + "", null};
 		new AsyncSubmitReport(getApplicationContext()).execute(params);
 //		Intent intent = new Intent(android.content.Intent.ACTION_SEND); // it's not ACTION_SEND
 //		intent.setType("text/plain");

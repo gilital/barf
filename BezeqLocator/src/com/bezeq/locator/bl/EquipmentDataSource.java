@@ -67,6 +67,7 @@ public class EquipmentDataSource {
 	public void getUpdateFromWS(MapActivity map, MainActivity ar) {
 		String[] params = { ARData.getCurrentLocation().getLatitude() + "",
 				ARData.getCurrentLocation().getLongitude() + "", "300" };
+		//String[] params = {"32.0739942","34.7917809","800"};
 		new AsyncGetEquipmentInRange(context, map, ar).execute(params);
 	}
 
@@ -154,6 +155,14 @@ public class EquipmentDataSource {
 				pDataManager.close();
 			}
 			list.addAll(poles);
+		}
+		if (includes[4]) {
+			if (cabinets == null) {
+				cDataManager.open();
+				cabinets = cDataManager.getInRange(250.0);
+				cDataManager.close();
+			}
+			list.addAll(cabinets);
 		}
 
 		// TODO: CABINET
