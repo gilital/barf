@@ -130,26 +130,6 @@ public class MsagDataManager extends EquipmentDataManager {
 		Log.i("DATA_MANAGER", sql);
 		Cursor cursor = database.rawQuery(sql, null);
 
-		// TEMP CALCULATING
-
-		double dUp = haversine(ARData.getCurrentLocation().getLatitude(),
-				ARData.getCurrentLocation().getLongitude(),
-				upper.getLatitude(), upper.getLongitude());
-		double dRight = haversine(ARData.getCurrentLocation().getLatitude(),
-				ARData.getCurrentLocation().getLongitude(),
-				right.getLatitude(), right.getLongitude());
-		double dBottom = haversine(ARData.getCurrentLocation().getLatitude(),
-				ARData.getCurrentLocation().getLongitude(),
-				bottom.getLatitude(), bottom.getLongitude());
-		double dLeft = haversine(ARData.getCurrentLocation().getLatitude(),
-				ARData.getCurrentLocation().getLongitude(),
-				left.getLatitude(), left.getLongitude());
-		
-		Log.i ("MDM", "Upper : Lon = " + upper.getLongitude() + " , Lat = " + upper.getLatitude() + " , D = " + dUp);
-		Log.i ("MDM", "Right : Lon = " + right.getLongitude() + " , Lat = " + right.getLatitude() + " , D = " + dRight);
-		Log.i ("MDM", "Bottom : Lon = " + bottom.getLongitude() + " , Lat = " + bottom.getLatitude() + " , D = " + dBottom);
-		Log.i ("MDM", "Left : Lon = " + left.getLongitude() + " , Lat = " + left.getLatitude() + " , D = " + dLeft);
-
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
 			Msag msag = new Msag(cursor.getInt(0), cursor.getInt(1),

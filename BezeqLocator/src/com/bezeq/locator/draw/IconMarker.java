@@ -1,13 +1,16 @@
 package com.bezeq.locator.draw;
 
+import com.bezeq.locator.bl.Constants;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 public class IconMarker extends Marker {
     private Bitmap bitmap = null;
+    
 
-    public IconMarker(String name, String comment, double latitude, double longitude, double altitude, int color, Bitmap bitmap) {
-        super(name, comment, latitude, longitude, altitude, color);
+    public IconMarker(String name, String comment, Constants.EquipmentTypes type, double latitude, double longitude, double altitude, int color, Bitmap bitmap) {
+        super(name, comment,type, latitude, longitude, altitude, color);
         this.bitmap = bitmap;
     }
 

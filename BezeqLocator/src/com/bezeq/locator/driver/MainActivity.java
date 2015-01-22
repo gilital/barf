@@ -164,6 +164,10 @@ public class MainActivity extends AugmentedActivity {
 			t.setGravity(Gravity.CENTER, 0, 0);
 			t.show();
 		} else {
+			Intent i = new Intent(this, ProblemReportActivity.class);
+			i.putExtra("ObjectID", marker.getName());
+			i.putExtra("Type", marker.getType());
+			startActivity(i);
 			// TODO: open edit activity
 			// MsagDataManager dataManager = new MsagDataManager(this);
 			// dataManager.open();

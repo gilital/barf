@@ -27,6 +27,8 @@ import android.widget.Toast;
 
 import com.bezeq.locator.bl.ARData;
 import com.bezeq.locator.bl.AsyncSubmitReport;
+import com.bezeq.locator.bl.Constants;
+import com.bezeq.locator.bl.Constants.EquipmentTypes;
 
 public class ProblemReportActivity extends Activity {
 
@@ -47,12 +49,23 @@ public class ProblemReportActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_report);
-		if(savedInstanceState == null){
-			initPage();
-			fillLocation();
+		initPage();
+		fillLocation();
+		
+		Bundle extras = getIntent().getExtras();
+		
+		if (extras != null){
+			String objectID = getIntent().getExtras().getString("ObjectID");
+			Constants.EquipmentTypes type = (EquipmentTypes) getIntent().getExtras().get("Type");
+			txtDescription.setText(objectID + type.toString() + "\n");
+			selected = "אחר";
+			
+			
+		}
+		else
+		{
 			showFilterDialog();
-        }
-
+		}
 	}
 
 	@Override

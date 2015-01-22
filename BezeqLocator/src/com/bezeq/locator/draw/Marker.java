@@ -3,6 +3,8 @@ package com.bezeq.locator.draw;
 import java.text.DecimalFormat;
 
 import com.bezeq.locator.bl.ARData;
+import com.bezeq.locator.bl.Constants;
+import com.bezeq.locator.bl.Constants.EquipmentTypes;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -37,6 +39,7 @@ public class Marker implements Comparable<Marker> {
     protected volatile PaintablePosition symbolContainer = null;
     protected String name = null;
     protected String comment = null;
+    protected Constants.EquipmentTypes type = null;
     protected volatile PhysicalLocationUtility physicalLocation = new PhysicalLocationUtility();
     protected volatile double distance = 0.0;
     protected volatile boolean isOnRadar = false;
@@ -54,8 +57,9 @@ public class Marker implements Comparable<Marker> {
     private static PaintableBox collisionBox = null;
     private static PaintablePosition collisionPosition = null;
 
-	public Marker(String name, String comment, double latitude, double longitude, double altitude, int color) {
+	public Marker(String name, String comment,Constants.EquipmentTypes type, double latitude, double longitude, double altitude, int color) {
 		set(name, comment, latitude, longitude, altitude, color);
+		this.type = type;
 	}
 
 	public synchronized void set(String name, String comment, double latitude, double longitude, double altitude, int color) {
@@ -81,6 +85,9 @@ public class Marker implements Comparable<Marker> {
 		return this.comment;
 	}
 	
+	public synchronized Constants.EquipmentTypes getType(){
+		return this.type;
+	}
     public synchronized int getColor() {
     	return this.color;
     }

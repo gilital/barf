@@ -1,0 +1,39 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_layout_root"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="5dp" 
+    android:gravity = "center">
+
+    <CheckBox
+        android:id="@+id/msagCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/msags" />
+
+    <CheckBox
+        android:id="@+id/dboxCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/boxes" />
+
+    <CheckBox
+        android:id="@+id/holeCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/holes" />
+
+    <CheckBox
+        android:id="@+id/poleCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/poles" />
+
+    <CheckBox
+        android:id="@+id/cabinetCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cabinets" />
+
+</LinearLayout>

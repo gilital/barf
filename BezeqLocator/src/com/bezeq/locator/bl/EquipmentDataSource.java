@@ -79,8 +79,8 @@ public class EquipmentDataSource {
 			String comment = equip.getCityName() + ", "
 					+ equip.getBuildingNum() + equip.getBuildingLetter() + " "
 					+ equip.getStreetName();
-
-			Marker temp = new IconMarker(equip.getId() + "\n", comment,
+			
+			Marker temp = new IconMarker(equip.getId() + "","\n" + comment, equip.getType(),
 					equip.getLatitude(), equip.getLongitude(),
 					equip.getAltitude(), Color.DKGRAY, getIcon(equip.getType()));
 			markers.add(temp);
