@@ -4,8 +4,6 @@ import java.io.IOException;
 
 import com.bezeq.locator.bl.ARData;
 import com.bezeq.locator.bl.EquipmentDataSource;
-import com.bezeq.locator.bl.Msag;
-import com.bezeq.locator.db.MsagDataManager;
 import com.bezeq.locator.draw.Marker;
 import com.bezeq.locator.gui.AugmentedActivity;
 
@@ -13,6 +11,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,7 +23,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -129,8 +129,46 @@ public class MainActivity extends AugmentedActivity {
 		case R.id.map_id_selection:
 			finish();
 			break;
+		case R.id.about:
+			showAboutDialog();
+			break;
 		}
 		return true;
+	}
+	
+	private void showAboutDialog() {
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    	final View aboutFormView = inflater.inflate(R.layout.about_dialog,null, false);
+    	final TextView aboutText = (TextView)aboutFormView.findViewById(R.id.about_text);
+    	String version = null;
+    	PackageInfo pInfo;
+		try {
+			pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+			version = pInfo.versionName;
+		} catch (NameNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+   	
+		String message = "לדווח על תקלה באפליקציה\n";
+		message += "גיל דהרי : ";
+		message += "gil.dahari@bezeq.co.il\n";
+		message += "אלכסיי סרבריאני : ";
+		message += "silver.alex.333@gmail.com";
+    	aboutText.setText(message);
+    	
+    	new AlertDialog.Builder(this).setView(aboutFormView)
+    	.setTitle("GALA, " + "גרסה " + version)
+    	.setIcon(R.drawable.bezeq)
+    	.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        })
+    	.show();
+		
 	}
 
 	@Override

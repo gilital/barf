@@ -18,5 +18,9 @@
         android:id="@+id/ar_id_selection"
         android:title="@string/ar_id_selection">
     </item>
+    <item
+        android:id="@+id/about"
+        android:title="@string/about">
+    </item>
 
 </menu>

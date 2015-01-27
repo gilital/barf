@@ -27,5 +27,9 @@
         android:id="@+id/map_id_selection"
         android:title="@string/map_id_selection">
     </item>
+        <item
+        android:id="@+id/about"
+        android:title="@string/about">
+    </item>
 
 </menu>
