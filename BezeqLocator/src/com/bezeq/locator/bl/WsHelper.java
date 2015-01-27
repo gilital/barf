@@ -2,10 +2,9 @@ package com.bezeq.locator.bl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.Proxy;
-import java.net.SocketTimeoutException;
+import android.content.Context;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.MarshalBase64;
@@ -14,13 +13,33 @@ import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import android.content.SharedPreferences;
+
 public class WsHelper {
+
+	private static WsHelper instance = null;
+	private Context context;
+
+	private WsHelper(Context context) {
+		this.context = context;
+	}
+
+	public static WsHelper getInstance(Context context) {
+		if (instance == null) {
+			instance = new WsHelper(context);
+		}
+		return instance;
+	}
 
 	public String getEquipInRange(String Lat, String Lon, String range) {
 		String data = null;
 
-		SoapObject request = new SoapObject(Constants.NAMESPACE,
-				Constants.EQUIPMENT_METHOD_NAME);
+		SharedPreferences settings = context.getSharedPreferences(
+				Constants.PREFS_NAME, 0);
+
+		SoapObject request = new SoapObject(settings.getString(
+				Constants.PREFS_NAMESPACE_NAME, null), settings.getString(
+				Constants.PREFS_EQUIPMENT_METHOD_NAME, null));
 		request.addProperty("Lat", Lat.toString());
 		request.addProperty("Lon", Lon.toString());
 		request.addProperty("RadiusInMeter", range.toString());
@@ -29,7 +48,8 @@ public class WsHelper {
 
 		HttpTransportSE ht = getHttpTransportSE();
 		try {
-			ht.call(Constants.EQUIPMENT_SOAP_ACTION, envelope);
+			ht.call(settings.getString(
+					Constants.PREFS_EQUIPMENT_SOAP_ACTION_NAME, null), envelope);
 			SoapPrimitive resultsString = (SoapPrimitive) envelope
 					.getResponse();
 			data = resultsString.toString();
@@ -39,17 +59,21 @@ public class WsHelper {
 		return data;
 	}
 
-	public String submitReport(int pkid, String id, String reportType, String description,
-			String picture, String Lat, String Lon, String timeStamp) {
+	public String submitReport(int pkid, String id, String reportType,
+			String description, String picture, String Lat, String Lon,
+			String timeStamp) {
 
-		//IF pkid == 0 --> new report, else, trying submit old report
+		SharedPreferences settings = context.getSharedPreferences(
+				Constants.PREFS_NAME, 0);
+		// IF pkid == 0 --> new report, else, trying submit old report
 		String data = null;
-		SoapObject request = new SoapObject(Constants.NAMESPACE,
-				Constants.REPORT_METHOD_NAME);
-		
+		SoapObject request = new SoapObject(settings.getString(
+				Constants.PREFS_NAMESPACE_NAME, null), settings.getString(
+				Constants.PREFS_REPORT_METHOD_NAME, null));
+
 		InputStream is = null;
 		byte[] array = null;
-		if (picture != null){
+		if (picture != null) {
 			try {
 				is = new FileInputStream(picture);
 				if (is != null) {
@@ -63,7 +87,7 @@ public class WsHelper {
 				e.printStackTrace();
 			}
 		}
-		
+
 		request.addProperty("id", id);
 		request.addProperty("reportType", reportType);
 		request.addProperty("description", description);
@@ -71,28 +95,33 @@ public class WsHelper {
 		request.addProperty("Lat", Lat);
 		request.addProperty("Lon", Lon);
 		request.addProperty("timeStamp", timeStamp);
-		
 
 		SoapSerializationEnvelope envelope = getSoapSerializationEnvelope(request);
 
 		HttpTransportSE ht = getHttpTransportSE();
 		try {
-			ht.call(Constants.REPORT_SOAP_ACTION, envelope);
+			ht.call(settings.getString(
+					Constants.PREFS_REPORT_SOAP_ACTION_NAME, null), envelope);
 			SoapPrimitive result = (SoapPrimitive) envelope.getResponse();
-			data =  result.toString();
+			data = result.toString();
 		} catch (Exception q) {
 			q.printStackTrace();
 		}
-		
-		if (data == null && pkid != 0){
-			//TODO : error to connect, save to local DB
+
+		if (data == null && pkid != 0) {
+			// TODO : error to connect, save to local DB
 		}
 		return data;
 	}
 
 	private final HttpTransportSE getHttpTransportSE() {
+		SharedPreferences settings = context.getSharedPreferences(
+				Constants.PREFS_NAME, 0);
+		
 		HttpTransportSE ht = new HttpTransportSE(Proxy.NO_PROXY,
-				Constants.MAIN_REQUEST_URL, 60000);
+				settings.getString(
+						Constants.PREFS_URL_NAME, null), settings.getInt(
+								Constants.PREFS_URL_TIMEOUT_NAME, 60000));
 		ht.debug = true;
 		ht.setXmlVersionTag("<!--?xml version=\"1.0\" encoding= \"UTF-8\" ?-->");
 		return ht;

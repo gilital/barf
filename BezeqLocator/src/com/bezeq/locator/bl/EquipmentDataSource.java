@@ -4,12 +4,6 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ExecutionException;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.bezeq.locator.db.CabinetDataManager;
 import com.bezeq.locator.db.DboxDataManager;
 import com.bezeq.locator.db.HoleDataManager;
@@ -25,11 +19,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.util.Log;
 
 /**
  * Class for conversion of Equipment data row to ARData marker
@@ -119,11 +113,11 @@ public class EquipmentDataSource {
 	 */
 	private List<Equipment> getEquipment(boolean[] includes, double range) {
 		List<Equipment> list = new CopyOnWriteArrayList<Equipment>();
+		SharedPreferences settings = context.getSharedPreferences(Constants.PREFS_NAME, 0);
 		if (includes[0]) {
 			if (msags == null) {
 				mDataManager.open();
-				// msags = mDataManager.getAll();
-				msags = mDataManager.getInRange(500.0);
+				msags = mDataManager.getInRange(settings.getFloat(Constants.PREFS_MSAGS_RANGE_NAME, 300f));
 				mDataManager.close();
 			}
 			list.addAll(msags);
@@ -131,8 +125,7 @@ public class EquipmentDataSource {
 		if (includes[1]) {
 			if (boxes == null) {
 				dDataManager.open();
-				// boxes = dDataManager.getAll();
-				boxes = dDataManager.getInRange(250.0);
+				boxes = dDataManager.getInRange(settings.getFloat(Constants.PREFS_DBOXES_RANGE_NAME, 200f));
 				dDataManager.close();
 			}
 			list.addAll(boxes);
@@ -140,8 +133,7 @@ public class EquipmentDataSource {
 		if (includes[2]) {
 			if (holes == null) {
 				hDataManager.open();
-				// holes = hDataManager.getAll();
-				holes = hDataManager.getInRange(250.0);
+				holes = hDataManager.getInRange(settings.getFloat(Constants.PREFS_HOLES_RANGE_NAME, 200f));
 				hDataManager.close();
 			}
 			list.addAll(holes);
@@ -150,8 +142,7 @@ public class EquipmentDataSource {
 		if (includes[3]) {
 			if (poles == null) {
 				pDataManager.open();
-				// poles = pDataManager.getAll();
-				poles = pDataManager.getInRange(250.0);
+				poles = pDataManager.getInRange(settings.getFloat(Constants.PREFS_POLES_RANGE_NAME, 200f));
 				pDataManager.close();
 			}
 			list.addAll(poles);
@@ -159,27 +150,25 @@ public class EquipmentDataSource {
 		if (includes[4]) {
 			if (cabinets == null) {
 				cDataManager.open();
-				cabinets = cDataManager.getInRange(250.0);
+				cabinets = cDataManager.getInRange(settings.getFloat(Constants.PREFS_CABINETS_RANGE_NAME, 200f));
 				cDataManager.close();
 			}
 			list.addAll(cabinets);
 		}
-
-		// TODO: CABINET
-
-		Log.i("EDS", list.size() + "");
-		int counter = 0;
-		for (Equipment equip : list) {
-			// if (haversine(ARData.getCurrentLocation().getLatitude(), ARData
-			// .getCurrentLocation().getLongitude(), equip.getLatitude(),
-			// equip.getLongitude()) > range){
-			// Log.i("EDS", equip.getObjectID() + " " + equip.getStreetName() +
-			// " " + equip.getBuildingNum());
-			// list.remove(equip);
-			counter++;
-			// }
-		}
-		Log.i("EDS", "Total " + counter);
+//
+//		Log.i("EDS", list.size() + "");
+//		int counter = 0;
+//		for (Equipment equip : list) {
+//			// if (haversine(ARData.getCurrentLocation().getLatitude(), ARData
+//			// .getCurrentLocation().getLongitude(), equip.getLatitude(),
+//			// equip.getLongitude()) > range){
+//			// Log.i("EDS", equip.getObjectID() + " " + equip.getStreetName() +
+//			// " " + equip.getBuildingNum());
+//			// list.remove(equip);
+//			counter++;
+//			// }
+//		}
+//		Log.i("EDS", "Total " + counter);
 		return list;
 	}
 
@@ -200,9 +189,8 @@ public class EquipmentDataSource {
 				BitmapFactory.decodeResource(res, R.drawable.pit));
 		icons.put(Constants.EquipmentTypes.POLE,
 				BitmapFactory.decodeResource(res, R.drawable.pole));
-		// TODO create icon for cabinet
 		icons.put(Constants.EquipmentTypes.CABINET,
-				BitmapFactory.decodeResource(res, R.drawable.pole));
+				BitmapFactory.decodeResource(res, R.drawable.cabinet));
 		// TODO create default icon
 	}
 }

@@ -1,6 +1,5 @@
 package com.bezeq.locator.bl;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -17,7 +16,6 @@ public class AsyncSubmitReport extends AsyncTask<String, String, String>{
 
 	@Override
 	protected String doInBackground(String... params) {
-		WsHelper ws = new WsHelper();
 		//id, reportType, description, picture, Lat, Lon
 		Log.i("ASYNC_SUBMIT_REPORT","Params : ");
 		Log.i("ASYNC_SUBMIT_REPORT","id : " + params[0]);
@@ -28,7 +26,7 @@ public class AsyncSubmitReport extends AsyncTask<String, String, String>{
 		}
 		Log.i("ASYNC_SUBMIT_REPORT","Lat, Lon : " + params[4] + "," + params[5]);
 		
-		String result = ws.submitReport(0,params[0], params[1], params[2],params[3],params[4],params[5],params[6]);
+		String result = WsHelper.getInstance(context).submitReport(0,params[0], params[1], params[2],params[3],params[4],params[5],params[6]);
 		//Log.i("SUBMIT",result);
 		return result;
 	}

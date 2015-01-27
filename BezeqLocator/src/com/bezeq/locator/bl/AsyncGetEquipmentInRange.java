@@ -1,8 +1,6 @@
 package com.bezeq.locator.bl;
 
 import java.io.IOException;
-import java.util.concurrent.ExecutionException;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,8 +18,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.Gravity;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class AsyncGetEquipmentInRange extends AsyncTask<String, Integer, String> {
@@ -39,9 +35,7 @@ public class AsyncGetEquipmentInRange extends AsyncTask<String, Integer, String>
 	private static final String JSON_TAG_ENTITY_TYPE = "ENTITY_TYPE";
 	private static final String JSON_TAG_MERKAZ = "MERKAZ";
 	private static final String JSON_TAG_FEATURE_NUM = "FEATURE_NUM";
-	private static final String JSON_TAG_CITY_CODE = "CITY_CODE";
 	private static final String JSON_TAG_CITY_NAME = "CITY_NAME";
-	private static final String JSON_TAG_STREET_CODE = "STREET_CODE";
 	private static final String JSON_TAG_STREET_NAME = "STREET_NAME";
 	private static final String JSON_TAG_BUILDING_NUM = "BUILDING_NUM";
 	private static final String JSON_TAG_BUILDING_LETTER = "BUILDING_LETTER";
@@ -76,10 +70,9 @@ public class AsyncGetEquipmentInRange extends AsyncTask<String, Integer, String>
 	
 	@Override
 	protected String doInBackground(String... params) {
-		WsHelper ws = new WsHelper();
 		String result = null;
 		try {
-			result =  ws.getEquipInRange(params[0], params[1], params[2]);
+			result =  WsHelper.getInstance(context).getEquipInRange(params[0], params[1], params[2]);
 			Log.i("ASYNC_GET_EQUIP", "" + result);
 			if (result != null) {
 				JSONArray equips = new JSONArray(result);
@@ -101,8 +94,8 @@ public class AsyncGetEquipmentInRange extends AsyncTask<String, Integer, String>
 					String buildingLetter = equip.getString(
 							JSON_TAG_BUILDING_LETTER).equalsIgnoreCase("null") ? ""
 							: equip.getString(JSON_TAG_BUILDING_LETTER);
-					String x_isr = equip.getString(JSON_TAG_X);
-					String y_isr = equip.getString(JSON_TAG_Y);
+					equip.getString(JSON_TAG_X);
+					equip.getString(JSON_TAG_Y);
 					double lon = equip.getDouble(JSON_TAG_LON);
 					double lat = equip.getDouble(JSON_TAG_LAT);
 

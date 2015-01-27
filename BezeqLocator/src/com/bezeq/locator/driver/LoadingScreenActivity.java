@@ -1,9 +1,11 @@
 package com.bezeq.locator.driver;
 
+import com.bezeq.locator.bl.Constants;
 import com.bezeq.locator.db.DBHelper;
 import com.bezeq.locator.gui.SensorsActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.ProgressBar;
@@ -16,14 +18,11 @@ public class LoadingScreenActivity extends SensorsActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		
-		//startMapActivity();
 		new LoadViewTask().execute();
 	}
 
 	private class LoadViewTask extends AsyncTask<Void, Integer, Void> {
-		private TextView tv_progress;
+		//private TextView tv_progress;
 		private ProgressBar pb_progressBar;
 		DBHelper dbh;
 		@Override
@@ -34,8 +33,8 @@ public class LoadingScreenActivity extends SensorsActivity {
 					.inflate(LoadingScreenActivity.this,
 							R.layout.activity_loading, null));
 
-			tv_progress = (TextView) viewSwitcher
-					.findViewById(R.id.tv_progress);
+//			tv_progress = (TextView) viewSwitcher
+//					.findViewById(R.id.tv_progress);
 			pb_progressBar = (ProgressBar) viewSwitcher
 					.findViewById(R.id.pb_progressbar);
 
@@ -48,202 +47,38 @@ public class LoadingScreenActivity extends SensorsActivity {
 		@Override
 		protected Void doInBackground(Void... params) {
 			try {
+				initPreferences();
 				dbh.create();
+
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return null;
-//			try {
-//				int lines = countLines();
-//				synchronized (this) {
-//					int counter = 0;
-//					MsagDataManager mDataManager = new MsagDataManager(
-//							getApplicationContext());
-//					CabinetDataManager cDataManager = new CabinetDataManager(
-//							getApplicationContext());
-//					DboxDataManager dDataManager = new DboxDataManager(
-//							getApplicationContext());
-//					HoleDataManager hDataManager = new HoleDataManager(
-//							getApplicationContext());
-//					PoleDataManager pDataManager = new PoleDataManager(
-//							getApplicationContext());
-//
-//					String str = "";
-//					InputStream is = getResources()
-//							.openRawResource(R.raw.equip);
-//					try {
-//
-//						BufferedReader reader = new BufferedReader(
-//								new InputStreamReader(is, "UTF-8"));
-//						if (is != null) {
-//							String date = reader.readLine();
-//							if (newVersion(date)) {
-//
-//								// reader.readLine(); //skip the headers line
-//
-//								while ((str = reader.readLine()) != null) {
-//									try {
-//
-//										String[] line = str.split("\t");
-//										int objectID = Integer
-//												.parseInt(line[0]);
-//										String type = line[1];
-//										int merkaz = line[2]
-//												.equalsIgnoreCase("") ? 0
-//												: Integer.parseInt(line[2]);
-//										int featureNum = line[3]
-//												.equalsIgnoreCase("") ? 0
-//												: Integer.parseInt(line[3]);
-//										String cityName = line[5];
-//										String streetName = line[7];
-//										int buildingNum = Integer
-//												.parseInt(line[8]);
-//										String buildingLetter = line[9];
-//										String x_isr = line[10];
-//										String y_isr = line[11];
-//										double lon = Double
-//												.parseDouble(line[12]);
-//										double lat = Double
-//												.parseDouble(line[13]);
-//
-//										System.out.println(objectID
-//												+ " inserted\n");
-//
-//										if (type.equalsIgnoreCase("msag_mitkan")) {
-//											mDataManager.open();
-//											mDataManager.insert(objectID,
-//													merkaz, featureNum,
-//													cityName, streetName,
-//													buildingNum,
-//													buildingLetter, lon, lat);
-//											mDataManager.close();
-//										}
-//
-//										if (type.equalsIgnoreCase("cabinet")) {
-//											cDataManager.open();
-//											cDataManager.insert(objectID,
-//													merkaz, featureNum,
-//													cityName, streetName,
-//													buildingNum,
-//													buildingLetter, lon, lat);
-//											cDataManager.close();
-//										}
-//
-//										if (type.equalsIgnoreCase("dbox_all")) {
-//											dDataManager.open();
-//											dDataManager.insert(objectID,
-//													merkaz, featureNum,
-//													cityName, streetName,
-//													buildingNum,
-//													buildingLetter, lon, lat);
-//											dDataManager.close();
-//										}
-//
-//										if (type.equalsIgnoreCase("hole")) {
-//											hDataManager.open();
-//											hDataManager.insert(objectID,
-//													merkaz, featureNum,
-//													cityName, streetName,
-//													buildingNum,
-//													buildingLetter, lon, lat);
-//											hDataManager.close();
-//										}
-//										if (type.equalsIgnoreCase("pole")) {
-//											pDataManager.open();
-//											pDataManager.insert(objectID,
-//													merkaz, featureNum,
-//													cityName, streetName,
-//													buildingNum,
-//													buildingLetter, lon, lat);
-//											pDataManager.close();
-//										}
-//									} catch (Exception ex) {
-//										is.close();
-//									}
-//									// check the type of equipment
-//									// if (line[0].equals("MSAG")){
-//									// String x_isr = line[7];
-//									// String y_isr = line[8];
-//									//
-//									// if (x_isr == "250000" && y_isr ==
-//									// "600000") continue;
-//									//
-//									// int area = Integer.parseInt(line[1]);
-//									// String exnum = line[2];
-//									// String settlement = line[3];
-//									// String street = line[4];
-//									// String building_num = line [5];
-//									// String building_sign = line[6];
-//									// double longtitude =
-//									// Double.parseDouble(line[9]);
-//									// double latitude =
-//									// Double.parseDouble(line[10]);
-//									// double altitude = 0.0;
-//									//
-//									// mDataManager.insertMsag(area, exnum,
-//									// settlement, street, building_num,
-//									// building_sign, latitude, longtitude,
-//									// altitude);
-//									// }//end if MSAG
-//									//
-//									// if (line[0].equals("BOX")){
-//									// String x_isr = line[11];
-//									// String y_isr = line[12];
-//									//
-//									// if (x_isr == "250000" && y_isr ==
-//									// "600000") continue;
-//									//
-//									// String ufid = line[1];
-//									// int area =
-//									// (line[2].equals("")?0:Integer.parseInt(line[2]));
-//									// String framework = (line[3] ==
-//									// null?" ":line[3]);
-//									// String location = line[4];
-//									// String cbntType = line[5];
-//									// String closer = line[6];
-//									// String settlement = line[7];
-//									// String street = line[8];
-//									// String building_num = line [9];
-//									// String building_sign = line[10];
-//									// double longtitude =
-//									// Double.parseDouble(line[13]);
-//									// double latitude =
-//									// Double.parseDouble(line[14]);
-//									// double altitude = 0.0;
-//									// bDataManager.insertBox(ufid, area,
-//									// framework, location, cbntType, closer,
-//									// settlement, street, building_num,
-//									// building_sign, latitude, longtitude,
-//									// altitude);
-//									// }
-//									counter++;
-//									publishProgress((counter * 100) / lines,
-//											counter, lines);
-//								}// end while
-//							}
-//
-//							// update version table
-//							updateVersionTable(counter, date);
-//
-//						}// end if
-//					}// end try
-//					finally {
-//						try {
-//							is.close();
-//						} catch (Throwable ignore) {
-//						}
-//					}// end finally
-//
-//				}// end synchronized
-//			}// end try
-//			catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			return null;
-		}
 
+		}
+		
+		private void initPreferences() {
+			SharedPreferences settings = getSharedPreferences(Constants.PREFS_NAME, 0);
+			SharedPreferences.Editor editor = settings.edit();
+			
+			editor.putString(Constants.PREFS_USER_ID_NAME, Constants.PREFS_USER_ID_VALUE);
+			editor.putFloat(Constants.PREFS_MSAGS_RANGE_NAME, Constants.PREFS_MSAGS_RANGE_VALUE);
+			editor.putFloat(Constants.PREFS_CABINETS_RANGE_NAME, Constants.PREFS_CABINETS_RANGE_VALUE);
+			editor.putFloat(Constants.PREFS_DBOXES_RANGE_NAME, Constants.PREFS_DBOXES_RANGE_VALUE);
+			editor.putFloat(Constants.PREFS_HOLES_RANGE_NAME, Constants.PREFS_HOLES_RANGE_VALUE);
+			editor.putFloat(Constants.PREFS_POLES_RANGE_NAME, Constants.PREFS_POLES_RANGE_VALUE);
+			
+			editor.putString(Constants.PREFS_URL_NAME, Constants.PREFS_URL_VALUE);
+			editor.putString(Constants.PREFS_NAMESPACE_NAME, Constants.PREFS_NAMESPACE_VALUE);
+			editor.putString(Constants.PREFS_EQUIPMENT_SOAP_ACTION_NAME, Constants.PREFS_EQUIPMENT_SOAP_ACTION_VALUE);
+			editor.putString(Constants.PREFS_EQUIPMENT_METHOD_NAME, Constants.PREFS_EQUIPMENT_METHOD_VALUE);
+			editor.putString(Constants.PREFS_REPORT_SOAP_ACTION_NAME, Constants.PREFS_REPORT_SOAP_ACTION_VALUE);
+			editor.putString(Constants.PREFS_REPORT_METHOD_NAME, Constants.PREFS_REPORT_METHOD_VALUE);
+			editor.putInt(Constants.PREFS_URL_TIMEOUT_NAME, Constants.PREFS_URL_TIMEOUT_VALUE);
+			
+			editor.commit();
+		}
 //		private boolean newVersion(String fileDate) {
 //			VersionsDataManager vdm = new VersionsDataManager(
 //					getApplicationContext());
