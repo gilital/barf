@@ -125,40 +125,6 @@ public class MapActivity extends SensorsActivity {
 		return true;
 	}// end onOptionItemSelected()
 
-	private void showAboutDialog() {
-		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    	final View aboutFormView = inflater.inflate(R.layout.about_dialog,null, false);
-    	final TextView aboutText = (TextView)aboutFormView.findViewById(R.id.about_text);
-    	String version = null;
-    	PackageInfo pInfo;
-		try {
-			pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-			version = pInfo.versionName;
-		} catch (NameNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-   	
-		String message = "לדווח על תקלה באפליקציה\n";
-		message += "גיל דהרי : ";
-		message += "gil.dahari@bezeq.co.il\n";
-		message += "אלכסיי סרבריאני : ";
-		message += "silver.alex.333@gmail.com";
-    	aboutText.setText(message);
-    	
-    	new AlertDialog.Builder(this).setView(aboutFormView)
-    	.setTitle("GALA, " + "גרסה " + version)
-    	.setIcon(R.drawable.bezeq)
-    	.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        })
-    	.show();
-		
-	}
 
 	@Override
 	public void onLocationChanged(Location location) {

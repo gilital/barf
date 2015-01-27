@@ -1,11 +1,17 @@
 package com.bezeq.locator.gui;
 
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.bezeq.locator.bl.ARData;
 import com.bezeq.locator.draw.LowPassFilter;
 import com.bezeq.locator.draw.Matrix;
+import com.bezeq.locator.driver.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
@@ -14,6 +20,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.hardware.GeomagneticField;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -27,6 +36,9 @@ import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class SensorsActivity extends FragmentActivity implements SensorEventListener, LocationListener,GooglePlayServicesClient.ConnectionCallbacks,
@@ -358,4 +370,51 @@ GooglePlayServicesClient.OnConnectionFailedListener {
         final AlertDialog alert = builder.create();
         alert.show();
     }
+	
+
+	protected void showAboutDialog() {
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    	final View aboutFormView = inflater.inflate(R.layout.about_dialog,null, false);
+    	final TextView aboutText = (TextView)aboutFormView.findViewById(R.id.about_text);
+    	String version = null;
+    	PackageInfo pInfo;
+    	ApplicationInfo appInfo;
+    	String message = "";
+		try {
+			pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+			version = pInfo.versionName;
+			appInfo = getPackageManager().getApplicationInfo("com.bezeq.locator.driver", 0);
+			String appFile = appInfo.sourceDir;
+			long installed = new File(appFile).lastModified();
+			Date versionDate = new Date (installed);
+			String format = "HH:mm dd/MM/yyyy";
+			SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
+			
+			message += "תאריך גרסה : ";
+			message += sdf.format(versionDate) + "\n";
+		} catch (NameNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+   	
+		message += "לדווח על תקלה באפליקציה\n";
+		message += "גיל דהרי : ";
+		message += "gil.dahari@bezeq.co.il\n";
+		message += "אלכסיי סרבריאני : ";
+		message += "silver.alex.333@gmail.com";
+    	aboutText.setText(message);
+    	
+    	new AlertDialog.Builder(this).setView(aboutFormView)
+    	.setTitle("GALA, " + "גרסה " + version)
+    	.setIcon(R.drawable.bezeq)
+    	.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        })
+    	.show();
+		
+	}
 }
