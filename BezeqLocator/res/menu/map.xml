@@ -22,5 +22,9 @@
         android:id="@+id/about"
         android:title="@string/about">
     </item>
+    <item
+        android:id="@+id/admin"
+        android:title="@string/adminItem">
+    </item>
 
 </menu>

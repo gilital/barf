@@ -418,10 +418,11 @@ containing a value of this type.
         public static final int about=0x7f08003b;
         public static final int about_dialog_layout_root=0x7f080014;
         public static final int about_text=0x7f080015;
+        public static final int admin=0x7f08003c;
         public static final int alt=0x7f080024;
         public static final int ar_id_selection=0x7f08003a;
-        public static final int ar_problem_report=0x7f08003e;
-        public static final int ar_search=0x7f08003c;
+        public static final int ar_problem_report=0x7f08003f;
+        public static final int ar_search=0x7f08003d;
         public static final int area=0x7f08001a;
         public static final int bnum=0x7f08001e;
         public static final int book_now=0x7f080010;
@@ -438,7 +439,7 @@ containing a value of this type.
         public static final int equipExnum=0x7f08001b;
         public static final int equipStatus=0x7f080021;
         public static final int equipType=0x7f080020;
-        public static final int filter=0x7f08003d;
+        public static final int filter=0x7f08003e;
         public static final int footer=0x7f080017;
         public static final int grayscale=0x7f080012;
         public static final int header=0x7f080016;
@@ -451,7 +452,7 @@ containing a value of this type.
         public static final int lon=0x7f080023;
         public static final int map=0x7f080029;
         public static final int map_filter=0x7f080038;
-        public static final int map_id_selection=0x7f08003f;
+        public static final int map_id_selection=0x7f080040;
         public static final int map_problem_report=0x7f080039;
         public static final int map_search=0x7f080037;
         public static final int match_parent=0x7f08000c;
@@ -504,6 +505,7 @@ containing a value of this type.
         public static final int accept=0x7f060002;
         public static final int action_settings=0x7f06003e;
         public static final int add_equipment=0x7f060028;
+        public static final int adminItem=0x7f060045;
         public static final int altitude=0x7f060035;
         public static final int app_name=0x7f060023;
         public static final int ar_id_selection=0x7f06003f;

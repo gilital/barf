@@ -35,5 +35,6 @@
     <string name="picture">צירוף תמונה</string>
     <string name="search">חיפוש</string>
     <string name="about">אודות</string>
+    <string name="adminItem">Admin menu</string>
 
 </resources>

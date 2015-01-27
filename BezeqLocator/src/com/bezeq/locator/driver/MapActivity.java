@@ -7,10 +7,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.location.Location;
 import android.os.Bundle;
+import android.text.Editable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -19,9 +21,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.bezeq.locator.bl.ARData;
+import com.bezeq.locator.bl.Constants;
 import com.bezeq.locator.bl.EquipmentDataSource;
 import com.bezeq.locator.gui.SensorsActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -97,6 +101,16 @@ public class MapActivity extends SensorsActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.map, menu);
+
+		SharedPreferences settings = getSharedPreferences(Constants.PREFS_NAME,
+				0);
+		String userId = settings.getString(Constants.PREFS_USER_ID_NAME, "123");
+		String adminId = settings.getString(Constants.PREFS_ADMIN_ID_NAME,
+				"326958840");
+
+		if (userId.compareToIgnoreCase(adminId) != 0) {
+			menu.getItem(5).setVisible(false);
+		}
 		return true;
 	}// end onCreateOptionsMenu()
 
@@ -104,7 +118,7 @@ public class MapActivity extends SensorsActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.map_search:
-			//TODO: search
+			// TODO: search
 			break;
 		case R.id.map_filter:
 			showFilterDialog();
@@ -121,10 +135,56 @@ public class MapActivity extends SensorsActivity {
 		case R.id.about:
 			showAboutDialog();
 			break;
+		case R.id.admin:
+			showAdminDialog();
+			break;
 		}
+
 		return true;
 	}// end onOptionItemSelected()
 
+	private void showAdminDialog() {
+		SharedPreferences settings = getSharedPreferences(
+				Constants.PREFS_NAME, 0);
+		
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+		alert.setTitle("WS URL");
+		alert.setMessage("Set url of WS");
+
+		// Set an EditText view to get user input
+		final EditText input = new EditText(this);
+		input.setText(settings.getString(Constants.PREFS_URL_NAME, ""));
+		alert.setView(input);
+
+		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			
+			public void onClick(DialogInterface dialog, int whichButton) {
+				
+				String value = input.getText().toString();
+
+				SharedPreferences inSettings = MapActivity.this.getSharedPreferences(
+						Constants.PREFS_NAME, 0);
+				
+				SharedPreferences.Editor editor = inSettings.edit();
+
+				Constants.PREFS_URL_VALUE = value;
+				editor.putString(Constants.PREFS_URL_NAME, value);
+
+				editor.commit();
+			}
+		});
+
+		
+		alert.setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						// Canceled.
+					}
+				});
+
+		alert.show();
+	}
 
 	@Override
 	public void onLocationChanged(Location location) {
@@ -166,66 +226,78 @@ public class MapActivity extends SensorsActivity {
 	// }
 
 	private void showFilterDialog() {
-    	LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    	final View formElementsView = inflater.inflate(R.layout.filter_dialog,null, false);
-    	
-    	final CheckBox msagCheckBox = (CheckBox) formElementsView.findViewById(R.id.msagCheckBox);
-    	msagCheckBox.setChecked(selected[0]);
-    	final CheckBox dboxCheckBox = (CheckBox) formElementsView.findViewById(R.id.dboxCheckBox);
-    	dboxCheckBox.setChecked(selected[1]);
-    	final CheckBox holeCheckBox = (CheckBox) formElementsView.findViewById(R.id.holeCheckBox);
-    	holeCheckBox.setChecked(selected[2]);
-    	final CheckBox poleCheckBox = (CheckBox) formElementsView.findViewById(R.id.poleCheckBox);
-    	poleCheckBox.setChecked(selected[3]);
-    	final CheckBox cabinetCheckBox = (CheckBox) formElementsView.findViewById(R.id.cabinetCheckBox);
-    	cabinetCheckBox.setChecked(selected[4]);
-    	
-    	new AlertDialog.Builder(this).setView(formElementsView)
-    	.setTitle("נא לבחור סוג ציוד")
-    	.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		final View formElementsView = inflater.inflate(R.layout.filter_dialog,
+				null, false);
 
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            	try {
-           			selected[0] = msagCheckBox.isChecked()?true:false;
-           			selected[1] = dboxCheckBox.isChecked()?true:false;
-           			selected[2] = holeCheckBox.isChecked()?true:false;
-           			selected[3] = poleCheckBox.isChecked()?true:false;
-           			selected[4] = cabinetCheckBox.isChecked()?true:false;
-					updateMarkers();
-					
-					dialog.cancel();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-            }
-        }).show();
-//		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//		builder.setTitle("נא לבחור סוג ציוד");
-//		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//
-//			@Override
-//			public void onClick(DialogInterface dialog, int which) {
-//				try {
-//					updateMarkers();
-//				} catch (Exception e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//
-//		builder.setMultiChoiceItems(items, selected,
-//				new DialogInterface.OnMultiChoiceClickListener() {
-//
-//					@Override
-//					public void onClick(DialogInterface dialog, int which,
-//							boolean isChecked) {
-//						selected[which] = isChecked;
-//					}
-//				});
-//		builder.show();
+		final CheckBox msagCheckBox = (CheckBox) formElementsView
+				.findViewById(R.id.msagCheckBox);
+		msagCheckBox.setChecked(selected[0]);
+		final CheckBox dboxCheckBox = (CheckBox) formElementsView
+				.findViewById(R.id.dboxCheckBox);
+		dboxCheckBox.setChecked(selected[1]);
+		final CheckBox holeCheckBox = (CheckBox) formElementsView
+				.findViewById(R.id.holeCheckBox);
+		holeCheckBox.setChecked(selected[2]);
+		final CheckBox poleCheckBox = (CheckBox) formElementsView
+				.findViewById(R.id.poleCheckBox);
+		poleCheckBox.setChecked(selected[3]);
+		final CheckBox cabinetCheckBox = (CheckBox) formElementsView
+				.findViewById(R.id.cabinetCheckBox);
+		cabinetCheckBox.setChecked(selected[4]);
+
+		new AlertDialog.Builder(this).setView(formElementsView)
+				.setTitle("נא לבחור סוג ציוד")
+				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						try {
+							selected[0] = msagCheckBox.isChecked() ? true
+									: false;
+							selected[1] = dboxCheckBox.isChecked() ? true
+									: false;
+							selected[2] = holeCheckBox.isChecked() ? true
+									: false;
+							selected[3] = poleCheckBox.isChecked() ? true
+									: false;
+							selected[4] = cabinetCheckBox.isChecked() ? true
+									: false;
+							updateMarkers();
+
+							dialog.cancel();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}).show();
+		// AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		// builder.setTitle("נא לבחור סוג ציוד");
+		// builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
+		// {
+		//
+		// @Override
+		// public void onClick(DialogInterface dialog, int which) {
+		// try {
+		// updateMarkers();
+		// } catch (Exception e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		// }
+		// });
+		//
+		// builder.setMultiChoiceItems(items, selected,
+		// new DialogInterface.OnMultiChoiceClickListener() {
+		//
+		// @Override
+		// public void onClick(DialogInterface dialog, int which,
+		// boolean isChecked) {
+		// selected[which] = isChecked;
+		// }
+		// });
+		// builder.show();
 
 		// TextView messageText =
 		// (TextView)alert.findViewById(android.R.id.message);

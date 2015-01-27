@@ -63,12 +63,14 @@ public class LoadingScreenActivity extends SensorsActivity {
 			SharedPreferences.Editor editor = settings.edit();
 			
 			editor.putString(Constants.PREFS_USER_ID_NAME, Constants.PREFS_USER_ID_VALUE);
+			editor.putString(Constants.PREFS_ADMIN_ID_NAME, Constants.PREFS_ADMIN_ID_VALUE);
 			editor.putFloat(Constants.PREFS_MSAGS_RANGE_NAME, Constants.PREFS_MSAGS_RANGE_VALUE);
 			editor.putFloat(Constants.PREFS_CABINETS_RANGE_NAME, Constants.PREFS_CABINETS_RANGE_VALUE);
 			editor.putFloat(Constants.PREFS_DBOXES_RANGE_NAME, Constants.PREFS_DBOXES_RANGE_VALUE);
 			editor.putFloat(Constants.PREFS_HOLES_RANGE_NAME, Constants.PREFS_HOLES_RANGE_VALUE);
 			editor.putFloat(Constants.PREFS_POLES_RANGE_NAME, Constants.PREFS_POLES_RANGE_VALUE);
 			
+			editor.putString(Constants.PREFS_IP_ADDRESS_NAME, Constants.PREFS_IP_ADDRESS_VALUE);
 			editor.putString(Constants.PREFS_URL_NAME, Constants.PREFS_URL_VALUE);
 			editor.putString(Constants.PREFS_NAMESPACE_NAME, Constants.PREFS_NAMESPACE_VALUE);
 			editor.putString(Constants.PREFS_EQUIPMENT_SOAP_ACTION_NAME, Constants.PREFS_EQUIPMENT_SOAP_ACTION_VALUE);
