@@ -128,17 +128,25 @@ public class MsagDataManager extends EquipmentDataManager {
 				+ " AND " + right.getLongitude();
 
 		Log.i("DATA_MANAGER", sql);
-		Cursor cursor = database.rawQuery(sql, null);
+		
+		Cursor cursor;
+		try {
+			cursor = database.rawQuery(sql, null);
 
-		cursor.moveToFirst();
-		while (!cursor.isAfterLast()) {
-			Msag msag = new Msag(cursor.getInt(0), cursor.getInt(1),
-					cursor.getInt(2), cursor.getInt(3), cursor.getString(4),
-					cursor.getString(5), cursor.getInt(6), cursor.getString(7),
-					cursor.getDouble(8), cursor.getDouble(9));
-			list.add(msag);
-			cursor.moveToNext();
+			cursor.moveToFirst();
+			while (!cursor.isAfterLast()) {
+				Msag msag = new Msag(cursor.getInt(0), cursor.getInt(1),
+						cursor.getInt(2), cursor.getInt(3), cursor.getString(4),
+						cursor.getString(5), cursor.getInt(6), cursor.getString(7),
+						cursor.getDouble(8), cursor.getDouble(9));
+				list.add(msag);
+				cursor.moveToNext();
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
 		return list;
 	}
 

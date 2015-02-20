@@ -151,7 +151,7 @@ public class MainActivity extends AugmentedActivity {
 				"Distance : " + lastKnownLocation.distanceTo(currentLocation));
 
 		if (lastKnownLocation.distanceTo(currentLocation) > 50.0) {
-			localData.getUpdateFromWS(null, this);
+			//localData.getUpdateFromWS(null, this);
 			ARData.setLastKnownLocation(ARData.getCurrentLocation());
 		}
 

@@ -201,7 +201,12 @@ public class MapActivity extends SensorsActivity {
 				"Distance : " + lastKnownLocation.distanceTo(currentLocation));
 
 		if (lastKnownLocation.distanceTo(currentLocation) > 50.0) {
-			localData.getUpdateFromWS(this, null);
+			try {
+				localData.getUpdateFromWS(this, null);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			ARData.setLastKnownLocation(ARData.getCurrentLocation());
 		}
 
